@@ -1,5 +1,6 @@
 package com.monet.mylibrary;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -25,9 +26,10 @@ public class DebugActivity extends AppCompatActivity {
         Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
     }
 
-    public static void dialog(Context context){
+    public static void dialog(Activity activity, Context context){
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("This is loader");
         progressDialog.show();
+        activity.setContentView(R.layout.activity_debug);
     }
 }
