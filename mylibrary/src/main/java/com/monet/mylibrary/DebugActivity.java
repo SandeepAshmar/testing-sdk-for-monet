@@ -1,7 +1,6 @@
 package com.monet.mylibrary;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class DebugActivity extends AppCompatActivity implements View.OnClickListener {
+public class DebugActivity extends AppCompatActivity {
 
     private static final String TAG = "SUPER_AWESOME_APP";
 
@@ -26,10 +25,33 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         btn3 = findViewById(R.id.btn_three);
         btn4 = findViewById(R.id.btn_four);
 
-        btn1.setOnClickListener(this);
-        btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
-        btn4.setOnClickListener(this);
+       btn1.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(getApplicationContext(), "btn 1", Toast.LENGTH_SHORT).show();
+           }
+       });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "btn 2", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "btn 3", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "btn 4", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -43,19 +65,5 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
 
     public static void openActivity(Activity activity){
         activity.setContentView(R.layout.activity_debug);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.btn_one) {
-            Toast.makeText(this, "Button first", Toast.LENGTH_SHORT).show();
-        }else if(i == R.id.btn_two){
-            Toast.makeText(this, "Button secound", Toast.LENGTH_SHORT).show();
-        }else if(i == R.id.btn_three){
-            Toast.makeText(this, "Button third", Toast.LENGTH_SHORT).show();
-        }else if(i == R.id.btn_four){
-            Toast.makeText(this, "Button forth", Toast.LENGTH_SHORT).show();
-        }
     }
 }
