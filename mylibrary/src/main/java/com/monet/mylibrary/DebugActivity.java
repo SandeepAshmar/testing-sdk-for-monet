@@ -39,19 +39,19 @@ public class DebugActivity extends AppCompatActivity {
         activity.setContentView(R.layout.activity_debug);
     }
 
-    public void btnFirstClick(View view){
-        Toast.makeText(this, "btn 1", Toast.LENGTH_SHORT).show();
+    public static void btnFirstClick(View view){
+        Toast.makeText(view.getContext(), "btn 1", Toast.LENGTH_SHORT).show();
     }
 
     public void btnSecoundClick(View view){
-        Toast.makeText(this, "btn 2", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "btn 2", Toast.LENGTH_SHORT).show();
     }
 
     public void btnThirdClick(View view){
-        Toast.makeText(this, "btn 3", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "btn 3", Toast.LENGTH_SHORT).show();
     }
 
     public void btnForthClick(View view){
-        Toast.makeText(this, "btn 4", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "btn 4", Toast.LENGTH_SHORT).show();
     }
 }
