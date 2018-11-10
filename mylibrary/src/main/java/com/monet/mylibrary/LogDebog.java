@@ -8,13 +8,11 @@ abstract public class LogDebog {
 
     private static final String TAG = "SUPER_AWESOME_APP";
 
-    static Context context;
-
     public static void d(String message) {
         Log.d(TAG, message);
     }
 
-    public static void Toast(String message){
+    public static void Toast(Context context, String message){
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }
