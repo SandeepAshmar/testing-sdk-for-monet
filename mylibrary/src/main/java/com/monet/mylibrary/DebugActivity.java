@@ -25,7 +25,7 @@ public class DebugActivity extends AppCompatActivity {
         Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
     }
 
-    private static void Dialog(Context context, String message){
+    public static void dialog(Context context){
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("This is loader");
         progressDialog.show();
