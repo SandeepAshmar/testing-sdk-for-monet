@@ -1,20 +1,18 @@
 package com.monet.mylibrary;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class DebugActivity extends AppCompatActivity {
 
     private static final String TAG = "SUPER_AWESOME_APP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_debug);
     }
 
     public static void d(String message) {
