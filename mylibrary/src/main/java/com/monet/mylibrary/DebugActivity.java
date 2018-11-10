@@ -1,6 +1,7 @@
 package com.monet.mylibrary;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,18 +32,24 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     public static void btnFirstClick(View view){
-        Toast.makeText(view.getContext(), "btn 1", Toast.LENGTH_SHORT).show();
+       openDialog(view);
     }
 
     public static void btnSecoundClick(View view){
-        Toast.makeText(view.getContext(), "btn 2", Toast.LENGTH_SHORT).show();
+        openDialog(view);
     }
 
     public static void btnThirdClick(View view){
-        Toast.makeText(view.getContext(), "btn 3", Toast.LENGTH_SHORT).show();
+        openDialog(view);
     }
 
     public static void btnForthClick(View view){
-        Toast.makeText(view.getContext(), "btn 4", Toast.LENGTH_SHORT).show();
+        openDialog(view);
+    }
+
+    public static void openDialog(View view){
+        ProgressDialog progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setMessage("btn clicked");
+        progressDialog.show();
     }
 }
