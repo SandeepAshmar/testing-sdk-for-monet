@@ -17,5 +17,4 @@ abstract public class LogDebog {
     public void Toast(String message){
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
-
 }
