@@ -25,34 +25,6 @@ public class DebugActivity extends AppCompatActivity {
         btn3 = findViewById(R.id.btn_three);
         btn4 = findViewById(R.id.btn_four);
 
-       btn1.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Toast.makeText(getApplicationContext(), "btn 1", Toast.LENGTH_SHORT).show();
-           }
-       });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "btn 2", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "btn 3", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "btn 4", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     public static void d(String message) {
@@ -65,5 +37,17 @@ public class DebugActivity extends AppCompatActivity {
 
     public static void openActivity(Activity activity){
         activity.setContentView(R.layout.activity_debug);
+    }
+
+    private void btnFirstClick(){
+        Toast.makeText(this, "btn 1", Toast.LENGTH_SHORT).show();
+    }
+
+    private void btnSecoundClick(){
+        Toast.makeText(this, "btn 2", Toast.LENGTH_SHORT).show();
+    }
+
+    private void btnThirdClick(){
+        Toast.makeText(this, "btn 3", Toast.LENGTH_SHORT).show();
     }
 }
