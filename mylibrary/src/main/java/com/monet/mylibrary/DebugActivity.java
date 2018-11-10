@@ -1,9 +1,11 @@
 package com.monet.mylibrary;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DebugActivity extends AppCompatActivity {
 
@@ -20,6 +22,12 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     public static void Toast(Context context, String message){
-        android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
+    }
+
+    private static void Dialog(Context context, String message){
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("This is loader");
+        progressDialog.show();
     }
 }
