@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class DebugActivity extends AppCompatActivity implements View.OnClickListener {
+public class DebugActivity extends AppCompatActivity {
 
     private static final String TAG = "SUPER_AWESOME_APP";
     private static Button btn1, btn2, btn3, btn4;
@@ -26,10 +26,12 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         btn3 = findViewById(R.id.btn_three);
         btn4 = findViewById(R.id.btn_four);
 
-        btn1.setOnClickListener(this);
-        btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
-        btn4.setOnClickListener(this);
+      btn1.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              d("btn one clicked");
+          }
+      });
     }
 
     public static void d(String message) {
@@ -49,19 +51,5 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     public static void openActivity(Activity activity) {
         activity.setContentView(R.layout.activity_debug);
         mContext = activity.getApplicationContext();
-    }
-
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.btn_one) {
-            d("btn1");
-        } else if (i == R.id.btn_two) {
-            d("btn2");
-        } else if (i == R.id.btn_three) {
-            d("btn3");
-        } else if (i == R.id.btn_four) {
-            d("btn4");
-        }
     }
 }
