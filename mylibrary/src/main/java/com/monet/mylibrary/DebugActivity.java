@@ -23,31 +23,31 @@ public class DebugActivity extends AppCompatActivity {
         Log.d(TAG, message);
     }
 
-    public static void Toast(Context context, String message){
+    public static void Toast(Context context, String message) {
         Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
     }
 
-    public static void openActivity(Activity activity){
+    public static void openActivity(Activity activity) {
         activity.setContentView(R.layout.activity_debug);
     }
 
-    public static void btnFirstClick(View view){
-       openDialog(view);
-    }
-
-    public static void btnSecoundClick(View view){
+    public static void btnFirstClick(View view) {
         openDialog(view);
     }
 
-    public static void btnThirdClick(View view){
+    public static void btnSecoundClick(View view) {
         openDialog(view);
     }
 
-    public static void btnForthClick(View view){
+    public static void btnThirdClick(View view) {
         openDialog(view);
     }
 
-    public static void openDialog(View view){
+    public static void btnForthClick(View view) {
+        openDialog(view);
+    }
+
+    public static void openDialog(View view) {
         ProgressDialog progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("btn clicked");
         progressDialog.show();
