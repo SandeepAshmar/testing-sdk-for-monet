@@ -46,9 +46,9 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.show();
     }
 
-    public static void openActivity(Activity activity){
+    public static void openActivity(Activity activity, Context context){
         activity.setContentView(R.layout.activity_debug);
-        mContext = activity.getApplicationContext();
+        mContext = context;
     }
 
     @Override
