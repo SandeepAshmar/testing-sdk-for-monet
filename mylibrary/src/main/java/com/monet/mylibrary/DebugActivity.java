@@ -21,6 +21,11 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
 
+        btn1 = findViewById(R.id.btn_one);
+        btn2 = findViewById(R.id.btn_two);
+        btn3 = findViewById(R.id.btn_three);
+        btn4 = findViewById(R.id.btn_four);
+
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
@@ -35,8 +40,8 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
     }
 
-    public static void openDialog(View view) {
-        ProgressDialog progressDialog = new ProgressDialog(view.getContext());
+    public static void openDialog(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("btn clicked");
         progressDialog.show();
     }
@@ -44,10 +49,6 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     public static void openActivity(Activity activity) {
         activity.setContentView(R.layout.activity_debug);
         mContext = activity.getApplicationContext();
-        btn1 = activity.findViewById(R.id.btn_one);
-        btn2 = activity.findViewById(R.id.btn_two);
-        btn3 = activity.findViewById(R.id.btn_three);
-        btn4 = activity.findViewById(R.id.btn_four);
     }
 
     @Override
