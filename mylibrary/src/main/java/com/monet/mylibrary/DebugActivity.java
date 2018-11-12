@@ -29,7 +29,7 @@ public class DebugActivity extends AppCompatActivity {
       btn1.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              d("btn one clicked");
+              Toast.makeText(DebugActivity.this, "btn 1 clicked", Toast.LENGTH_SHORT).show();
           }
       });
     }
