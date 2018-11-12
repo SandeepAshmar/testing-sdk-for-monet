@@ -46,22 +46,22 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.show();
     }
 
-    public static void openActivity(Activity activity, Context context){
+    public static void openActivity(Activity activity){
         activity.setContentView(R.layout.activity_debug);
-        mContext = context;
+        mContext = activity.getApplicationContext();
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_one) {
-            Toast(mContext, "btn 1");
+            d("btn1");
         } else if (i == R.id.btn_two) {
-            Toast(mContext, "btn 2");
+            d("btn2");
         } else if (i == R.id.btn_three) {
-            Toast(mContext, "btn 3");
+            d("btn3");
         } else if (i == R.id.btn_four) {
-            Toast(mContext, "btn 3");
+            d("btn4");
         }
     }
 }
