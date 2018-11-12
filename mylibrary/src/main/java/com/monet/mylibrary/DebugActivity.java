@@ -14,6 +14,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "SUPER_AWESOME_APP";
     private Button btn1, btn2, btn3, btn4;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +48,20 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
 
     public static void openActivity(Activity activity){
         activity.setContentView(R.layout.activity_debug);
+        mContext = activity.getApplicationContext();
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_one) {
-            Toast(getApplicationContext(), "btn 1");
+            Toast(mContext, "btn 1");
         } else if (i == R.id.btn_two) {
-            Toast(getApplicationContext(), "btn 2");
+            Toast(mContext, "btn 2");
         } else if (i == R.id.btn_three) {
-            Toast(getApplicationContext(), "btn 3");
+            Toast(mContext, "btn 3");
         } else if (i == R.id.btn_four) {
-            Toast(getApplicationContext(), "btn 3");
+            Toast(mContext, "btn 3");
         }
     }
 }
