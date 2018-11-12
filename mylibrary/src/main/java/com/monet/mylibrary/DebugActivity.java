@@ -53,13 +53,13 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_one) {
-            Toast(this, "btn 1");
+            Toast(getApplicationContext(), "btn 1");
         } else if (i == R.id.btn_two) {
-            Toast(this, "btn 2");
+            Toast(getApplicationContext(), "btn 2");
         } else if (i == R.id.btn_three) {
-            Toast(this, "btn 3");
+            Toast(getApplicationContext(), "btn 3");
         } else if (i == R.id.btn_four) {
-            Toast(this, "btn 3");
+            Toast(getApplicationContext(), "btn 3");
         }
     }
 }
