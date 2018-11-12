@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class DebugActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "SUPER_AWESOME_APP";
-    public static Button btn1, btn2, btn3, btn4;
+    private Button btn1, btn2, btn3, btn4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +53,13 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_one) {
-            Toast.makeText(this, "btn 1", Toast.LENGTH_SHORT).show();
+            Toast(this, "btn 1");
         } else if (i == R.id.btn_two) {
-            Toast.makeText(this, "btn 2", Toast.LENGTH_SHORT).show();
+            Toast(this, "btn 2");
         } else if (i == R.id.btn_three) {
-            Toast.makeText(this, "btn 3", Toast.LENGTH_SHORT).show();
+            Toast(this, "btn 3");
         } else if (i == R.id.btn_four) {
-            Toast.makeText(this, "btn 4", Toast.LENGTH_SHORT).show();
+            Toast(this, "btn 3");
         }
     }
 }
