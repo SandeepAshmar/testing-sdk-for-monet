@@ -13,18 +13,13 @@ import android.widget.Toast;
 public class DebugActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "SUPER_AWESOME_APP";
-    private Button btn1, btn2, btn3, btn4;
+    private static Button btn1, btn2, btn3, btn4;
     private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-
-        btn1 = findViewById(R.id.btn_one);
-        btn2 = findViewById(R.id.btn_two);
-        btn3 = findViewById(R.id.btn_three);
-        btn4 = findViewById(R.id.btn_four);
 
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
@@ -46,9 +41,13 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.show();
     }
 
-    public static void openActivity(Activity activity){
+    public static void openActivity(Activity activity) {
         activity.setContentView(R.layout.activity_debug);
         mContext = activity.getApplicationContext();
+        btn1 = activity.findViewById(R.id.btn_one);
+        btn2 = activity.findViewById(R.id.btn_two);
+        btn3 = activity.findViewById(R.id.btn_three);
+        btn4 = activity.findViewById(R.id.btn_four);
     }
 
     @Override
