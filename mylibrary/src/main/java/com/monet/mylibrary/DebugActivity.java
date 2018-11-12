@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class DebugActivity extends AppCompatActivity {
 
     private static final String TAG = "SUPER_AWESOME_APP";
-    private static Button btn1, btn2, btn3, btn4;
+    private Button btn1, btn2, btn3, btn4;
     private static Context mContext;
 
     @Override
@@ -29,7 +29,7 @@ public class DebugActivity extends AppCompatActivity {
       btn1.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              Toast.makeText(DebugActivity.this, "btn 1 clicked", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getApplicationContext(), "btn 1 clicked", Toast.LENGTH_SHORT).show();
           }
       });
     }
