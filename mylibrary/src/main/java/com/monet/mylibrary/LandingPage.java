@@ -50,6 +50,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private static void getCampDetails(final Activity activity, String token, String cmpId) {
+        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
