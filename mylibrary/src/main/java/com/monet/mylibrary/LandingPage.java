@@ -43,10 +43,6 @@ public class LandingPage extends AppCompatActivity {
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
-
-        pd = new ProgressDialog(this);
-        pd.setCanceledOnTouchOutside(false);
-        pd.setMessage("Loading...");
     }
 
     private static void getCampDetails(final Activity activity, String token, String cmpId) {
@@ -87,6 +83,9 @@ public class LandingPage extends AppCompatActivity {
 
     public static void startCampaign(Activity activity, String token, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
+        pd = new ProgressDialog(activity);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage("Loading...");
         getCampDetails(activity, token, cmpId);
     }
 }
