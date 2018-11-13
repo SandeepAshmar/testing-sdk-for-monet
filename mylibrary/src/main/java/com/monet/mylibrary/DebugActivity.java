@@ -51,6 +51,5 @@ public class DebugActivity extends AppCompatActivity {
 
     public static void startCampaign(Activity activity) {
         activity.startActivity(new Intent(activity, DebugActivity.class));
-        activity.finish();
     }
 }
