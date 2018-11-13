@@ -3,6 +3,8 @@ package com.monet.mylibrary;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,12 +28,12 @@ public class DebugActivity extends AppCompatActivity {
         btn3 = findViewById(R.id.btn_three);
         btn4 = findViewById(R.id.btn_four);
 
-      btn1.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              Toast.makeText(getApplicationContext(), "btn 1 clicked", Toast.LENGTH_SHORT).show();
-          }
-      });
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "btn 1 clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static void d(String message) {
@@ -49,7 +51,7 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     public static void openActivity(Activity activity) {
-        activity.setContentView(R.layout.activity_debug);
+        Intent intent = new Intent(activity, DebugActivity.class);
         mContext = activity.getApplicationContext();
     }
 }
