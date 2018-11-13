@@ -3,7 +3,8 @@
     package="com.monet.mylibrary">
 
     <application>
-        <activity android:name=".DebugActivity"></activity>
+        <activity android:name=".DebugActivity" />
+        <activity android:name=".DebugActivitySecound"></activity>
     </application>
 
 </manifest>
