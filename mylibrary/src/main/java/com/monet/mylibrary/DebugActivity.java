@@ -52,6 +52,7 @@ public class DebugActivity extends AppCompatActivity {
 
     public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, DebugActivity.class);
+        activity.startActivity(intent);
         mContext = activity.getApplicationContext();
     }
 }
