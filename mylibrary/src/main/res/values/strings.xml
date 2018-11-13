@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Library</string>
+    <string name="short_clip_one">In the following study you will</string>
+    <string name="terms">I agree to the <u>Terms</u></string>
 </resources>

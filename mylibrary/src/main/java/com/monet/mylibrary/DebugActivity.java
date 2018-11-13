@@ -17,42 +17,40 @@ public class DebugActivity extends AppCompatActivity {
     private static final String TAG = "SUPER_AWESOME_APP";
     private Button btn1, btn2, btn3, btn4;
     private static Context mContext;
+    private static ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-
-        btn1 = findViewById(R.id.btn_one);
-        btn2 = findViewById(R.id.btn_two);
-        btn3 = findViewById(R.id.btn_three);
-        btn4 = findViewById(R.id.btn_four);
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DebugActivity.this, DebugActivitySecound.class));
-            }
-        });
+        
     }
 
-    public static void d(String message) {
+    public static void logD(String message) {
         Log.d(TAG, message);
     }
 
-    public static void Toast(Context context, String message) {
-        Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show();
+    public static void shortToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void openDialog(Context context) {
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("btn clicked");
+    public static void longToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showLoader(Context context, String message) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(message);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
     }
 
-    public static void openActivity(Activity activity) {
-        Intent intent = new Intent(activity, DebugActivity.class);
-        activity.startActivity(intent);
-        mContext = activity.getApplicationContext();
+    public static void closeLoader(){
+        progressDialog.dismiss();
+    }
+
+    public static void startCampaign(Activity activity) {
+        activity.startActivity(new Intent(activity, DebugActivity.class));
+        activity.finish();
     }
 }
