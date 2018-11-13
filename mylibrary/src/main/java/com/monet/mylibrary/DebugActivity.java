@@ -31,7 +31,7 @@ public class DebugActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "btn 1 clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DebugActivity.this, DebugActivitySecound.class));
             }
         });
     }
