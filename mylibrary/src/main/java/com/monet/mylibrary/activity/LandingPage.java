@@ -20,6 +20,14 @@ import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
+import com.monet.mylibrary.model.question.QuestionModelPostGrid;
+import com.monet.mylibrary.model.question.QuestionModelPostOption;
+import com.monet.mylibrary.model.question.QuestionModelPojo;
+import com.monet.mylibrary.model.question.QuestionModelPostQuestions;
+import com.monet.mylibrary.model.question.QuestionModelPre;
+import com.monet.mylibrary.model.question.QuestionModelPreGrid;
+import com.monet.mylibrary.model.question.QuestionModelPreOption;
+import com.monet.mylibrary.model.question.QuestionModelPreQuestions;
 
 import java.util.ArrayList;
 
@@ -34,9 +42,16 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
+    private static ArrayList<QuestionModelPostQuestions> postQuestions = new ArrayList<>();
+    private static ArrayList<QuestionModelPostOption> postOptions = new ArrayList<>();
+    private static ArrayList<QuestionModelPostGrid> postGrid = new ArrayList<>();
+    private static ArrayList<QuestionModelPreQuestions> preQuestions = new ArrayList<>();
+    private static ArrayList<QuestionModelPreOption> preOptions = new ArrayList<>();
+    private static ArrayList<QuestionModelPreGrid> preGrid = new ArrayList<>();
     private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
+    private static ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +63,8 @@ public class LandingPage extends AppCompatActivity {
         btn_landExit = findViewById(R.id.btn_landExit);
         btn_landProceed = findViewById(R.id.btn_landProceed);
         land_chack = findViewById(R.id.land_chack);
+
+        apiInterface = BaseUrl.getClient().create(ApiInterface.class);
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
@@ -82,7 +99,6 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCampDetails(final Activity activity, String token, String cmpId) {
         pd.show();
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
@@ -123,5 +139,36 @@ public class LandingPage extends AppCompatActivity {
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("Loading...");
         getCampDetails(activity, token, cmpId);
+
+    }
+
+    private static void getCmpFlow(final Activity activity, String cmpId){
+
+        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, "11111");
+        pojoCall.enqueue(new Callback<QuestionModelPojo>() {
+            @Override
+            public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
+                if(response.body() == null){
+                    Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
+                }else{
+                    if(response.body().getCode().equals("200")){
+                        if (response.body().getSequence().size() == 0) {
+                            Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
+                        }else{
+                            preQuestions.addAll(response.body().getPre().getQuestions());
+                            postQuestions.addAll(response.body().getPost().getQuestions());
+                        }
+                    }else{
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuestionModelPojo> call, Throwable t) {
+
+            }
+        });
+
     }
 }

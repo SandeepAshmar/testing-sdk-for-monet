@@ -1,6 +1,6 @@
 package com.monet.mylibrary.model.question;
 
-public class QuestionModelGrid {
+public class QuestionModelPreGrid {
 
     private String grid_id;
 

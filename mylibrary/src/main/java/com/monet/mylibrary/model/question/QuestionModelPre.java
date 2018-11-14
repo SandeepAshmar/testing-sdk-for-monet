@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class QuestionModelPre {
 
-    private ArrayList<QuestionModelQuestions> questions;
+    private ArrayList<QuestionModelPreQuestions> questions;
 
-    public ArrayList<QuestionModelQuestions> getQuestions ()
+    public ArrayList<QuestionModelPreQuestions> getQuestions ()
     {
         return questions;
     }
 
-    public void setQuestions (ArrayList<QuestionModelQuestions> Questions)
+    public void setQuestions (ArrayList<QuestionModelPreQuestions> Questions)
     {
         this.questions = Questions;
     }

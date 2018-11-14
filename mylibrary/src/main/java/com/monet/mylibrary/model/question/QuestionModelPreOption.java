@@ -2,7 +2,7 @@ package com.monet.mylibrary.model.question;
 
 import java.util.ArrayList;
 
-public class QuestionModelOption {
+public class QuestionModelPreOption {
 
     private String created_by;
 
@@ -10,7 +10,7 @@ public class QuestionModelOption {
 
     private String option_value;
 
-    private ArrayList<QuestionModelGrid> grid;
+    private ArrayList<QuestionModelPreGrid> grid;
 
     private String option_id;
 
@@ -46,12 +46,12 @@ public class QuestionModelOption {
         this.option_value = option_value;
     }
 
-    public ArrayList<QuestionModelGrid> getGrid ()
+    public ArrayList<QuestionModelPreGrid> getGrid ()
     {
         return grid;
     }
 
-    public void setGrid (ArrayList<QuestionModelGrid> grid)
+    public void setGrid (ArrayList<QuestionModelPreGrid> grid)
     {
         this.grid = grid;
     }
