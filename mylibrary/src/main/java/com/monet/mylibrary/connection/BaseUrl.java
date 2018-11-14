@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseUrl {
 
-    public static final String BASE_URL = "http://ci.monetrewards.com/appSandbox/api/";
+    public static final String BASE_URL = "http://ci.monetrewards.com/monet-user/api";
 
     private static Retrofit retrofit = null;
 
