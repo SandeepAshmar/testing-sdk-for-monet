@@ -134,11 +134,13 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public static void startCampaign(Activity activity, String token, String cmpId) {
-        detailsResponses.clear();
         activity.startActivity(new Intent(activity, LandingPage.class));
         pd = new ProgressDialog(activity);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("Loading...");
+        if(detailsResponses.size() != 0){
+            detailsResponses.clear();
+        }
         getCampDetails(activity, token, cmpId);
 
     }
