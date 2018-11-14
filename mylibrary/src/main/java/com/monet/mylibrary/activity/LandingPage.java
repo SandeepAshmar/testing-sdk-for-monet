@@ -1,4 +1,4 @@
-package com.monet.mylibrary;
+package com.monet.mylibrary.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,11 +14,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.LandAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.modle.getCampDetails.cmpDetails.GetCampDetails_Pojo;
-import com.monet.mylibrary.modle.getCampDetails.cmpDetails.GetCampDetails_Response;
+import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
+import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,13 @@ public class LandingPage extends AppCompatActivity {
                     btn_landProceed.setBackgroundResource(R.drawable.btn_pro_gray);
                     btn_landProceed.setEnabled(false);
                 }
+            }
+        });
+
+        btn_landProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

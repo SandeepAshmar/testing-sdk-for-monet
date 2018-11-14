@@ -1,4 +1,4 @@
-package com.monet.mylibrary.modle.getCampDetails.cmpDetails;
+package com.monet.mylibrary.model.cmpDetails;
 
 public class GetCampDetails_Response {
 
