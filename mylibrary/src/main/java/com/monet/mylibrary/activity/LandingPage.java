@@ -97,7 +97,7 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    private static void getCampDetails(final Activity activity, String token, String cmpId) {
+    private static void getCampDetails(final Activity activity, String token, final String cmpId) {
         pd.show();
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
@@ -118,6 +118,7 @@ public class LandingPage extends AppCompatActivity {
                         }
                         detailsResponses.addAll(response.body().getResponse());
                         mAdapter.notifyDataSetChanged();
+                        getCmpFlow(activity, cmpId);
                     } else {
                         Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
