@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.modle.getCampDetails.GetCampDetails_Response;
+import com.monet.mylibrary.modle.getCampDetails.cmpDetails.GetCampDetails_Response;
 
 import java.util.ArrayList;
 

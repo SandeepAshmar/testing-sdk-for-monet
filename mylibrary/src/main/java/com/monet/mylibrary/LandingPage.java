@@ -7,16 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.adapter.LandAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.modle.getCampDetails.GetCampDetails_Pojo;
-import com.monet.mylibrary.modle.getCampDetails.GetCampDetails_Response;
-
-import org.w3c.dom.Text;
+import com.monet.mylibrary.modle.getCampDetails.cmpDetails.GetCampDetails_Pojo;
+import com.monet.mylibrary.modle.getCampDetails.cmpDetails.GetCampDetails_Response;
 
 import java.util.ArrayList;
 
@@ -26,12 +28,14 @@ import retrofit2.Response;
 
 public class LandingPage extends AppCompatActivity {
 
-    private static final String TAG = "SUPER_AWESOME_APP";
+    private static final String TAG = "MonetAndroidSdk";
     private static TextView tv_land_watch;
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
     private static ProgressDialog pd;
+    private static Button btn_landExit, btn_landProceed;
+    private static CheckBox land_chack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +44,32 @@ public class LandingPage extends AppCompatActivity {
 
         mRecycler = findViewById(R.id.recyler_land);
         tv_land_watch = findViewById(R.id.tv_land_watch);
+        btn_landExit = findViewById(R.id.btn_landExit);
+        btn_landProceed = findViewById(R.id.btn_landProceed);
+        land_chack = findViewById(R.id.land_chack);
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
+
+        btn_landExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        land_chack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (land_chack.isChecked()) {
+                    btn_landProceed.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_landProceed.setEnabled(true);
+                } else {
+                    btn_landProceed.setBackgroundResource(R.drawable.btn_pro_gray);
+                    btn_landProceed.setEnabled(false);
+                }
+            }
+        });
     }
 
     private static void getCampDetails(final Activity activity, String token, String cmpId) {
