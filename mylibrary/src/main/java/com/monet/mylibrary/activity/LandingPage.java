@@ -86,13 +86,11 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
-        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
             public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
-                pd.dismiss();
                 if (response.body() == null) {
                     Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -115,7 +113,6 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
-                pd.dismiss();
                 Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -123,23 +120,23 @@ public class LandingPage extends AppCompatActivity {
 
     public static void startCampaign(Activity activity, String userId, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
-        pd = new ProgressDialog(activity);
+        pd = new ProgressDialog(activity.getApplicationContext());
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("Loading...");
+        pd.show();
         detailsResponses.clear();
         preQuestion.clear();
         postQuestion.clear();
         getCmpFlow(activity, cmpId, userId);
+        pd.dismiss();
     }
 
     private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
-        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
-                pd.dismiss();
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -165,7 +162,6 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
-                pd.dismiss();
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
