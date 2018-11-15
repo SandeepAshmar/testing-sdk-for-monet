@@ -116,7 +116,6 @@ public class LandingPage extends AppCompatActivity {
                         }
                         detailsResponses.addAll(response.body().getResponse());
                         mAdapter.notifyDataSetChanged();
-//                        getCmpFlow(activity, cmpId);
                     } else {
                         Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -139,11 +138,10 @@ public class LandingPage extends AppCompatActivity {
         if (detailsResponses.size() != 0) {
             detailsResponses.clear();
         }
-//        getCampDetails(activity, token, cmpId);
         getCmpFlow(activity, cmpId, userId);
     }
 
-    private static void getCmpFlow(final Activity activity, String cmpId, String userId) {
+    private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId,userId);
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
@@ -158,6 +156,7 @@ public class LandingPage extends AppCompatActivity {
                         } else {
                             preQuestions.addAll(response.body().getPre().getQuestions());
                             postQuestions.addAll(response.body().getPost().getQuestions());
+                            getCampDetails(activity, "Bearer "+response.body().getApi_token(), cmpId);
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
