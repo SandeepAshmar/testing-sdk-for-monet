@@ -154,9 +154,9 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            /*preQuestions.addAll(response.body().getPre().getQuestions());
-                            postQuestions.addAll(response.body().getPost().getQuestions());*/
-                            Toast.makeText(activity, "kand ho gya", Toast.LENGTH_SHORT).show();
+
+                            preQuestions.addAll(response.body().getPre().getQuestions());
+
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
