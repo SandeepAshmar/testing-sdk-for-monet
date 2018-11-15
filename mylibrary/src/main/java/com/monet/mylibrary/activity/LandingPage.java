@@ -141,8 +141,8 @@ public class LandingPage extends AppCompatActivity {
         if(detailsResponses.size() != 0){
             detailsResponses.clear();
         }
-        getCampDetails(activity, token, cmpId);
-
+//        getCampDetails(activity, token, cmpId);
+        getCmpFlow(activity, cmpId);
     }
 
     private static void getCmpFlow(final Activity activity, String cmpId){
