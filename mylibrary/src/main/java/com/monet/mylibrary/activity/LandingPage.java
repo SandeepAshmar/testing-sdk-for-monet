@@ -133,11 +133,13 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
+        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
+                pd.dismiss();
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -163,6 +165,7 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
+                pd.dismiss();
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
