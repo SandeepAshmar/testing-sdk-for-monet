@@ -18,5 +18,5 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @GET("sdk/{cam_id}{userId}")
-    Call<QuestionModelPojo> getSdk(@Path("cam_id") String cam_id, @Path("userId") String userId);
+    Call<QuestionModelPojo> getSdk(@Query("cam_id") String cam_id, @Query("userId") String userId);
 }
