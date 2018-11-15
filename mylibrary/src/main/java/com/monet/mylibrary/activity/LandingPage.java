@@ -38,7 +38,6 @@ public class LandingPage extends AppCompatActivity {
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
     private static ArrayList<String> preQuestion = new ArrayList<>();
     private static ArrayList<String> postQuestion = new ArrayList<>();
-    private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
     private static String token = "";
@@ -85,47 +84,8 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    private static void getCampDetails(final Activity activity, String token, final String cmpId) {
-        pd.show();
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
-        pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
-            @Override
-            public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
-                pd.dismiss();
-                if (response.body() == null) {
-                    Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (response.body().getCode().equals("200")) {
-
-                        if (response.body().getResponse().size() <= 1) {
-                            mRecycler.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 1));
-                            tv_land_watch.setText("watch " + response.body().getResponse().size() + " short clip");
-                        } else {
-                            mRecycler.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 2));
-                            tv_land_watch.setText("watch " + response.body().getResponse().size() + " short clips");
-                        }
-                        detailsResponses.addAll(response.body().getResponse());
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
-                pd.dismiss();
-                Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public static void startCampaign(Activity activity, String userId, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
-        pd = new ProgressDialog(activity.getApplicationContext());
-        pd.setCanceledOnTouchOutside(false);
-        pd.setMessage("Loading...");
         detailsResponses.clear();
         preQuestion.clear();
         postQuestion.clear();
@@ -133,13 +93,11 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
-        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
-                pd.dismiss();
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -165,10 +123,41 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
-                pd.dismiss();
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    private static void getCampDetails(final Activity activity, String token, final String cmpId) {
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
+        pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
+            @Override
+            public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
+                if (response.body() == null) {
+                    Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (response.body().getCode().equals("200")) {
+                        if (response.body().getResponse().size() <= 1) {
+                            mRecycler.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 1));
+                            tv_land_watch.setText("watch " + response.body().getResponse().size() + " short clip");
+                        } else {
+                            mRecycler.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 2));
+                            tv_land_watch.setText("watch " + response.body().getResponse().size() + " short clips");
+                        }
+                        detailsResponses.addAll(response.body().getResponse());
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
+                Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
