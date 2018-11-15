@@ -156,7 +156,8 @@ public class LandingPage extends AppCompatActivity {
                         } else {
                             preQuestions.addAll(response.body().getPre().getQuestions());
                             postQuestions.addAll(response.body().getPost().getQuestions());
-                            getCampDetails(activity, "Bearer "+response.body().getApi_token(), cmpId);
+//                            getCampDetails(activity, "Bearer "+response.body().getApi_token(), cmpId);
+                            Toast.makeText(activity, "kand ho gya", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
