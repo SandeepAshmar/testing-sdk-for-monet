@@ -41,6 +41,7 @@ public class LandingPage extends AppCompatActivity {
     private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
+    private static String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +126,9 @@ public class LandingPage extends AppCompatActivity {
         pd = new ProgressDialog(activity);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("Loading...");
-//        if (detailsResponses.size() != 0) {
-//            detailsResponses.clear();
-//        }
+        detailsResponses.clear();
+        preQuestion.clear();
+        postQuestion.clear();
         getCmpFlow(activity, cmpId, userId);
     }
 
@@ -143,17 +144,16 @@ public class LandingPage extends AppCompatActivity {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
+                            activity.onBackPressed();
                         } else {
-
                             for (int i = 0; i < response.body().getPre().getQuestions().size(); i++) {
                                 preQuestion.add(response.body().getPre().getQuestions().get(i).getQuestion());
                             }
-
                             for (int i = 0; i < response.body().getPost().getQuestions().size(); i++) {
                                 postQuestion.add(response.body().getPost().getQuestions().get(i).getQuestion());
                             }
-
-                            Toast.makeText(activity, "kand ho gya", Toast.LENGTH_SHORT).show();
+                            token = "Bearer "+ response.body().getApi_token();
+                            getCampDetails(activity, token, cmpId);
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
