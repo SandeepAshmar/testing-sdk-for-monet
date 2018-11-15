@@ -6,7 +6,7 @@
 
     <application>
         <activity android:name=".activity.LandingPage" />
-        <activity android:name=".activity.DebugActivitySecound"></activity>
+        <activity android:name=".activity.DebugActivitySecound"/>
     </application>
 
 </manifest>
