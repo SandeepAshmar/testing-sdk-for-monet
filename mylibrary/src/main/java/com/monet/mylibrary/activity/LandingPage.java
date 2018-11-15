@@ -36,14 +36,8 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-//    private static ArrayList<QuestionModelPostQuestions> postQuestions = new ArrayList<>();
-//    private static ArrayList<QuestionModelPostOption> postOptions = new ArrayList<>();
-//    private static ArrayList<QuestionModelPostGrid> postGrid = new ArrayList<>();
-//    private static ArrayList<QuestionModelPreQuestions> preQuestions = new ArrayList<>();
-//    private static ArrayList<QuestionModelPreOption> preOptions = new ArrayList<>();
-//    private static ArrayList<QuestionModelPreGrid> preGrid = new ArrayList<>();
-
-    private static ArrayList<SdkQuestions> sdkQuestions = new ArrayList<>();
+    private static ArrayList<String> preQuestion = new ArrayList<>();
+    private static ArrayList<String> postQuestion = new ArrayList<>();
     private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
@@ -150,7 +144,16 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            sdkQuestions.addAll(response.body().getPre().getQuestions());
+
+                            for (int i = 0; i < response.body().getPre().getQuestions().size(); i++) {
+                                preQuestion.add(response.body().getPre().getQuestions().get(i).getQuestion());
+                            }
+
+                            for (int i = 0; i < response.body().getPost().getQuestions().size(); i++) {
+                                postQuestion.add(response.body().getPost().getQuestions().get(i).getQuestion());
+                            }
+
+                            Toast.makeText(activity, "kand ho gya", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
