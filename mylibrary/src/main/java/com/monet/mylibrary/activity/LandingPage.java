@@ -51,7 +51,6 @@ public class LandingPage extends AppCompatActivity {
     private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
-    private static ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +62,6 @@ public class LandingPage extends AppCompatActivity {
         btn_landExit = findViewById(R.id.btn_landExit);
         btn_landProceed = findViewById(R.id.btn_landProceed);
         land_chack = findViewById(R.id.land_chack);
-
-        apiInterface = BaseUrl.getClient().create(ApiInterface.class);
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
@@ -99,6 +96,7 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
         pd.show();
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
@@ -146,8 +144,8 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private static void getCmpFlow(final Activity activity, String cmpId) {
-
-        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId);
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, "11111");
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
             @Override
             public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
