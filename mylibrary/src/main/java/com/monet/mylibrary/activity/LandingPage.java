@@ -45,7 +45,7 @@ public class LandingPage extends AppCompatActivity {
     private static ArrayList<QuestionModelPostQuestions> postQuestions = new ArrayList<>();
     private static ArrayList<QuestionModelPostOption> postOptions = new ArrayList<>();
     private static ArrayList<QuestionModelPostGrid> postGrid = new ArrayList<>();
-    private static ArrayList<QuestionModelPreQuestions> preQuestions = new ArrayList<>();
+    private static ArrayList<QuestionModelPreQuestions> preQuestions;
     private static ArrayList<QuestionModelPreOption> preOptions = new ArrayList<>();
     private static ArrayList<QuestionModelPreGrid> preGrid = new ArrayList<>();
     private static ProgressDialog pd;
@@ -65,6 +65,8 @@ public class LandingPage extends AppCompatActivity {
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
+
+        preQuestions = new ArrayList<QuestionModelPreQuestions>();
 
         btn_landExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +156,6 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            preQuestions = new ArrayList<>();
                             preQuestions.addAll(response.body().getPre().getQuestions());
                         }
                     } else {
