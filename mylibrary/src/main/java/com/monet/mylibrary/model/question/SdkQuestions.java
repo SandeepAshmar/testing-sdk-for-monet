@@ -2,7 +2,7 @@ package com.monet.mylibrary.model.question;
 
 import java.util.ArrayList;
 
-public class QuestionModelPostQuestions {
+public class SdkQuestions {
 
     private String created_by;
 
@@ -16,7 +16,7 @@ public class QuestionModelPostQuestions {
 
     private String question;
 
-    private ArrayList<QuestionModelPostOption> Options;
+    private ArrayList<SdkOptions> Options;
 
     private String question_id;
 
@@ -84,12 +84,12 @@ public class QuestionModelPostQuestions {
         this.question = question;
     }
 
-    public ArrayList<QuestionModelPostOption> getOptions ()
+    public ArrayList<SdkOptions> getOptions ()
     {
         return Options;
     }
 
-    public void setOptions (ArrayList<QuestionModelPostOption> Options)
+    public void setOptions (ArrayList<SdkOptions> Options)
     {
         this.Options = Options;
     }

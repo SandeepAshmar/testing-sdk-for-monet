@@ -2,9 +2,9 @@ package com.monet.mylibrary.model.question;
 
 import java.util.ArrayList;
 
-public class QuestionModelPojo {
+public class SdkPojo {
 
-    private QuestionModelPost post;
+    private SdkPost post;
 
     private String cmp_eval;
 
@@ -12,7 +12,7 @@ public class QuestionModelPojo {
 
     private String status;
 
-    private QuestionModelPre pre;
+    private SdkPre pre;
 
     private ArrayList<String> sequence;
 
@@ -26,12 +26,12 @@ public class QuestionModelPojo {
 
     private String cf_id;
 
-    public QuestionModelPost getPost ()
+    public SdkPost getPost ()
     {
         return post;
     }
 
-    public void setPost (QuestionModelPost post)
+    public void setPost (SdkPost post)
     {
         this.post = post;
     }
@@ -66,12 +66,12 @@ public class QuestionModelPojo {
         this.status = status;
     }
 
-    public QuestionModelPre getPre ()
+    public SdkPre getPre ()
     {
         return pre;
     }
 
-    public void setPre (QuestionModelPre pre)
+    public void setPre (SdkPre pre)
     {
         this.pre = pre;
     }

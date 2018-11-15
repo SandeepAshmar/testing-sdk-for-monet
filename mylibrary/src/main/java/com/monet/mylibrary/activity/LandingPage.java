@@ -20,14 +20,8 @@ import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
-import com.monet.mylibrary.model.question.QuestionModelPostGrid;
-import com.monet.mylibrary.model.question.QuestionModelPostOption;
-import com.monet.mylibrary.model.question.QuestionModelPojo;
-import com.monet.mylibrary.model.question.QuestionModelPostQuestions;
-import com.monet.mylibrary.model.question.QuestionModelPre;
-import com.monet.mylibrary.model.question.QuestionModelPreGrid;
-import com.monet.mylibrary.model.question.QuestionModelPreOption;
-import com.monet.mylibrary.model.question.QuestionModelPreQuestions;
+import com.monet.mylibrary.model.question.SdkPojo;
+import com.monet.mylibrary.model.question.SdkQuestions;
 
 import java.util.ArrayList;
 
@@ -42,12 +36,14 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    private static ArrayList<QuestionModelPostQuestions> postQuestions = new ArrayList<>();
-    private static ArrayList<QuestionModelPostOption> postOptions = new ArrayList<>();
-    private static ArrayList<QuestionModelPostGrid> postGrid = new ArrayList<>();
-    private static ArrayList<QuestionModelPreQuestions> preQuestions = new ArrayList<>();
-    private static ArrayList<QuestionModelPreOption> preOptions = new ArrayList<>();
-    private static ArrayList<QuestionModelPreGrid> preGrid = new ArrayList<>();
+//    private static ArrayList<QuestionModelPostQuestions> postQuestions = new ArrayList<>();
+//    private static ArrayList<QuestionModelPostOption> postOptions = new ArrayList<>();
+//    private static ArrayList<QuestionModelPostGrid> postGrid = new ArrayList<>();
+//    private static ArrayList<QuestionModelPreQuestions> preQuestions = new ArrayList<>();
+//    private static ArrayList<QuestionModelPreOption> preOptions = new ArrayList<>();
+//    private static ArrayList<QuestionModelPreGrid> preGrid = new ArrayList<>();
+
+    private static ArrayList<SdkQuestions> sdkQuestions = new ArrayList<>();
     private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
@@ -65,14 +61,6 @@ public class LandingPage extends AppCompatActivity {
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
-
-//        preQuestions = new ArrayList<QuestionModelPreQuestions>();
-//        preOptions = new ArrayList<QuestionModelPreOption>();
-//        preGrid = new ArrayList<QuestionModelPreGrid>();
-//
-//        postQuestions = new ArrayList<QuestionModelPostQuestions>();
-//        postOptions = new ArrayList<QuestionModelPostOption>();
-//        postGrid = new ArrayList<QuestionModelPostGrid>();
 
         btn_landExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,10 +139,10 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
-        pojoCall.enqueue(new Callback<QuestionModelPojo>() {
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
+        pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
-            public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
+            public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -162,7 +150,7 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            preQuestions.addAll(response.body().getPre().getQuestions());
+                            sdkQuestions.addAll(response.body().getPre().getQuestions());
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
@@ -171,7 +159,7 @@ public class LandingPage extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<QuestionModelPojo> call, Throwable t) {
+            public void onFailure(Call<SdkPojo> call, Throwable t) {
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
