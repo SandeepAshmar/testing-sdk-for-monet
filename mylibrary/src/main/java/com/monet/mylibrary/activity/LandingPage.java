@@ -42,12 +42,12 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    private static ArrayList<QuestionModelPostQuestions> postQuestions ;
-    private static ArrayList<QuestionModelPostOption> postOptions ;
-    private static ArrayList<QuestionModelPostGrid> postGrid ;
-    private static ArrayList<QuestionModelPreQuestions> preQuestions;
-    private static ArrayList<QuestionModelPreOption> preOptions ;
-    private static ArrayList<QuestionModelPreGrid> preGrid;
+    private static ArrayList<QuestionModelPostQuestions> postQuestions = new ArrayList<>();
+    private static ArrayList<QuestionModelPostOption> postOptions = new ArrayList<>();
+    private static ArrayList<QuestionModelPostGrid> postGrid = new ArrayList<>();
+    private static ArrayList<QuestionModelPreQuestions> preQuestions = new ArrayList<>();
+    private static ArrayList<QuestionModelPreOption> preOptions = new ArrayList<>();
+    private static ArrayList<QuestionModelPreGrid> preGrid = new ArrayList<>();
     private static ProgressDialog pd;
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
@@ -66,13 +66,13 @@ public class LandingPage extends AppCompatActivity {
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
 
-        preQuestions = new ArrayList<QuestionModelPreQuestions>();
-        preOptions = new ArrayList<QuestionModelPreOption>();
-        preGrid = new ArrayList<QuestionModelPreGrid>();
-
-        postQuestions = new ArrayList<QuestionModelPostQuestions>();
-        postOptions = new ArrayList<QuestionModelPostOption>();
-        postGrid = new ArrayList<QuestionModelPostGrid>();
+//        preQuestions = new ArrayList<QuestionModelPreQuestions>();
+//        preOptions = new ArrayList<QuestionModelPreOption>();
+//        preGrid = new ArrayList<QuestionModelPreGrid>();
+//
+//        postQuestions = new ArrayList<QuestionModelPostQuestions>();
+//        postOptions = new ArrayList<QuestionModelPostOption>();
+//        postGrid = new ArrayList<QuestionModelPostGrid>();
 
         btn_landExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,9 +143,9 @@ public class LandingPage extends AppCompatActivity {
         pd = new ProgressDialog(activity);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("Loading...");
-        if (detailsResponses.size() != 0) {
-            detailsResponses.clear();
-        }
+//        if (detailsResponses.size() != 0) {
+//            detailsResponses.clear();
+//        }
         getCmpFlow(activity, cmpId, userId);
     }
 
