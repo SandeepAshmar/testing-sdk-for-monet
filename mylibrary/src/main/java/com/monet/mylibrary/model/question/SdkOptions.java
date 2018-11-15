@@ -1,5 +1,7 @@
 package com.monet.mylibrary.model.question;
 
+import java.util.ArrayList;
+
 public class SdkOptions {
 
     private String created_by;
@@ -7,6 +9,8 @@ public class SdkOptions {
     private String created_on;
 
     private String option_value;
+
+    private ArrayList<SdkGrid> grid;
 
     private String option_id;
 
@@ -42,6 +46,16 @@ public class SdkOptions {
         this.option_value = option_value;
     }
 
+    public ArrayList<SdkGrid> getGrid ()
+    {
+        return grid;
+    }
+
+    public void setGrid (ArrayList<SdkGrid> grid)
+    {
+        this.grid = grid;
+    }
+
     public String getOption_id ()
     {
         return option_id;
@@ -65,6 +79,6 @@ public class SdkOptions {
     @Override
     public String toString()
     {
-        return "ClassPojo [created_by = "+created_by+", created_on = "+created_on+", option_value = "+option_value+", option_id = "+option_id+", question_id = "+question_id+"]";
+        return "ClassPojo [created_by = "+created_by+", created_on = "+created_on+", option_value = "+option_value+", grid = "+grid+", option_id = "+option_id+", question_id = "+question_id+"]";
     }
 }
