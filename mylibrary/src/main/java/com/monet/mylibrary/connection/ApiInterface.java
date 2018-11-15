@@ -17,6 +17,6 @@ public interface ApiInterface {
     Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Path("cam_id") String cam_id);
 
     @Headers("Content-Type: application/json")
-    @GET("sdk/{cam_id}{user_id}")
-    Call<QuestionModelPojo> getSdk(@Query("cam_id") String cam_id, @Path("user_id") String userId);
+    @GET("sdk/{cmp_id}{user_id}")
+    Call<QuestionModelPojo> getSdk(@Path("cmp_id") String cam_id, @Path("user_id") String userId);
 }
