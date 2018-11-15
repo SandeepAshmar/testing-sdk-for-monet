@@ -147,7 +147,7 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCmpFlow(final Activity activity, String cmpId) {
 
-        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, "11111");
+        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId);
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
             @Override
             public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
