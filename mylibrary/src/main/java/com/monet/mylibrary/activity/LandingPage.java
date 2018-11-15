@@ -116,7 +116,7 @@ public class LandingPage extends AppCompatActivity {
                         }
                         detailsResponses.addAll(response.body().getResponse());
                         mAdapter.notifyDataSetChanged();
-                        getCmpFlow(activity, cmpId);
+//                        getCmpFlow(activity, cmpId);
                     } else {
                         Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -131,7 +131,7 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public static void startCampaign(Activity activity, String token, String cmpId) {
+    public static void startCampaign(Activity activity, String userId, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         pd = new ProgressDialog(activity);
         pd.setCanceledOnTouchOutside(false);
@@ -140,12 +140,13 @@ public class LandingPage extends AppCompatActivity {
             detailsResponses.clear();
         }
 //        getCampDetails(activity, token, cmpId);
-        getCmpFlow(activity, cmpId);
+        getCmpFlow(activity, cmpId, userId);
     }
 
-    private static void getCmpFlow(final Activity activity, String cmpId) {
+    private static void getCmpFlow(final Activity activity, String cmpId, String userId) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, "11111");
+        String cmp = cmpId+"/"+userId;
+        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmp);
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
             @Override
             public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
