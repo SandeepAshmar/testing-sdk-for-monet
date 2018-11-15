@@ -5,8 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application>
-        <activity android:name=".activity.LandingPage" />
-        <activity android:name=".activity.DebugActivitySecound"/>
+        <activity android:name=".activity.LandingPage"
+            android:theme="@style/MyLibTheme"/>
+        <activity android:name=".activity.DebugActivitySecound"
+            android:theme="@style/MyLibTheme"/>
     </application>
 
 </manifest>

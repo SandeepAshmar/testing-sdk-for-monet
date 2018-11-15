@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activity.LandingPage"
     android:orientation="vertical"
-    style="@style/Theme.AppCompat.Light.NoActionBar"
     android:layout_gravity="center"
     android:gravity="center">
 
