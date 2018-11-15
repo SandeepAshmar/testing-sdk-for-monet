@@ -138,38 +138,38 @@ public class LandingPage extends AppCompatActivity {
         pd = new ProgressDialog(activity);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("Loading...");
-        if(detailsResponses.size() != 0){
+        if (detailsResponses.size() != 0) {
             detailsResponses.clear();
         }
 //        getCampDetails(activity, token, cmpId);
         getCmpFlow(activity, cmpId);
     }
 
-    private static void getCmpFlow(final Activity activity, String cmpId){
+    private static void getCmpFlow(final Activity activity, String cmpId) {
 
         Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, "11111");
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
             @Override
             public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
-                if(response.body() == null){
+                if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
-                }else{
-                    if(response.body().getCode().equals("200")){
+                } else {
+                    if (response.body().getCode().equals("200")) {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             preQuestions.addAll(response.body().getPre().getQuestions());
                             postQuestions.addAll(response.body().getPost().getQuestions());
                         }
-                    }else{
-
+                    } else {
+                        Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<QuestionModelPojo> call, Throwable t) {
-
+                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
