@@ -147,7 +147,7 @@ public class LandingPage extends AppCompatActivity {
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
             @Override
             public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
-                if (String.valueOf(response.raw().code()) != "200") {
+                if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
                     if (response.body().getCode().equals("200")) {
