@@ -143,7 +143,7 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId,userId);
+        Call<QuestionModelPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
         pojoCall.enqueue(new Callback<QuestionModelPojo>() {
             @Override
             public void onResponse(Call<QuestionModelPojo> call, Response<QuestionModelPojo> response) {
@@ -154,9 +154,8 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            preQuestions.addAll(response.body().getPre().getQuestions());
-                            postQuestions.addAll(response.body().getPost().getQuestions());
-//                            getCampDetails(activity, "Bearer "+response.body().getApi_token(), cmpId);
+                            /*preQuestions.addAll(response.body().getPre().getQuestions());
+                            postQuestions.addAll(response.body().getPost().getQuestions());*/
                             Toast.makeText(activity, "kand ho gya", Toast.LENGTH_SHORT).show();
                         }
                     } else {
