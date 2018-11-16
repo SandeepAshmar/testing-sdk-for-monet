@@ -106,7 +106,7 @@ public class LandingPage extends AppCompatActivity {
                             activity.onBackPressed();
                         } else {
                             for (int i = 0; i < response.body().getPre().getQuestions().size(); i++) {
-
+                                preQuestion.setQuestion(response.body().getPre().getQuestions().get(i).getQuestion());
                             }
                             for (int i = 0; i < response.body().getPost().getQuestions().size(); i++) {
                                 postQuestion.add(response.body().getPost().getQuestions().get(i).getQuestion());
