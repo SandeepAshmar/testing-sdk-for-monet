@@ -66,7 +66,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setQuestion() {
-        tv_question.setText(preQuestion.get(0).getQuestions().toString());
+        tv_question.setText(preQuestion.get(0).getQuestions().get(0).getQuestion());
     }
 
 
