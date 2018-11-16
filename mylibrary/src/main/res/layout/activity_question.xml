@@ -10,8 +10,7 @@
         android:id="@+id/rl_quesQCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ll_quesQCardBtn"
-        android:visibility="gone">
+        android:layout_above="@id/ll_quesQCardBtn">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +58,7 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        >
 
         <Button
             android:id="@+id/btn_quesqa_exit"
@@ -90,6 +89,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_above="@id/ll_quesNextBtn">
 
         <TextView
@@ -211,7 +211,7 @@
         android:layout_alignParentStart="true"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btn_quesNext"
