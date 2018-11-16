@@ -86,8 +86,6 @@ public class LandingPage extends AppCompatActivity {
     public static void startCampaign(Activity activity, String userId, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
-        preQuestion.getQuestion().clear();
-        postQuestion.clear();
         getCmpFlow(activity, cmpId, userId);
     }
 
