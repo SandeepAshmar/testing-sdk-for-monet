@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.model.question.PreQuestion;
 import com.monet.mylibrary.model.question.SdkPre;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
-    private ArrayList<SdkPre> preQuestion = new ArrayList<>();
+    private PreQuestion preQuestion = new PreQuestion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setQuestion() {
-        tv_question.setText(preQuestion.get(0).getQuestions().get(0).getQuestion());
+        tv_question.setText(preQuestion.getQuestion().get(0));
     }
 
 
