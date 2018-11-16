@@ -2,4 +2,6 @@
     <string name="app_name">My Library</string>
     <string name="short_clip_one">In the following study you will</string>
     <string name="terms">I agree to the <u>Terms</u></string>
+    <string name="question_first">This part records your\nanswers to a questionnaire</string>
+    <string name="question_secound">In order to receive your reward\nyou answer the following\nquestions.</string>
 </resources>

@@ -79,7 +79,7 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(LandingPage.this, QuestionActivity.class));
             }
         });
     }

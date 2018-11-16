@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.monet.mylibrary">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <activity android:name=".activity.LandingPage" />
-        <activity android:name=".activity.DebugActivitySecound"/>
+        <activity android:name=".activity.QuestionActivity"></activity>
     </application>
 
 </manifest>
