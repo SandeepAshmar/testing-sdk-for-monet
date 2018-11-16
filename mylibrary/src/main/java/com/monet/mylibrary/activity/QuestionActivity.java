@@ -20,7 +20,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
-    private PreQuestion preQuestion = new PreQuestion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +57,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             ll_quesQCardBtn.setVisibility(View.GONE);
             rl_quesQCard.setVisibility(View.GONE);
             ll_question.setVisibility(View.VISIBLE);
-            setQuestion();
         }
     }
-
-    private void setQuestion() {
-        tv_question.setText(preQuestion.getQuestion().get(0));
-    }
-
-
 }
