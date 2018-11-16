@@ -34,7 +34,7 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    private static ArrayList<String> preQuestion = new ArrayList<String>();
+    private static ArrayList<String> preQuestion = new ArrayList<>();
     private static ArrayList<String> postQuestion = new ArrayList<>();
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
