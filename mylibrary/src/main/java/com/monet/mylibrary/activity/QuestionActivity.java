@@ -11,10 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.model.question.PreQuestion;
-import com.monet.mylibrary.model.question.SdkPre;
-
-import java.util.ArrayList;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
