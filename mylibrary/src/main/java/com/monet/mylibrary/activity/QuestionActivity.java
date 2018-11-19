@@ -27,7 +27,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
     private int questionNo = 0;
-    private SdkPojo sdkQuestions;
+    private SdkPojo sdkPojo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     @SuppressLint("SetTextI18n")
     private void setQuestions() {
-        tv_question.setText(sdkQuestions.getPre().getQuestions().get(0).toString());
+        tv_question.setText(sdkPojo.getPre().getQuestions().get(0).toString());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
 
     }
