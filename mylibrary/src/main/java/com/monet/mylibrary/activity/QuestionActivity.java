@@ -1,5 +1,6 @@
 package com.monet.mylibrary.activity;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.model.question.PostQuestions;
+import com.monet.mylibrary.model.question.PreQuestions;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +23,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
+    private PreQuestions preQuestions = new PreQuestions();
+    private PostQuestions postQuestions = new PostQuestions();
+    private int questionNo = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             ll_quesQCardBtn.setVisibility(View.GONE);
             rl_quesQCard.setVisibility(View.GONE);
             ll_question.setVisibility(View.VISIBLE);
+            setQuestions();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setQuestions() {
+
+        tv_question.setText(preQuestions.getQuestion().get(questionNo));
+        tv_questionNo.setText("Q" + (questionNo + 1) + ".");
+
     }
 }
