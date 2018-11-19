@@ -67,8 +67,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     @SuppressLint("SetTextI18n")
     private void setQuestions() {
-        Toast.makeText(this, preQuestions.size(), Toast.LENGTH_SHORT).show();
-
         tv_question.setText(preQuestions.get(questionNo));
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
 
