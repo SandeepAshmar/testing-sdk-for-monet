@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PreQuestions {
 
-    private ArrayList<String> question = new ArrayList<>();
+    private ArrayList<String> question;
 
     public ArrayList<String> getQuestion() {
         return question;
