@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.model.question.PostQuestions;
@@ -68,6 +69,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     @SuppressLint("SetTextI18n")
     private void setQuestions() {
+        Toast.makeText(this, preQuestions.getQuestion().size(), Toast.LENGTH_SHORT).show();
 
         tv_question.setText(preQuestions.getQuestion().get(questionNo));
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
