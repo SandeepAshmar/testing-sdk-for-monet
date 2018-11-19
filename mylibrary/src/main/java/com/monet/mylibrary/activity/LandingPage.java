@@ -35,8 +35,8 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    private static PreQuestions preQuestion;
     private static ArrayList<String> postQuestion = new ArrayList<>();
+    private static PreQuestions preQuestions = new PreQuestions();
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
     private static String token = "";
@@ -86,7 +86,6 @@ public class LandingPage extends AppCompatActivity {
     public static void startCampaign(Activity activity, String userId, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
-        preQuestion.getQuestion().clear();
         postQuestion.clear();
         getCmpFlow(activity, cmpId, userId);
     }
@@ -106,7 +105,7 @@ public class LandingPage extends AppCompatActivity {
                             activity.onBackPressed();
                         } else {
                             for (int i = 0; i < response.body().getPre().getQuestions().size(); i++) {
-                                preQuestion.setQuestion(response.body().getPre().getQuestions().get(i).getQuestion());
+                                preQuestions.setQuestion(response.body().getPre().getQuestions().get(i).getQuestion());
                             }
                             for (int i = 0; i < response.body().getPost().getQuestions().size(); i++) {
                                 postQuestion.add(response.body().getPost().getQuestions().get(i).getQuestion());
