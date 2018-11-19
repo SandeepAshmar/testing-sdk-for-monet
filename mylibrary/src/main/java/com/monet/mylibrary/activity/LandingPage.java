@@ -19,8 +19,6 @@ import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
-import com.monet.mylibrary.model.question.PostQuestions;
-import com.monet.mylibrary.model.question.PreQuestions;
 import com.monet.mylibrary.model.question.SdkPojo;
 
 import java.util.ArrayList;
@@ -36,8 +34,8 @@ public class LandingPage extends AppCompatActivity {
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    private static PostQuestions postQuestion = new PostQuestions();
-    private static PreQuestions preQuestions = new PreQuestions();
+    protected static ArrayList<String> postQuestion = new ArrayList<>();
+    protected static ArrayList<String> preQuestions = new ArrayList<>();
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
     private static String token = "";
@@ -87,8 +85,8 @@ public class LandingPage extends AppCompatActivity {
     public static void startCampaign(Activity activity, String userId, String cmpId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
-        preQuestions.getQuestion().clear();
-        postQuestion.getQuestion().clear();
+        preQuestions.clear();
+        postQuestion.clear();
         getCmpFlow(activity, cmpId, userId);
     }
 
@@ -107,10 +105,10 @@ public class LandingPage extends AppCompatActivity {
                             activity.onBackPressed();
                         } else {
                             for (int i = 0; i < response.body().getPre().getQuestions().size(); i++) {
-                                preQuestions.setQuestion(response.body().getPre().getQuestions().get(i).getQuestion());
+                                preQuestions.add(response.body().getPre().getQuestions().get(i).getQuestion());
                             }
                             for (int i = 0; i < response.body().getPost().getQuestions().size(); i++) {
-                                postQuestion.setQuestion(response.body().getPost().getQuestions().get(i).getQuestion());
+                                postQuestion.add(response.body().getPost().getQuestions().get(i).getQuestion());
                             }
                             token = "Bearer "+ response.body().getApi_token();
                             getCampDetails(activity, token, cmpId);

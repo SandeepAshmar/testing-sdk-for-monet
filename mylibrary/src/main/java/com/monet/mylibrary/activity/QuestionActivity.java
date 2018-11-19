@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.model.question.PostQuestions;
-import com.monet.mylibrary.model.question.PreQuestions;
+
+import static com.monet.mylibrary.activity.LandingPage.preQuestions;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,8 +24,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
-    private static PostQuestions postQuestion = new PostQuestions();
-    private static PreQuestions preQuestions = new PreQuestions();
     private int questionNo = 0;
 
     @Override
@@ -69,9 +67,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     @SuppressLint("SetTextI18n")
     private void setQuestions() {
-        Toast.makeText(this, preQuestions.getQuestion().size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, preQuestions.size(), Toast.LENGTH_SHORT).show();
 
-        tv_question.setText(preQuestions.getQuestion().get(questionNo));
+        tv_question.setText(preQuestions.get(questionNo));
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
 
     }
