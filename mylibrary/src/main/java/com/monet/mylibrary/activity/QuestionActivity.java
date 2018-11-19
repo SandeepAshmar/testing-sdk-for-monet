@@ -50,7 +50,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         btn_quesqa_proceed.setOnClickListener(this);
         btn_quesqa_exit.setOnClickListener(this);
         btn_quesNext.setOnClickListener(this);
-
     }
 
     @Override
