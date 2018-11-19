@@ -24,8 +24,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
-    private PreQuestions preQuestions;
-    private PostQuestions postQuestions;
+    private static PostQuestions postQuestion = new PostQuestions();
+    private static PreQuestions preQuestions = new PreQuestions();
     private int questionNo = 0;
 
     @Override
