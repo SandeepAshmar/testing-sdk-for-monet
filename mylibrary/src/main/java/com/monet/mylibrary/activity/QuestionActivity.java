@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.model.question.PreGrid;
-import com.monet.mylibrary.model.question.PreQuestions;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.question.SdkQuestions;
 
@@ -113,7 +111,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
-
 
     @SuppressLint("SetTextI18n")
     private void setQuestions(Response<SdkPojo> response) {
