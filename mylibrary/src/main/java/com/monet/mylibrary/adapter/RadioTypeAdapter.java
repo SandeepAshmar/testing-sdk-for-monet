@@ -36,9 +36,19 @@ public class RadioTypeAdapter extends RecyclerView.Adapter<RadioTypeAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        SdkOptions options = sdkOptions.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final SdkOptions options = sdkOptions.get(position);
         holder.rd_opetionValue.setText(options.getOption_value());
+
+        holder.rd_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (radioClickListner != null) {
+                    radioClickListner.onItemClick(v, position, options.getQuestion_id(), options.getOption_id());
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override

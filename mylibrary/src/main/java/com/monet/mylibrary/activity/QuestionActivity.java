@@ -134,6 +134,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         rv_question.setAdapter(radioTypeAdapter);
         tv_question.setText(response.body().getPre().getQuestions().get(0).getQuestion());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
+        tv_questionSelect.setText("Please select one option");
     }
 
 
