@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ public class LandingPage extends AppCompatActivity {
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id;
-    private static ProgressDialog pd;
+    private static ProgressBar landProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +55,7 @@ public class LandingPage extends AppCompatActivity {
         btn_landExit = findViewById(R.id.btn_landExit);
         btn_landProceed = findViewById(R.id.btn_landProceed);
         land_chack = findViewById(R.id.land_chack);
-
-        pd = new ProgressDialog(getApplicationContext());
-        pd.setCanceledOnTouchOutside(false);
-        pd.setMessage("Loading....");
+        landProgress = findViewById(R.id.landProgress);
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
@@ -104,13 +102,12 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
-        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
             public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
-                pd.dismiss();
+                landProgress.setVisibility(View.GONE);
                 if (response.body() == null) {
                     Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -132,7 +129,7 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
-                pd.dismiss();
+                landProgress.setVisibility(View.GONE);
                 Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

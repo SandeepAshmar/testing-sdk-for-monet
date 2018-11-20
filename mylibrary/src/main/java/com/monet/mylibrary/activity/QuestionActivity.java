@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -81,7 +82,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private ArrayList<String> selectedGridOptions = new ArrayList<>();
     private boolean flagAdapter = true;
     private String apiToken, cf_id;
-    private ProgressDialog pd;
+    private ProgressBar quesProgress;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -187,15 +188,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         rate_layout = findViewById(R.id.rate_layout);
         grid_Linear_Layout = findViewById(R.id.grid_linearLayout);
+        quesProgress = findViewById(R.id.quesProgress);
 
         btn_quesqa_proceed.setOnClickListener(this);
         btn_quesqa_exit.setOnClickListener(this);
         btn_quesNext.setOnClickListener(this);
 
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
-        pd = new ProgressDialog(getApplicationContext());
-        pd.setCanceledOnTouchOutside(false);
-        pd.setMessage("Loading....");
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -225,13 +224,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getCmpFlow() {
-        pd.show();
+        quesProgress.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
-                pd.dismiss();
+                quesProgress.setVisibility(View.GONE);
                 if (response.body() == null) {
                     Toast.makeText(getApplication().getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -257,7 +256,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
-                pd.dismiss();
+                quesProgress.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -441,12 +440,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void submitAnswer() {
+        quesProgress.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, "pre");
         Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
             public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
+                quesProgress.setVisibility(View.GONE);
                 if (response.body() == null) {
                     Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                     onBackPressed();
@@ -464,6 +465,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<SurvayPojo> call, Throwable t) {
+                quesProgress.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
