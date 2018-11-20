@@ -74,7 +74,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         radioLayoutManager = new LinearLayoutManager(this);
         rv_question.setLayoutManager(radioLayoutManager);
-        rv_question.setAdapter(radioTypeAdapter);
     }
 
     @Override
@@ -132,7 +131,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         };
 
         radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, questions.get(0).getOptions(), radioClickListner);
-
+        rv_question.setAdapter(radioTypeAdapter);
         tv_question.setText(response.body().getPre().getQuestions().get(0).getQuestion());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
     }
