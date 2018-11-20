@@ -25,9 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
+import com.monet.mylibrary.adapter.RateAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.listner.CheckBoxClickListner;
+import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.question.SdkQuestions;
@@ -57,6 +61,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private String cmp_Id, user_Id, typeFiveReason = "";
     private ArrayList<SdkQuestions> questions = new ArrayList<>();
     private RadioTypeAdapter radioTypeAdapter;
+    private CheckBoxTypeAdapter checkBoxTypeAdapter;
+    private RateAdapter rateAdapter;
     private LinearLayoutManager radioLayoutManager;
     private GridLayoutManager gridLayoutManager;
     private JSONObject dataPostJson1 = new JSONObject();
@@ -103,6 +109,54 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     typeFiveReason = "";
                 }
             }
+        }
+    };
+
+    private CheckBoxClickListner checkBoxClickListner = new CheckBoxClickListner() {
+        @Override
+        public void onItemCheckBoxClick(View view, int position, String quesId, String ansId) {
+
+            selectedQuesId = quesId;
+
+            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getCheckQuesId().size() == 0 || savedQuesAndAnswers.getCheckAnsId().size() == 0) {
+                savedQuesAndAnswers.setCheckQuesId(quesId);
+                savedQuesAndAnswers.setCheckAnsId(ansId);
+            } else {
+                if (savedQuesAndAnswers.getCheckAnsId().contains(ansId)) {
+                    int pos = savedQuesAndAnswers.getCheckAnsId().indexOf(ansId);
+                    savedQuesAndAnswers.getCheckAnsId().remove(pos);
+                } else {
+                    savedQuesAndAnswers.setCheckAnsId(ansId);
+                }
+            }
+
+            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_quesNext.setEnabled(true);
+        }
+    };
+
+    private IOnItemClickListener rateItemClick = new IOnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+
+            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_quesNext.setEnabled(true);
+
+            selectedAnsId = String.valueOf(position+1);
+
+            if(savedQuesAndAnswers == null || savedQuesAndAnswers.getRateQuesId().size() == 0){
+                savedQuesAndAnswers.setRateQuesId(selectedQuesId);
+                savedQuesAndAnswers.setRateAnsId(selectedAnsId);
+            }else{
+                if (savedQuesAndAnswers.getRateQuesId().contains(selectedQuesId)) {
+                    int pos = savedQuesAndAnswers.getRateQuesId().indexOf(selectedQuesId);
+                    savedQuesAndAnswers.getRateAnsId().set(pos, selectedAnsId);
+                } else {
+                    savedQuesAndAnswers.setRateQuesId(selectedQuesId);
+                    savedQuesAndAnswers.setRateAnsId(selectedAnsId);
+                }
+            }
+
         }
     };
 
@@ -216,30 +270,30 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, questions.get(questionNo).getOptions(), radioClickListner);
             rv_question.setAdapter(radioTypeAdapter);
 
-//        } else if (questions.get(questionNo).getQuestion_type().equals("2")) {
-//            rv_question.setVisibility(View.VISIBLE);
-//            rate_layout.setVisibility(View.GONE);
-//            edt_questionType.setVisibility(View.GONE);
-//            grid_Linear_Layout.setVisibility(View.GONE);
-//            tv_questionSelect.setText("Please Select all that apply");
-//            questionType = "2";
-//            selectedQuesId = questions.get(questionNo).getQuestion_id();
-//            checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, questions.get(questionNo).getOptions());
-//            rv_question.setAdapter(checkBoxTypeAdapter);
-//
-//        } else if (questions.get(questionNo).getQuestion_type().equals("3")) {
-//            rv_question.setVisibility(View.VISIBLE);
-//            rate_layout.setVisibility(View.VISIBLE);
-//            edt_questionType.setVisibility(View.GONE);
-//            grid_Linear_Layout.setVisibility(View.GONE);
-//            questionType = "3";
-//            selectedQuesId = questions.get(questionNo).getQuestion_id();
-//            radioType = Integer.parseInt(questions.get(questionNo).getRadio_type());
-//            rv_question.setLayoutManager(gridLayoutManager);
-//            rateAdapter = new RateAdapter(this, radioType, rateItemClick, selectedQuesId);
-//            rv_question.setAdapter(rateAdapter);
-//            tv_questionSelect.setText("Please rate on a scale of 1-" + radioType + " with " + radioType + " being the strongest likely");
-//        } else if (questions.get(questionNo).getQuestion_type().equals("4")) {
+        } else if (questions.get(questionNo).getQuestion_type().equals("2")) {
+            rv_question.setVisibility(View.VISIBLE);
+            rate_layout.setVisibility(View.GONE);
+            edt_questionType.setVisibility(View.GONE);
+            grid_Linear_Layout.setVisibility(View.GONE);
+            tv_questionSelect.setText("Please Select all that apply");
+            questionType = "2";
+            selectedQuesId = questions.get(questionNo).getQuestion_id();
+            checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, questions.get(questionNo).getOptions());
+            rv_question.setAdapter(checkBoxTypeAdapter);
+
+        } else if (questions.get(questionNo).getQuestion_type().equals("3")) {
+            rv_question.setVisibility(View.VISIBLE);
+            rate_layout.setVisibility(View.VISIBLE);
+            edt_questionType.setVisibility(View.GONE);
+            grid_Linear_Layout.setVisibility(View.GONE);
+            questionType = "3";
+            selectedQuesId = questions.get(questionNo).getQuestion_id();
+            radioType = Integer.parseInt(questions.get(questionNo).getRadio_type());
+            rv_question.setLayoutManager(gridLayoutManager);
+            rateAdapter = new RateAdapter(this, radioType, rateItemClick, selectedQuesId);
+            rv_question.setAdapter(rateAdapter);
+            tv_questionSelect.setText("Please rate on a scale of 1-" + radioType + " with " + radioType + " being the strongest likely");
+        } else if (questions.get(questionNo).getQuestion_type().equals("4")) {
             tv_questionSelect.setText("Please type your answer");
             rv_question.setVisibility(View.GONE);
             selectedQuesId = questions.get(questionNo).getQuestion_id();
