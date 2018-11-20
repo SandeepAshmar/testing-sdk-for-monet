@@ -98,7 +98,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             Toast.makeText(getApplicationContext(), "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         } else {
-                            preQuestions.addAll(response.body().getPre().getQuestions());
+                            setQuestions(response);
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), response.body().getStatus(), Toast.LENGTH_SHORT).show();
@@ -116,8 +116,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
 
     @SuppressLint("SetTextI18n")
-    private void setQuestions() {
-        tv_question.setText(preQuestions.get(0).getQuestion());
+    private void setQuestions(Response<SdkPojo> response) {
+        tv_question.setText(response.body().getPre().getQuestions().get(0).getQuestion());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
     }
 }
