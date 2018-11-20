@@ -1,6 +1,7 @@
 package com.monet.mylibrary.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ public class RadioTypeAdapter extends RecyclerView.Adapter<RadioTypeAdapter.View
     private Context context;
     private ArrayList<SdkOptions> sdkOptions;
     private RadioClickListner radioClickListner;
+    private int index = -1;
 
     public RadioTypeAdapter(Context context, ArrayList<SdkOptions> sdkOptions, RadioClickListner radioClickListner) {
         this.context = context;
@@ -45,10 +47,19 @@ public class RadioTypeAdapter extends RecyclerView.Adapter<RadioTypeAdapter.View
             public void onClick(View v) {
                 if (radioClickListner != null) {
                     radioClickListner.onItemClick(v, position, options.getQuestion_id(), options.getOption_id());
+                    index = position;
                     notifyDataSetChanged();
                 }
             }
         });
+
+        if (index == position) {
+            holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+            holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+        }else{
+            holder.rd_view.setBackground(null);
+            holder.rd_opetionValue.setTextColor(Color.parseColor("#000000"));
+        }
     }
 
     @Override

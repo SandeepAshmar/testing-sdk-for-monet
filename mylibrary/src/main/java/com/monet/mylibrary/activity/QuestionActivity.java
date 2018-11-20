@@ -37,7 +37,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
-    private int questionNo = 0;
+    private int questionNo = 0, questionSize;
     private String cmp_Id, user_Id;
     private ArrayList<SdkQuestions> questions = new ArrayList<>();
     private RadioTypeAdapter radioTypeAdapter;
@@ -88,6 +88,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             ll_question.setVisibility(View.VISIBLE);
             getCmpFlow();
         }
+        if (i == R.id.btn_quesNext) {
+            nextQuestion();
+        }
     }
 
     private void getCmpFlow() {
@@ -105,7 +108,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             onBackPressed();
                         } else {
                             questions.addAll(response.body().getPre().getQuestions());
-                            setQuestions(response);
+                            questionSize = response.body().getPre().getQuestions().size();
+                            setQuestions();
                         }
                     } else {
                         Toast.makeText(getApplication().getApplicationContext(), response.body().getStatus(), Toast.LENGTH_SHORT).show();
@@ -122,20 +126,32 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @SuppressLint("SetTextI18n")
-    private void setQuestions(final Response<SdkPojo> response) {
+    private void setQuestions() {
         RadioClickListner radioClickListner = new RadioClickListner() {
             @Override
             public void onItemClick(View view, int position, String quesId, String ansId) {
                 Toast.makeText(getApplication().getApplicationContext(), questions.get(0).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
+                btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
+                btn_quesNext.setEnabled(true);
             }
         };
 
-        radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, questions.get(0).getOptions(), radioClickListner);
+        radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, questions.get(questionNo).getOptions(), radioClickListner);
         rv_question.setAdapter(radioTypeAdapter);
-        tv_question.setText(response.body().getPre().getQuestions().get(0).getQuestion());
+        tv_question.setText(questions.get(questionNo).getQuestion());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
         tv_questionSelect.setText("Please select one option");
     }
 
+    private void nextQuestion() {
+        questionNo = (questionNo + 1);
+
+        if (questionNo < questionSize) {
+            setQuestions();
+        } else {
+            questionNo = (questionNo - 1);
+            Toast.makeText(this, "Questions Complete", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
