@@ -10,7 +10,7 @@
         android:id="@+id/rl_quesQCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_above="@id/ll_quesQCardBtn">
 
         <LinearLayout
@@ -89,9 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="55dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_above="@id/ll_quesNextBtn">
 
         <TextView
@@ -161,14 +159,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:overScrollMode="never"
-            android:layout_marginBottom="80dp"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="80dp"
             android:fillViewport="true"
             android:groupIndicator="@null">
             <LinearLayout
