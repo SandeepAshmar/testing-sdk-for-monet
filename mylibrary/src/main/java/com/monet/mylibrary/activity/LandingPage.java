@@ -40,7 +40,7 @@ public class LandingPage extends AppCompatActivity {
     protected static ArrayList<PreQuestions> preQuestions = new ArrayList<>();
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
-    private static String token = "";
+    private static String cmp_Id, user_Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,54 +79,22 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LandingPage.this, QuestionActivity.class));
+                Intent intent = new Intent(LandingPage.this, QuestionActivity.class);
+                intent.putExtra("cmpId", cmp_Id);
+                intent.putExtra("userId", user_Id);
+                startActivity(intent);
             }
         });
     }
 
-    public static void startCampaign(Activity activity, String userId, String cmpId) {
+    public static void startCampaign(Activity activity, String token, String cmpId, String userId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
         preQuestions.clear();
         postQuestion.clear();
-        getCmpFlow(activity, cmpId, userId);
-    }
-
-    private static void getCmpFlow(final Activity activity, final String cmpId, String userId) {
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmpId, userId);
-        pojoCall.enqueue(new Callback<SdkPojo>() {
-            @Override
-            public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
-                if (response.body() == null) {
-                    Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (response.body().getCode().equals("200")) {
-                        if (response.body().getSequence().size() == 0) {
-                            Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
-                            activity.onBackPressed();
-                        } else {
-//                            for (int i = 0; i < response.body().getPre().getQuestions().size(); i++) {
-//
-//                            }
-//                            for (int i = 0; i < response.body().getPost().getQuestions().size(); i++) {
-//                                postQuestion.add(response.body().getPost().getQuestions().get(i).getQuestion());
-//                            }
-                            token = "Bearer "+ response.body().getApi_token();
-                            getCampDetails(activity, token, cmpId);
-                        }
-                    } else {
-                        Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SdkPojo> call, Throwable t) {
-                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        cmp_Id = cmpId;
+        user_Id = userId;
+       getCampDetails(activity, token, cmpId);
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {

@@ -1,6 +1,8 @@
 package com.monet.mylibrary.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.connection.ApiInterface;
+import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.model.question.PreGrid;
+import com.monet.mylibrary.model.question.PreQuestions;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.question.SdkQuestions;
 
-import static com.monet.mylibrary.activity.LandingPage.preQuestions;
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +37,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
     private int questionNo = 0;
-    private SdkPojo sdkPojo;
+    private String cmp_Id, user_Id;
+    private ArrayList<SdkQuestions> preQuestions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         btn_quesqa_proceed.setOnClickListener(this);
         btn_quesqa_exit.setOnClickListener(this);
         btn_quesNext.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        cmp_Id = extras.getString("cmpId");
+        user_Id = extras.getString("userId");
     }
 
     @Override
@@ -59,19 +75,49 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         int i = view.getId();
         if (i == R.id.btn_quesqa_exit) {
             onBackPressed();
-        }else if(i == R.id.btn_quesqa_proceed){
+        } else if (i == R.id.btn_quesqa_proceed) {
             ll_quesNextBtn.setVisibility(View.VISIBLE);
             ll_quesQCardBtn.setVisibility(View.GONE);
             rl_quesQCard.setVisibility(View.GONE);
             ll_question.setVisibility(View.VISIBLE);
-            setQuestions();
+            getCmpFlow();
         }
     }
 
+    private void getCmpFlow() {
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
+        pojoCall.enqueue(new Callback<SdkPojo>() {
+            @Override
+            public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
+                if (response.body() == null) {
+                    Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (response.body().getCode().equals("200")) {
+                        if (response.body().getSequence().size() == 0) {
+                            Toast.makeText(getApplicationContext(), "No Campaign flow is found", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        } else {
+                            preQuestions.addAll(response.body().getPre().getQuestions());
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SdkPojo> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
     @SuppressLint("SetTextI18n")
     private void setQuestions() {
-        tv_question.setText(sdkPojo.getPre().getQuestions().get(0).toString());
+        tv_question.setText(preQuestions.get(0).getQuestion());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
-
     }
 }
