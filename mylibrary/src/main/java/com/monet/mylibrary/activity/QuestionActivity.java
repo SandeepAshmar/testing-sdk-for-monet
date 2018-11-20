@@ -130,7 +130,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         RadioClickListner radioClickListner = new RadioClickListner() {
             @Override
             public void onItemClick(View view, int position, String quesId, String ansId) {
-                Toast.makeText(getApplication().getApplicationContext(), questions.get(0).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication().getApplicationContext(), questions.get(questionNo).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
                 btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
                 btn_quesNext.setEnabled(true);
             }
