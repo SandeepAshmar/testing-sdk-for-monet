@@ -97,7 +97,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
                 if (response.body() == null) {
-                    Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication().getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getSequence().size() == 0) {
@@ -108,7 +108,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             setQuestions(response);
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication().getApplicationContext(), response.body().getStatus(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         RadioClickListner radioClickListner = new RadioClickListner() {
             @Override
             public void onItemClick(View view, int position, String quesId, String ansId) {
-                Toast.makeText(QuestionActivity.this, questions.get(0).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication().getApplicationContext(), questions.get(0).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
             }
         };
 
