@@ -434,7 +434,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void submitAnswer() {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, type);
+        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, "pre");
         Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
@@ -462,6 +462,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         clearValues();
+                        finish();
 //                        setScreen();
                     } else {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
