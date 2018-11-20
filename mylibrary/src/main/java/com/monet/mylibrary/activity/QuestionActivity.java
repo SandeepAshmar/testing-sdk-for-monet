@@ -148,6 +148,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if (questionNo < questionSize) {
             setQuestions();
+            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
+            btn_quesNext.setEnabled(false);
         } else {
             questionNo = (questionNo - 1);
             Toast.makeText(this, "Questions Complete", Toast.LENGTH_SHORT).show();
