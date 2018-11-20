@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,11 @@ import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.question.SdkQuestions;
+import com.monet.mylibrary.utils.SdkPreferences;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -42,6 +48,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private ArrayList<SdkQuestions> questions = new ArrayList<>();
     private RadioTypeAdapter radioTypeAdapter;
     private LinearLayoutManager radioLayoutManager;
+    private JSONObject dataPostJson1 = new JSONObject();
+    private JSONObject quesJson = new JSONObject();
+    private JSONObject quesJsonGrid = new JSONObject();
+    private JSONArray jsonArray2 = new JSONArray();
+    private String selectedQuesId, selectedAnsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +120,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         } else {
                             questions.addAll(response.body().getPre().getQuestions());
                             questionSize = response.body().getPre().getQuestions().size();
+                            SdkPreferences.setCmpLengthCount(QuestionActivity.this, response.body().getSequence().size());
                             setQuestions();
                         }
                     } else {
@@ -133,6 +145,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(getApplication().getApplicationContext(), questions.get(questionNo).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
                 btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
                 btn_quesNext.setEnabled(true);
+                selectedQuesId = quesId;
+                selectedAnsId = ansId;
             }
         };
 
@@ -155,10 +169,64 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             setQuestions();
             btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
             btn_quesNext.setEnabled(false);
+
+            try {
+                setAnsJson();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else {
             questionNo = (questionNo - 1);
             Toast.makeText(this, "Questions Complete", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setAnsJson() throws JSONException {
+        dataPostJson1 = new JSONObject();
+        quesJson.put(selectedQuesId, dataPostJson1);
+        dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+        dataPostJson1.put("type", "1");
+
+        Log.d("json", "json = "+dataPostJson1);
+
+//        if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
+//            dataPostJson1 = new JSONObject();
+//            quesJson.put(selectedQuesId, dataPostJson1);
+//            dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+//            dataPostJson1.put("type", "1");
+//        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+//            dataPostJson1 = new JSONObject();
+//            quesJson.put(selectedQuesId, dataPostJson1);
+//            dataPostJson1.put("selectedOptions", jsonArray2);
+//            for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
+//                jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
+//            }
+//            dataPostJson1.put("type", "2");
+//        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
+//            dataPostJson1 = new JSONObject();
+//            quesJson.put(selectedQuesId, dataPostJson1);
+//            dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+//            dataPostJson1.put("type", "3");
+//        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("4")) {
+//            dataPostJson1 = new JSONObject();
+//            quesJson.put(selectedQuesId, dataPostJson1);
+//            dataPostJson1.put("options", edt_questionType.getText().toString());
+//            dataPostJson1.put("type", "4");
+//        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("5")) {
+//            dataPostJson1 = new JSONObject();
+//            quesJson.put(selectedQuesId, dataPostJson1);
+//            dataPostJson1.put("id", selectedAnsId);
+//            dataPostJson1.put("text", typeFiveReason);
+//            dataPostJson1.put("type", "5");
+//        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("6")) {
+//            dataPostJson1 = new JSONObject();
+//            quesJson.put(selectedQuesId, dataPostJson1);
+//            dataPostJson1.put("options", quesJsonGrid);
+//            for (int i = 0; i < savedQuesAndAnswers.getGridAnsIds().size(); i++) {
+//                quesJsonGrid.put(savedQuesAndAnswers.getGridOptionIds().get(i), savedQuesAndAnswers.getGridAnsIds().get(i));
+//            }
+//            dataPostJson1.put("type", "6");
+//        }
     }
 
 }
