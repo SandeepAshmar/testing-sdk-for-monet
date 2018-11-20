@@ -35,6 +35,8 @@ import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.question.SdkQuestions;
+import com.monet.mylibrary.model.survay.SurvayPojo;
+import com.monet.mylibrary.model.survay.SurvayPost;
 import com.monet.mylibrary.utils.AnswerSavedClass;
 import com.monet.mylibrary.utils.SdkPreferences;
 
@@ -77,6 +79,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     private ArrayList<String> selectedGridOptions = new ArrayList<>();
     private boolean flagAdapter = true;
+    private String apiToken, cf_id, type;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -203,7 +206,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.btn_quesqa_exit) {
-            onBackPressed();
+            finish();
         } else if (i == R.id.btn_quesqa_proceed) {
             ll_quesNextBtn.setVisibility(View.VISIBLE);
             ll_quesQCardBtn.setVisibility(View.GONE);
@@ -230,6 +233,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             Toast.makeText(getApplicationContext(), "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         } else {
+
+                            cf_id = response.body().getCf_id();
+                            apiToken = "Bearer "+response.body().getApi_token();
+
                             questions.addAll(response.body().getPre().getQuestions());
                             questionSize = response.body().getPre().getQuestions().size();
                             SdkPreferences.setCmpLengthCount(QuestionActivity.this, response.body().getSequence().size());
@@ -250,6 +257,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setQuestions() {
+
+        if(questionNo < questionSize){
+            btn_quesNext.setText("Next");
+        }else{
+            btn_quesNext.setText("Finish");
+        }
 
         if (questionNo == 0) {
             tv_questionNo.setText("Q1.");
@@ -400,24 +413,94 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void nextQuestion() {
-        questionNo = (questionNo + 1);
-
-        if (questionNo < questionSize) {
-            setQuestions();
-            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
-            btn_quesNext.setEnabled(false);
-
-
-        } else {
-            questionNo = (questionNo - 1);
-            Toast.makeText(this, "Questions Complete", Toast.LENGTH_SHORT).show();
-        }
-
         try {
             setAnsJson();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        questionNo = (questionNo + 1);
+
+        if (questionNo < questionSize) {
+            setQuestions();
+            jsonArray2 = new JSONArray();
+            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
+            btn_quesNext.setEnabled(false);
+        } else {
+            questionNo = (questionNo - 1);
+            submitAnswer();
+        }
+    }
+
+    private void submitAnswer() {
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, type);
+        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
+        pojoCall.enqueue(new Callback<SurvayPojo>() {
+            @Override
+            public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
+                if (response.body() == null) {
+                    Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                } else {
+                    if (response.body().getCode().equals("200")) {
+
+//                        if (type.equalsIgnoreCase("pre")) {
+//                            try {
+//                                stagingJson.put("2", "2");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        } else {
+//                            try {
+//                                stagingJson.put("3", "2");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+
+
+                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        clearValues();
+//                        setScreen();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SurvayPojo> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setPreviousQuestion() {
+        questionNo = (questionNo - 1);
+
+        if (questionNo == -1) {
+            clearValues();
+            finish();
+            clearValues();
+        } else {
+            setQuestions();
+            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
+            btn_quesNext.setEnabled(false);
+
+            if(selectedGridOptions.size() !=0){
+                if (selectedGridOptions.size() == header) {
+                    btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_quesNext.setEnabled(true);
+                }
+                selectedGridOptions.clear();
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setPreviousQuestion();
     }
 
     private void setAnsJson() throws JSONException {
@@ -507,5 +590,20 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+    }
+
+    private void clearValues() {
+        dataPostJson1 = null;
+        quesJson = null;
+        jsonArray2 = new JSONArray();
+        questions.clear();
+
+        savedQuesAndAnswers.getCheckAnsId().clear();
+        savedQuesAndAnswers.getCheckQuesId().clear();
+        savedQuesAndAnswers.getGridAnsIds().clear();
+        savedQuesAndAnswers.getGridOptionIds().clear();
+        savedQuesAndAnswers.getGridQuesIds().clear();
+        savedQuesAndAnswers.getRadioAnsIds().clear();
+        savedQuesAndAnswers.getRadioQuesIds().clear();
     }
 }
