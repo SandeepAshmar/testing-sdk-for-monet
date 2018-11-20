@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.adapter.RadioTypeAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.question.SdkQuestions;
 
@@ -36,7 +39,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private EditText edt_questionType;
     private int questionNo = 0;
     private String cmp_Id, user_Id;
-    private ArrayList<SdkQuestions> preQuestions = new ArrayList<>();
+    private ArrayList<SdkQuestions> questions = new ArrayList<>();
+    private RadioTypeAdapter radioTypeAdapter;
+    private LinearLayoutManager radioLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         Bundle extras = intent.getExtras();
         cmp_Id = extras.getString("cmpId");
         user_Id = extras.getString("userId");
+
+        radioLayoutManager = new LinearLayoutManager(this);
+        rv_question.setLayoutManager(radioLayoutManager);
+        rv_question.setAdapter(radioTypeAdapter);
     }
 
     @Override
@@ -96,6 +105,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             Toast.makeText(getApplicationContext(), "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         } else {
+                            questions.addAll(response.body().getPre().getQuestions());
                             setQuestions(response);
                         }
                     } else {
@@ -113,8 +123,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @SuppressLint("SetTextI18n")
-    private void setQuestions(Response<SdkPojo> response) {
+    private void setQuestions(final Response<SdkPojo> response) {
+        RadioClickListner radioClickListner = new RadioClickListner() {
+            @Override
+            public void onItemClick(View view, int position, String quesId, String ansId) {
+                Toast.makeText(QuestionActivity.this, questions.get(0).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, questions.get(0).getOptions(), radioClickListner);
+
         tv_question.setText(response.body().getPre().getQuestions().get(0).getQuestion());
         tv_questionNo.setText("Q" + (questionNo + 1) + ".");
     }
+
+
 }
