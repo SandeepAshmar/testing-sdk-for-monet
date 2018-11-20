@@ -3,6 +3,7 @@ package com.monet.mylibrary.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -79,7 +80,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     private ArrayList<String> selectedGridOptions = new ArrayList<>();
     private boolean flagAdapter = true;
-    private String apiToken, cf_id, type;
+    private String apiToken, cf_id;
+    private ProgressDialog pd;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -191,6 +193,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         btn_quesNext.setOnClickListener(this);
 
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
+        pd = new ProgressDialog(getApplicationContext());
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage("Loading....");
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -220,11 +225,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getCmpFlow() {
+        pd.show();
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
+                pd.dismiss();
                 if (response.body() == null) {
                     Toast.makeText(getApplication().getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -250,7 +257,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
-
+                pd.dismiss();
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -444,22 +452,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     onBackPressed();
                 } else {
                     if (response.body().getCode().equals("200")) {
-
-//                        if (type.equalsIgnoreCase("pre")) {
-//                            try {
-//                                stagingJson.put("2", "2");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        } else {
-//                            try {
-//                                stagingJson.put("3", "2");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-
-
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         clearValues();
                         finish();
