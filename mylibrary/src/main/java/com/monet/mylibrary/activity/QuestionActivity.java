@@ -170,14 +170,16 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
             btn_quesNext.setEnabled(false);
 
-            try {
-                setAnsJson();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
         } else {
             questionNo = (questionNo - 1);
             Toast.makeText(this, "Questions Complete", Toast.LENGTH_SHORT).show();
+        }
+
+        try {
+            setAnsJson();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -187,7 +189,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
         dataPostJson1.put("type", "1");
 
-        Log.d("json", "json = "+dataPostJson1);
+        Log.d("json", "json = "+quesJson);
 
 //        if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
 //            dataPostJson1 = new JSONObject();
