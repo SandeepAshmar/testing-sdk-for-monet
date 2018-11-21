@@ -79,6 +79,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int radioType;
     private Dialog dialog;
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
+    public static ArrayList<String> cmpSequance = new ArrayList<>();
     private ArrayList<String> selectedGridOptions = new ArrayList<>();
     private boolean flagAdapter = true;
     private String apiToken, cf_id;
@@ -244,7 +245,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
                             questions.addAll(response.body().getPre().getQuestions());
                             questionSize = response.body().getPre().getQuestions().size();
+                            cmpSequance.addAll(response.body().getSequence());
                             SdkPreferences.setCmpLengthCount(QuestionActivity.this, response.body().getSequence().size());
+                            Toast.makeText(QuestionActivity.this, "Frist Part is "+cmpSequance.get(0), Toast.LENGTH_SHORT).show();
                             setQuestions();
                         }
                     } else {
