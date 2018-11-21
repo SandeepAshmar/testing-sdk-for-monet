@@ -111,8 +111,7 @@ public class LandingPage extends AppCompatActivity {
         postQuestion.clear();
         cmp_Id = cmpId;
         user_Id = userId;
-        SdkPreferences.setCmpId(activity, cmpId);
-        SdkPreferences.setUserId(activity.getApplicationContext(), userId);
+        apiToken = token;
         getCmpFlow(activity, token, cmpId);
     }
 
@@ -129,15 +128,7 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            SdkPreferences.setCfId(activity, response.body().getCf_id());
-                            SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
-                            questions.addAll(response.body().getPre().getQuestions());
-                            questionSize = response.body().getPre().getQuestions().size();
-                            arrayList.addAll(response.body().getSequence());
-                            SdkPreferences.setCmpLength(activity, cmpSequance.size());
-                            SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
-                            getCampDetails(activity, token, cmpId);
-                            SdkPreferences.setVideoUrl(activity, response.body().getC_url());
+                            saveDetails(activity ,response);
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
@@ -151,6 +142,20 @@ public class LandingPage extends AppCompatActivity {
             }
         });
 
+    }
+
+    private static void saveDetails(Activity activity, Response<SdkPojo> response){
+        SdkPreferences.setCmpId(activity, cmp_Id);
+        SdkPreferences.setUserId(activity, user_Id);
+        SdkPreferences.setCfId(activity, response.body().getCf_id());
+        SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
+        questions.addAll(response.body().getPre().getQuestions());
+        questionSize = response.body().getPre().getQuestions().size();
+        arrayList.addAll(response.body().getSequence());
+        SdkPreferences.setCmpLength(activity, cmpSequance.size());
+        SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
+        getCampDetails(activity, apiToken, cmp_Id);
+        SdkPreferences.setVideoUrl(activity, response.body().getC_url());
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
