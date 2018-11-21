@@ -3,13 +3,21 @@
     package="com.monet.mylibrary">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-feature android:name="android.hardware.camera2.autofocus" />
 
     <application>
         <activity android:name=".activity.LandingPage" />
         <activity android:name=".activity.QuestionActivity" />
         <activity android:name=".activity.EmotionScreen" />
         <activity android:name=".activity.ReactionScreen" />
-        <activity android:name=".activity.ThankyouPage"></activity>
+        <activity android:name=".activity.ThankyouPage" />
+        <activity android:name=".activity.PlayVideoAndRecordScreen"></activity>
     </application>
 
 </manifest>

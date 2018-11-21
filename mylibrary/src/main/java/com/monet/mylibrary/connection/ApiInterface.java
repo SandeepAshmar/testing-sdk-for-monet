@@ -4,6 +4,7 @@ import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.model.survay.SurvayPost;
+import com.monet.mylibrary.model.vimeoModel.VimeoPojo;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,4 +28,7 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("savesurveyanswers")
     Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body SurvayPost survayPost);
+
+    @GET("video/{videoID}/config")
+    Call<VimeoPojo> getVideoDetails(@Path("videoID")String videoID);
 }
