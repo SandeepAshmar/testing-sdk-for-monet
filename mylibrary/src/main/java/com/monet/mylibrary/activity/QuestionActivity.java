@@ -87,7 +87,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
         public void onItemClick(View view, int position, String quesId, String ansId) {
-            Toast.makeText(getApplication().getApplicationContext(), questions.get(questionNo).getOptions().get(position).getOption_value(), Toast.LENGTH_SHORT).show();
             selectedQuesId = quesId;
             selectedAnsId = ansId;
 
