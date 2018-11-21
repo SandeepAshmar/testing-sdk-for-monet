@@ -37,6 +37,7 @@ import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.QuestionActivity.questions;
 import static com.monet.mylibrary.activity.QuestionActivity.questionSize;
+import static com.monet.mylibrary.utils.SdkPreferences.clearAllPreferences;
 
 public class LandingPage extends AppCompatActivity {
 
@@ -68,6 +69,9 @@ public class LandingPage extends AppCompatActivity {
 
         mAdapter = new LandAdapter(this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
+
+        clearAllPreferences(this);
+        arrayList.clear();
 
         btn_landExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +129,6 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-
                             SdkPreferences.setCfId(activity, response.body().getCf_id());
                             SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
                             questions.addAll(response.body().getPre().getQuestions());

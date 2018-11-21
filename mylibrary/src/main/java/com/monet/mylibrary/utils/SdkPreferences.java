@@ -115,4 +115,11 @@ public class SdkPreferences {
         mPrefsEditor.putString("quesType", value);
         mPrefsEditor.commit();
     }
+
+    public static void clearAllPreferences(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.clear();
+        mPrefsEditor.commit();
+    }
 }
