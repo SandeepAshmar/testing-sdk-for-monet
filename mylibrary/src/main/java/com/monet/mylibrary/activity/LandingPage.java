@@ -23,13 +23,18 @@ import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.question.PreQuestions;
 import com.monet.mylibrary.model.question.SdkPojo;
+import com.monet.mylibrary.model.question.SdkPre;
 import com.monet.mylibrary.model.question.SdkQuestions;
+import com.monet.mylibrary.utils.SdkPreferences;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.monet.mylibrary.activity.QuestionActivity.questions;
+import static com.monet.mylibrary.activity.QuestionActivity.questionSize;
 
 public class LandingPage extends AppCompatActivity {
 
@@ -42,8 +47,9 @@ public class LandingPage extends AppCompatActivity {
     protected static ArrayList<PreQuestions> preQuestions = new ArrayList<>();
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
-    private static String cmp_Id, user_Id;
+    private static String cmp_Id, user_Id, cf_id, apiToken;
     private static ProgressBar landProgress;
+    public static ArrayList<String> cmpSequance = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +90,6 @@ public class LandingPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LandingPage.this, QuestionActivity.class);
-                intent.putExtra("cmpId", cmp_Id);
-                intent.putExtra("userId", user_Id);
                 startActivity(intent);
             }
         });
@@ -98,7 +102,47 @@ public class LandingPage extends AppCompatActivity {
         postQuestion.clear();
         cmp_Id = cmpId;
         user_Id = userId;
-       getCampDetails(activity, token, cmpId);
+        SdkPreferences.setCmpId(activity, cmpId);
+        SdkPreferences.setUserId(activity.getApplicationContext(), userId);
+        getCmpFlow(activity, token, cmpId);
+    }
+
+    private static void getCmpFlow(final Activity activity, final String token, final String cmpId) {
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
+        pojoCall.enqueue(new Callback<SdkPojo>() {
+            @Override
+            public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
+                if (response.body() == null) {
+                    Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (response.body().getCode().equals("200")) {
+                        if (response.body().getSequence().size() == 0) {
+                            Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            SdkPreferences.setCfId(activity, response.body().getCf_id());
+                            SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
+
+                            questions.addAll(response.body().getPre().getQuestions());
+                            questionSize = response.body().getPre().getQuestions().size();
+                            cmpSequance.addAll(response.body().getSequence());
+                            SdkPreferences.setCmpLength(activity, cmpSequance.size());
+                            SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
+                            getCampDetails(activity, token, cmpId);
+                        }
+                    } else {
+                        Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SdkPojo> call, Throwable t) {
+                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {

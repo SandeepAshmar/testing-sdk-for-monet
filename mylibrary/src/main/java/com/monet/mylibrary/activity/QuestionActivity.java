@@ -61,9 +61,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_questionSelect;
     private EditText edt_questionType;
-    private int questionNo = 0, questionSize, header = 0, child = 0;
-    private String cmp_Id, user_Id, typeFiveReason = "";
-    private ArrayList<SdkQuestions> questions = new ArrayList<>();
+    private int questionNo = 0, header = 0, child = 0;
+    public static int questionSize;
+    private String typeFiveReason = "";
+    public static ArrayList<SdkQuestions> questions = new ArrayList<>();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
     private RateAdapter rateAdapter;
@@ -79,10 +80,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int radioType;
     private Dialog dialog;
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
-    public static ArrayList<String> cmpSequance = new ArrayList<>();
     private ArrayList<String> selectedGridOptions = new ArrayList<>();
     private boolean flagAdapter = true;
-    private String apiToken, cf_id;
     private ProgressBar quesProgress;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
@@ -195,15 +194,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         btn_quesNext.setOnClickListener(this);
 
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
-
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        cmp_Id = extras.getString("cmpId");
-        user_Id = extras.getString("userId");
-
         gridLayoutManager = new GridLayoutManager(this, 5);
         radioLayoutManager = new LinearLayoutManager(this);
         rv_question.setLayoutManager(radioLayoutManager);
+
+        setQuestions();
     }
 
     @Override
@@ -216,53 +211,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             ll_quesQCardBtn.setVisibility(View.GONE);
             rl_quesQCard.setVisibility(View.GONE);
             ll_question.setVisibility(View.VISIBLE);
-            getCmpFlow();
         }
         if (i == R.id.btn_quesNext) {
             nextQuestion();
         }
-    }
-
-    private void getCmpFlow() {
-        quesProgress.setVisibility(View.VISIBLE);
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
-        pojoCall.enqueue(new Callback<SdkPojo>() {
-            @Override
-            public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
-                quesProgress.setVisibility(View.GONE);
-                if (response.body() == null) {
-                    Toast.makeText(getApplication().getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (response.body().getCode().equals("200")) {
-                        if (response.body().getSequence().size() == 0) {
-                            Toast.makeText(getApplicationContext(), "No Campaign flow is found", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-                        } else {
-
-                            cf_id = response.body().getCf_id();
-                            apiToken = "Bearer "+response.body().getApi_token();
-
-                            questions.addAll(response.body().getPre().getQuestions());
-                            questionSize = response.body().getPre().getQuestions().size();
-                            cmpSequance.addAll(response.body().getSequence());
-                            SdkPreferences.setCmpLengthCount(QuestionActivity.this, response.body().getSequence().size());
-                            Toast.makeText(QuestionActivity.this, "Frist Part is "+cmpSequance.get(0), Toast.LENGTH_SHORT).show();
-                            setQuestions();
-                        }
-                    } else {
-                        Toast.makeText(getApplication().getApplicationContext(), response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SdkPojo> call, Throwable t) {
-                quesProgress.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     private void setQuestions() {
@@ -443,6 +395,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void submitAnswer() {
         quesProgress.setVisibility(View.VISIBLE);
+        String cf_id = SdkPreferences.getCfId(this);
+        String cmp_Id = SdkPreferences.getCmpId(this);
+        String apiToken = SdkPreferences.getApiToken(this);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, "pre");
         Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
