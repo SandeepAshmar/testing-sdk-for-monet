@@ -265,7 +265,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void setQuestions() {
 
-        if(questionNo < questionSize){
+        if(questionNo == (questionSize-1)){
             btn_quesNext.setText("Next");
         }else{
             btn_quesNext.setText("Finish");
