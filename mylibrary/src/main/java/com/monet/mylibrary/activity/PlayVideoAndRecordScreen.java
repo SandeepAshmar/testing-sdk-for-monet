@@ -182,7 +182,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements YouTu
     }
 
     private void getVimeoMPFour() {
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        ApiInterface apiInterface = BaseUrl.getVimeoClient().create(ApiInterface.class);
         Call<VimeoPojo> pojoCall = apiInterface.getVideoDetails(video_url);
 
         pojoCall.enqueue(new Callback<VimeoPojo>() {
