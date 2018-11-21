@@ -37,6 +37,7 @@ import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.vimeoModel.VimeoPojo;
 import com.monet.mylibrary.utils.SdkConstant;
+import com.monet.mylibrary.utils.SdkPreferences;
 import com.pedro.encoder.input.video.Camera1ApiManager;
 import com.pedro.encoder.input.video.CameraHelper;
 import com.pedro.encoder.input.video.CameraOpenException;
@@ -69,7 +70,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements YouTu
     YouTubePlayer.OnInitializedListener onInitializedListener;
     //    String video_url = "http://dev.monetrewards.com/uploads/netflix/campaign_video/1871.mp4";
     // String video_url = "https://www.youtube.com/watch?v=TqFzNOxyk4w";
-    String video_url = "https://vimeo.com/146033641";
+//    String video_url = "https://vimeo.com/146033641";
+    String video_url = "";
     RelativeLayout videoView;
     ProgressBar progressbar;
     private Handler handler = new Handler();
@@ -89,6 +91,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements YouTu
         camera_icon = findViewById(R.id.camera_icon);
 
         handler1 = new Handler();
+
+        video_url = SdkPreferences.getVideoUrl(this);
 
         rtmpCamera1 = new RtmpCamera1(cameraView, this);
         if (!rtmpCamera1.isStreaming()) {

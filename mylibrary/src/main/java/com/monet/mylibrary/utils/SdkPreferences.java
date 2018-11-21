@@ -116,6 +116,18 @@ public class SdkPreferences {
         mPrefsEditor.commit();
     }
 
+    public static String getVideoUrl(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getString("videoUrl", "");
+    }
+
+    public static void setVideoUrl(Context ctx, String value) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putString("videoUrl", value);
+        mPrefsEditor.commit();
+    }
+
     public static void clearAllPreferences(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mPrefsEditor = mPrefs.edit();

@@ -137,6 +137,7 @@ public class LandingPage extends AppCompatActivity {
                             SdkPreferences.setCmpLength(activity, cmpSequance.size());
                             SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
                             getCampDetails(activity, token, cmpId);
+                            SdkPreferences.setVideoUrl(activity, response.body().getC_url());
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
