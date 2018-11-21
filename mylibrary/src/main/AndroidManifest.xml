@@ -6,7 +6,10 @@
 
     <application>
         <activity android:name=".activity.LandingPage" />
-        <activity android:name=".activity.QuestionActivity"></activity>
+        <activity android:name=".activity.QuestionActivity" />
+        <activity android:name=".activity.EmotionScreen" />
+        <activity android:name=".activity.ReactionScreen" />
+        <activity android:name=".activity.ThankyouPage"></activity>
     </application>
 
 </manifest>

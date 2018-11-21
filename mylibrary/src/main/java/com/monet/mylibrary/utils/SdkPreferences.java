@@ -91,4 +91,28 @@ public class SdkPreferences {
         mPrefsEditor.putString("cmp_id", value);
         mPrefsEditor.commit();
     }
+
+    public static int getCmpLengthCountFlag(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getInt("cmp_lengthCountFlag", 0);
+    }
+
+    public static void setCmpLengthCountFlag(Context ctx, Integer value) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putInt("cmp_lengthCountFlag", value);
+        mPrefsEditor.commit();
+    }
+
+    public static String getQuestionType(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getString("quesType", "");
+    }
+
+    public static void setQuestionType(Context ctx, String value) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putString("quesType", value);
+        mPrefsEditor.commit();
+    }
 }

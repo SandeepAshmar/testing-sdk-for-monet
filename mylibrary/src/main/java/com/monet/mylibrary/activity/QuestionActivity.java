@@ -398,8 +398,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         String cf_id = SdkPreferences.getCfId(this);
         String cmp_Id = SdkPreferences.getCmpId(this);
         String apiToken = SdkPreferences.getApiToken(this);
+        String questionType = SdkPreferences.getQuestionType(this);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, "pre");
+        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, questionType);
         Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override

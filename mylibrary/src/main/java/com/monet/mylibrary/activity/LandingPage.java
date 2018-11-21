@@ -27,6 +27,8 @@ import com.monet.mylibrary.model.question.SdkPre;
 import com.monet.mylibrary.model.question.SdkQuestions;
 import com.monet.mylibrary.utils.SdkPreferences;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -50,6 +52,7 @@ public class LandingPage extends AppCompatActivity {
     private static String cmp_Id, user_Id, cf_id, apiToken;
     private static ProgressBar landProgress;
     public static ArrayList<String> cmpSequance = new ArrayList<>();
+    public static ArrayList<String> arrayList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +92,10 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LandingPage.this, QuestionActivity.class);
-                startActivity(intent);
+                setScreen();
+//                Intent intent = new Intent(LandingPage.this, QuestionActivity.class);
+//                startActivity(intent);
+//                finish();
             }
         });
     }
@@ -123,10 +128,9 @@ public class LandingPage extends AppCompatActivity {
 
                             SdkPreferences.setCfId(activity, response.body().getCf_id());
                             SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
-
                             questions.addAll(response.body().getPre().getQuestions());
                             questionSize = response.body().getPre().getQuestions().size();
-                            cmpSequance.addAll(response.body().getSequence());
+                            arrayList.addAll(response.body().getSequence());
                             SdkPreferences.setCmpLength(activity, cmpSequance.size());
                             SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
                             getCampDetails(activity, token, cmpId);
@@ -177,5 +181,116 @@ public class LandingPage extends AppCompatActivity {
                 Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setScreen() {
+        int count = Integer.valueOf(SdkPreferences.getCmpLength(this));
+        int i = SdkPreferences.getCmpLengthCount(this);
+
+        if (count == 1) {
+            if (arrayList.size() > i) {
+                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+                    SdkPreferences.setQuestionType(this, "pre");
+//                    try {
+//                        stagingJson.put("2", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    startActivity(new Intent(this, QuestionActivity.class));
+                    finish();
+                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                    SdkPreferences.setQuestionType(this, "post");
+//                    try {
+//                        stagingJson.put("3", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    startActivity(new Intent(this, QuestionActivity.class));
+                    finish();
+                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+//                    try {
+//                        stagingJson.put("4", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    startActivity(new Intent(this, EmotionScreen.class));
+                    finish();
+                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+//                    try {
+//                        stagingJson.put("5", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    startActivity(new Intent(this, ReactionScreen.class));
+                    finish();
+                }
+            } else {
+                int flag = SdkPreferences.getCmpLengthCountFlag(this);
+                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
+//                try {
+//                    stagingJson.put("6", "1");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                startActivity(new Intent(this, ThankyouPage.class));
+                finish();
+            }
+        } else {
+            if (arrayList.size() > i) {
+                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+                    SdkPreferences.setQuestionType(this, "pre");
+//                    try {
+//                        stagingJson.put("2", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    startActivity(new Intent(this, QuestionActivity.class));
+                    finish();
+                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                    SdkPreferences.setQuestionType(this, "post");
+//                    try {
+//                        stagingJson.put("3", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    startActivity(new Intent(this, QuestionActivity.class));
+                    finish();
+                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+//                    try {
+//                        stagingJson.put("4", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    startActivity(new Intent(this, EmotionScreen.class));
+                    finish();
+                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                    SdkPreferences.setCmpLengthCount(this, i + 1);
+//                    try {
+//                        stagingJson.put("5", "1");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    startActivity(new Intent(this, ReactionScreen.class));
+                    finish();
+                }
+            } else {
+                int flag = SdkPreferences.getCmpLengthCountFlag(this);
+                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
+//                try {
+//                    stagingJson.put("6", "1");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                startActivity(new Intent(this, ThankyouPage.class));
+                finish();
+            }
+        }
     }
 }
