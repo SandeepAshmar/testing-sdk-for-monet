@@ -20,8 +20,6 @@ public class ImageSliderAdapter  extends PagerAdapter {
     }
 
 
-
-
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
@@ -35,7 +33,6 @@ public class ImageSliderAdapter  extends PagerAdapter {
     public int getCount() {
         return sliderImageId.length;
     }
-
 
 
     @Override

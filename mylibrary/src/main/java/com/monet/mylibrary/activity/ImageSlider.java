@@ -21,6 +21,4 @@ public class ImageSlider extends AppCompatActivity {
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
     }
-
-
 }

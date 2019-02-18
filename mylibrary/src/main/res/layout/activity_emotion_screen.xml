@@ -1,89 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
     tools:context=".activity.EmotionScreen">
 
-    <ScrollView
+    <androidx.core.view.ViewPager
+        android:id="@+id/imageSliderViewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/imageSliderCircleIndicator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/faceIns_firstBtnll"
-        android:layout_marginBottom="10dp">
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageSliderViewPager">
+    </me.relex.circleindicator.CircleIndicator>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center">
 
-            <FrameLayout
-                android:id="@+id/emotion_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"/>
 
-        </LinearLayout>
-
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/faceIns_firstBtnll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:weightSum="2">
-
-        <Button
-            android:id="@+id/btn_faceIns_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_exit"
-            android:text="exit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <Button
-            android:id="@+id/btn_faceIns_proceed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_pro_activate"
-            android:text="proceed"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/faceIns_secoundBtnll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/btn_faceIns_next"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_pro_activate"
-            android:text="Next"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
