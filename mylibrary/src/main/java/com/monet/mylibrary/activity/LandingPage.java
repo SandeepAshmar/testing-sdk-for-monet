@@ -216,9 +216,9 @@ public class LandingPage extends AppCompatActivity {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getResponse().size() <= 1) {
 
-                            tv_land_watch.setText("In the following study you will watch " + response.body().getResponse().size() + " short clip");
+                            tv_land_watch.setText("In the following study you will\n watch " + response.body().getResponse().size() + " short clip");
                         } else {
-                            tv_land_watch.append("In the following study you will watch " + response.body().getResponse().size() + " short clips");
+                            tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
                         }
                         detailsResponses.addAll(response.body().getResponse());
                         mAdapter.notifyDataSetChanged();
