@@ -4,4 +4,36 @@
     <string name="terms">I agree to the <u>Terms</u></string>
     <string name="question_first">This part records your\nanswers to a questionnaire</string>
     <string name="question_secound">In order to receive your reward\nyou answer the following\nquestions.</string>
+
+    <string name="must_agree">In order to receive your reward you \nmust agree and follow the 3 coming \ninstructions.</string>
+    <string name="look_screen">Look at the screen without \ncovering your face</string>
+    <string name="good_light">Be in good light</string>
+    <string name="keep_face">Keep your face inside the camera capture\n until the 3 dots are completed</string>
+    <string name="reaction_firstPart_textOne">You are now beggining part 1 of\nthe study, this part records your\nemotions</string>
+    <string name="reaction_firstPart_textTwo">In order to receive your reward\nyou must follow the coming\ninstructions</string>
+    <string name="reaction_thirdPartText">Click these icons at any time\nto pause the video and\nshare your reactions</string>
+
+    <string name="reaction_A">like</string>
+    <string name="reaction_B">love</string>
+    <string name="reaction_C">Want</string>
+    <string name="reaction_D">memorable</string>
+    <string name="reaction_E">dislike</string>
+    <string name="reaction_F">accurate</string>
+    <string name="reaction_G">misleading</string>
+    <string name="reaction_H">engaging</string>
+    <string name="reaction_I">boring</string>
+    <string name="reaction_"><pre>%1$s</pre></string>
+
+    <string name="reaction_fourText_one">A dialog box will appear when\nyou click on a reaction button</string>
+    <string name="reaction_fourText_two">Type the reason of your\nreaction, and press <b>Enter</b>\nto continue watching</string>
+
+    <string name="complete_first">You have completed the \nfirst part of the campaign</string>
+    <string name="complete_secound">You have completed the \nsecound part of the campaign</string>
+    <string name="complete_third">You have completed the \nthird part of the campaign</string>
+    <string name="complete_fourth">You have completed the \nforth part of the campaign</string>
+    <string name="complete_congrats">Congratulations! you have completed the campaign</string>
+    <string name="proceed_first">Please procees to complete \nthe second part.</string>
+    <string name="proceed_secound">Please procees to complete \nthe third part.</string>
+    <string name="proceed_third">Please procees to complete \nthe forth part.</string>
+    <string name="proceed_forth">Thank you for your participation!</string>
 </resources>

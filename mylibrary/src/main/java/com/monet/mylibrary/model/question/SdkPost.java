@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class SdkPost {
 
-    private ArrayList<SdkQuestions> Questions;
+    private ArrayList<SdkPostQuestion> Questions;
 
-    public ArrayList<SdkQuestions> getQuestions ()
+    public ArrayList<SdkPostQuestion> getQuestions ()
     {
         return Questions;
     }
 
-    public void setQuestions (ArrayList<SdkQuestions> Questions)
+    public void setQuestions (ArrayList<SdkPostQuestion> Questions)
     {
         this.Questions = Questions;
     }

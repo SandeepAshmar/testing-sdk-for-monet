@@ -41,7 +41,7 @@ public class RadioTypeAdapter extends RecyclerView.Adapter<RadioTypeAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final SdkOptions options = sdkOptions.get(position);
         holder.rd_opetionValue.setText(options.getOption_value());
 
@@ -56,6 +56,7 @@ public class RadioTypeAdapter extends RecyclerView.Adapter<RadioTypeAdapter.View
         });
 
         colorChange(holder, options);
+
     }
 
     @Override

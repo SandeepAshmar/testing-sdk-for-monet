@@ -1,20 +1,17 @@
 package com.monet.mylibrary.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,8 +32,8 @@ import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.question.SdkPojo;
-import com.monet.mylibrary.model.question.SdkQuestions;
+import com.monet.mylibrary.model.question.SdkPostQuestion;
+import com.monet.mylibrary.model.question.SdkPreQuestion;
 import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.model.survay.SurvayPost;
 import com.monet.mylibrary.utils.AnswerSavedClass;
@@ -53,6 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
+import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,7 +64,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int questionNo = 0, header = 0, child = 0;
     public static int questionSize;
     private String typeFiveReason = "";
-    public static ArrayList<SdkQuestions> questions = new ArrayList<>();
+    public static String quesType = "";
+    public static ArrayList<SdkPreQuestion> preQuestions = new ArrayList<>();
+    public static ArrayList<SdkPostQuestion> postQuestions = new ArrayList<>();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
     private RateAdapter rateAdapter;
@@ -109,12 +109,22 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
 
             if (questionType.equalsIgnoreCase("5")) {
-                String yes = questions.get(questionNo).getOptions().get(position).getOption_value();
-                if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
-                    showDialog();
+                if (quesType.equalsIgnoreCase("pre")) {
+                    String yes = preQuestions.get(questionNo).getOptions().get(position).getOption_value();
+                    if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
+                        showDialog();
+                    } else {
+                        typeFiveReason = "";
+                    }
                 } else {
-                    typeFiveReason = "";
+                    String yes = postQuestions.get(questionNo).getOptions().get(position).getOption_value();
+                    if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
+                        showDialog();
+                    } else {
+                        typeFiveReason = "";
+                    }
                 }
+
             }
         }
     };
@@ -149,12 +159,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
             btn_quesNext.setEnabled(true);
 
-            selectedAnsId = String.valueOf(position+1);
+            selectedAnsId = String.valueOf(position + 1);
 
-            if(savedQuesAndAnswers == null || savedQuesAndAnswers.getRateQuesId().size() == 0){
+            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getRateQuesId().size() == 0) {
                 savedQuesAndAnswers.setRateQuesId(selectedQuesId);
                 savedQuesAndAnswers.setRateAnsId(selectedAnsId);
-            }else{
+            } else {
                 if (savedQuesAndAnswers.getRateQuesId().contains(selectedQuesId)) {
                     int pos = savedQuesAndAnswers.getRateQuesId().indexOf(selectedQuesId);
                     savedQuesAndAnswers.getRateAnsId().set(pos, selectedAnsId);
@@ -163,7 +173,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     savedQuesAndAnswers.setRateAnsId(selectedAnsId);
                 }
             }
-
         }
     };
 
@@ -200,6 +209,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         radioLayoutManager = new LinearLayoutManager(this);
         rv_question.setLayoutManager(radioLayoutManager);
 
+        quesType = SdkPreferences.getQuestionType(this);
+
+        if (quesType.equalsIgnoreCase("Pre")) {
+            questionSize = preQuestions.size();
+        } else {
+            questionSize = postQuestions.size();
+        }
         setQuestions();
     }
 
@@ -221,158 +237,300 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void setQuestions() {
 
-        if(questionNo == (questionSize-1)){
-            btn_quesNext.setText("Finish");
-        }else{
-            btn_quesNext.setText("Next");
-        }
+        if (quesType.equalsIgnoreCase("Pre")) {
+            if (questionNo == (questionSize - 1)) {
+                btn_quesNext.setText("Finish");
+            } else {
+                btn_quesNext.setText("Next");
+            }
 
-        if (questionNo == 0) {
-            tv_questionNo.setText("Q1.");
+            if (questionNo == 0) {
+                tv_questionNo.setText("Q1.");
+            } else {
+                tv_questionNo.setText("Q" + (questionNo + 1) + ".");
+            }
+
+            tv_question.setText(preQuestions.get(questionNo).getQuestion());
+
+            if (preQuestions.get(questionNo).getQuestion_type().equals("1")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "1";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                tv_questionSelect.setText("Please select 1 answer");
+                radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                tv_questionSelect.setText("Please Select all that apply");
+                questionType = "2";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, preQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(checkBoxTypeAdapter);
+
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("3")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.VISIBLE);
+                edt_questionType.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                questionType = "3";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
+                rv_question.setLayoutManager(gridLayoutManager);
+                rateAdapter = new RateAdapter(this, radioType, rateItemClick, selectedQuesId);
+                rv_question.setAdapter(rateAdapter);
+                tv_questionSelect.setText("Please rate on a scale of 1-" + radioType + " with " + radioType + " being the strongest likely");
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("4")) {
+                tv_questionSelect.setText("Please type your answer");
+                rv_question.setVisibility(View.GONE);
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.VISIBLE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                questionType = "4";
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                tv_questionSelect.setText("Please select 1 answer");
+                questionType = "5";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                radioTypeAdapter = new RadioTypeAdapter(this, preQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("6")) {
+                rv_question.setVisibility(View.GONE);
+                rate_layout.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.VISIBLE);
+                edt_questionType.setVisibility(View.GONE);
+                tv_questionSelect.setText("Grid Choice");
+                questionType = "6";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                if (flagAdapter) {
+                    createGridAdapter();
+                    flagAdapter = false;
+                }
+            }
         } else {
-            tv_questionNo.setText("Q" + (questionNo + 1) + ".");
-        }
+            if (questionNo == (questionSize - 1)) {
+                btn_quesNext.setText("Finish");
+            } else {
+                btn_quesNext.setText("Next");
+            }
 
-        tv_question.setText(questions.get(questionNo).getQuestion());
+            if (questionNo == 0) {
+                tv_questionNo.setText("Q1.");
+            } else {
+                tv_questionNo.setText("Q" + (questionNo + 1) + ".");
+            }
 
-        if (questions.get(questionNo).getQuestion_type().equals("1")) {
-            rv_question.setVisibility(View.VISIBLE);
-            rate_layout.setVisibility(View.GONE);
-            grid_Linear_Layout.setVisibility(View.GONE);
-            edt_questionType.setVisibility(View.GONE);
-            questionType = "1";
-            selectedQuesId = questions.get(questionNo).getQuestion_id();
-            tv_questionSelect.setText("Please select 1 answer");
-            radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, questions.get(questionNo).getOptions(), radioClickListner);
-            rv_question.setAdapter(radioTypeAdapter);
+            tv_question.setText(postQuestions.get(questionNo).getQuestion());
 
-        } else if (questions.get(questionNo).getQuestion_type().equals("2")) {
-            rv_question.setVisibility(View.VISIBLE);
-            rate_layout.setVisibility(View.GONE);
-            edt_questionType.setVisibility(View.GONE);
-            grid_Linear_Layout.setVisibility(View.GONE);
-            tv_questionSelect.setText("Please Select all that apply");
-            questionType = "2";
-            selectedQuesId = questions.get(questionNo).getQuestion_id();
-            checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, questions.get(questionNo).getOptions());
-            rv_question.setAdapter(checkBoxTypeAdapter);
+            if (postQuestions.get(questionNo).getQuestion_type().equals("1")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "1";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                tv_questionSelect.setText("Please select 1 answer");
+                radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, postQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("2")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                tv_questionSelect.setText("Please Select all that apply");
+                questionType = "2";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, postQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(checkBoxTypeAdapter);
 
-        } else if (questions.get(questionNo).getQuestion_type().equals("3")) {
-            rv_question.setVisibility(View.VISIBLE);
-            rate_layout.setVisibility(View.VISIBLE);
-            edt_questionType.setVisibility(View.GONE);
-            grid_Linear_Layout.setVisibility(View.GONE);
-            questionType = "3";
-            selectedQuesId = questions.get(questionNo).getQuestion_id();
-            radioType = Integer.parseInt(questions.get(questionNo).getRadio_type());
-            rv_question.setLayoutManager(gridLayoutManager);
-            rateAdapter = new RateAdapter(this, radioType, rateItemClick, selectedQuesId);
-            rv_question.setAdapter(rateAdapter);
-            tv_questionSelect.setText("Please rate on a scale of 1-" + radioType + " with " + radioType + " being the strongest likely");
-        } else if (questions.get(questionNo).getQuestion_type().equals("4")) {
-            tv_questionSelect.setText("Please type your answer");
-            rv_question.setVisibility(View.GONE);
-            selectedQuesId = questions.get(questionNo).getQuestion_id();
-            rate_layout.setVisibility(View.GONE);
-            edt_questionType.setVisibility(View.VISIBLE);
-            grid_Linear_Layout.setVisibility(View.GONE);
-            questionType = "4";
-        } else if (questions.get(questionNo).getQuestion_type().equals("5")) {
-            rv_question.setVisibility(View.VISIBLE);
-            rate_layout.setVisibility(View.GONE);
-            edt_questionType.setVisibility(View.GONE);
-            grid_Linear_Layout.setVisibility(View.GONE);
-            tv_questionSelect.setText("Please select 1 answer");
-            questionType = "5";
-            selectedQuesId = questions.get(questionNo).getQuestion_id();
-            radioTypeAdapter = new RadioTypeAdapter(this, questions.get(questionNo).getOptions(), radioClickListner);
-            rv_question.setAdapter(radioTypeAdapter);
-        } else if (questions.get(questionNo).getQuestion_type().equals("6")) {
-            rv_question.setVisibility(View.GONE);
-            rate_layout.setVisibility(View.GONE);
-            grid_Linear_Layout.setVisibility(View.VISIBLE);
-            edt_questionType.setVisibility(View.GONE);
-            tv_questionSelect.setText("Grid Choice");
-            questionType = "6";
-            selectedQuesId = questions.get(questionNo).getQuestion_id();
-            if (flagAdapter) {
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("3")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.VISIBLE);
+                edt_questionType.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                questionType = "3";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                radioType = Integer.parseInt(postQuestions.get(questionNo).getRadio_type());
+                rv_question.setLayoutManager(gridLayoutManager);
+                rateAdapter = new RateAdapter(this, radioType, rateItemClick, selectedQuesId);
+                rv_question.setAdapter(rateAdapter);
+                tv_questionSelect.setText("Please rate on a scale of 1-" + radioType + " with " + radioType + " being the strongest likely");
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("4")) {
+                tv_questionSelect.setText("Please type your answer");
+                rv_question.setVisibility(View.GONE);
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.VISIBLE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                questionType = "4";
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.GONE);
+                tv_questionSelect.setText("Please select 1 answer");
+                questionType = "5";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                radioTypeAdapter = new RadioTypeAdapter(this, postQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("6")) {
+                rv_question.setVisibility(View.GONE);
+                rate_layout.setVisibility(View.GONE);
+                grid_Linear_Layout.setVisibility(View.VISIBLE);
+                edt_questionType.setVisibility(View.GONE);
+                tv_questionSelect.setText("Grid Choice");
+                questionType = "6";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                grid_Linear_Layout.removeAllViewsInLayout();
+                selectedGridOptions.clear();
                 createGridAdapter();
-                flagAdapter = false;
             }
         }
     }
 
     private void createGridAdapter() {
-        header = questions.get(questionNo).getOptions().size();
-        child = questions.get(questionNo).getOptions().get(0).getGrid().size();
-        selectedQuesId = questions.get(questionNo).getQuestion_id();
+        if (quesType.equalsIgnoreCase("Pre")) {
+            header = preQuestions.get(questionNo).getOptions().size();
+            child = preQuestions.get(questionNo).getOptions().get(0).getGrid().size();
+            selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
 
-        RadioButton radioButton = null;
-        RadioGroup radioGroup = null;
+            RadioButton radioButton = null;
+            RadioGroup radioGroup = null;
 
-        for (int i = 0; i < header; i++) {
-            TextView option_Header = new TextView(getApplicationContext());
-            radioGroup = new RadioGroup(getApplicationContext());
-            radioGroup.setPadding(2, 5, 2, 20);
-            option_Header = new TextView(getApplicationContext());
-            radioGroup = new RadioGroup(getApplicationContext());
-            radioGroup.setVisibility(View.VISIBLE);
-            option_Header.setText(questions.get(questionNo).getOptions().get(i).getOption_value());
-            option_Header.setTextSize(16);
-            option_Header.setTypeface(null, Typeface.BOLD);
-            option_Header.setPadding(10, 20, 10, 20);
-            option_Header.setId(Integer.parseInt(questions.get(questionNo).getOptions().get(i).getOption_id()));
-            option_Header.setTextColor(Color.BLACK);
+            for (int i = 0; i < header; i++) {
+                TextView option_Header = new TextView(getApplicationContext());
+                radioGroup = new RadioGroup(getApplicationContext());
+                radioGroup.setPadding(2, 5, 2, 20);
+                option_Header = new TextView(getApplicationContext());
+                radioGroup = new RadioGroup(getApplicationContext());
+                radioGroup.setVisibility(View.VISIBLE);
+                option_Header.setText(preQuestions.get(questionNo).getOptions().get(i).getOption_value());
+                option_Header.setTextSize(16);
+                option_Header.setTypeface(null, Typeface.BOLD);
+                option_Header.setPadding(10, 20, 10, 20);
+                option_Header.setId(Integer.parseInt(preQuestions.get(questionNo).getOptions().get(i).getOption_id()));
+                option_Header.setTextColor(Color.BLACK);
 
-            for (int j = 0; j < child; j++) {
-                radioButton = new RadioButton(getApplicationContext());
-                radioButton.setText(questions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_value());
-                radioButton.setId(Integer.parseInt(questions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_id()));
-                radioGroup.addView(radioButton);
-                radioButton.setId(Integer.parseInt(questions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_id()));
+                for (int j = 0; j < child; j++) {
+                    radioButton = new RadioButton(getApplicationContext());
+                    radioButton.setText(preQuestions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_value());
+                    radioButton.setId(Integer.parseInt(preQuestions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_id()));
+                    radioGroup.addView(radioButton);
+                    radioButton.setId(Integer.parseInt(preQuestions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_id()));
+                }
+                grid_Linear_Layout.addView(option_Header);
+                grid_Linear_Layout.addView(radioGroup);
+                final RadioGroup finalRadioGroup = radioGroup;
+                final TextView finalOption_Header = option_Header;
+
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                        String optionId = String.valueOf(finalOption_Header.getId());
+                        String gridOptionId = String.valueOf(finalRadioGroup.getCheckedRadioButtonId());
+
+                        try {
+                            quesJson.put(selectedQuesId, dataPostJson1);
+                            dataPostJson1.put("options", quesJsonGrid);
+                            quesJsonGrid.put(optionId, gridOptionId);
+                            dataPostJson1.put("type", "6");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        Log.d("json", "json "+quesJson);
+
+                        selectedGridOptions.add(String.valueOf(finalOption_Header.getId()));
+
+                        if (selectedGridOptions.size() == header) {
+                            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
+                            btn_quesNext.setEnabled(true);
+                        }
+                    }
+                });
             }
-            grid_Linear_Layout.addView(option_Header);
-            grid_Linear_Layout.addView(radioGroup);
-            final RadioGroup finalRadioGroup = radioGroup;
-            final TextView finalOption_Header = option_Header;
+        } else {
+            header = postQuestions.get(questionNo).getOptions().size();
+            child = postQuestions.get(questionNo).getOptions().get(0).getGrid().size();
+            selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
 
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
+            RadioButton radioButton = null;
+            RadioGroup radioGroup = null;
 
-                    String optionId = String.valueOf(finalOption_Header.getId());
-                    String gridOptionId = String.valueOf(finalRadioGroup.getCheckedRadioButtonId());
+            for (int i = 0; i < header; i++) {
+                TextView option_Header = new TextView(getApplicationContext());
+                radioGroup = new RadioGroup(getApplicationContext());
+                radioGroup.setPadding(2, 5, 2, 20);
+                option_Header = new TextView(getApplicationContext());
+                radioGroup = new RadioGroup(getApplicationContext());
+                radioGroup.setVisibility(View.VISIBLE);
+                option_Header.setText(postQuestions.get(questionNo).getOptions().get(i).getOption_value());
+                option_Header.setTextSize(16);
+                option_Header.setTypeface(null, Typeface.BOLD);
+                option_Header.setPadding(10, 20, 10, 20);
+                option_Header.setId(Integer.parseInt(postQuestions.get(questionNo).getOptions().get(i).getOption_id()));
+                option_Header.setTextColor(Color.BLACK);
 
-                    if (savedQuesAndAnswers == null || savedQuesAndAnswers.getGridQuesIds().size() == 0 || savedQuesAndAnswers.getGridOptionIds().size() == 0
-                            || savedQuesAndAnswers.getGridAnsIds().size() == 0) {
-                        savedQuesAndAnswers.setGridQuesIds(selectedQuesId);
-                        savedQuesAndAnswers.setGridOptionIds(String.valueOf(finalOption_Header.getId()));
-                        savedQuesAndAnswers.setGridAnsIds(String.valueOf(finalRadioGroup.getCheckedRadioButtonId()));
-                    } else {
-                        if (savedQuesAndAnswers.getGridQuesIds().contains(selectedAnsId)) {
-                            if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
-                                int optPos = savedQuesAndAnswers.getGridOptionIds().indexOf(optionId);
-                                savedQuesAndAnswers.getGridAnsIds().set(optPos, gridOptionId);
-                            } else {
-                                savedQuesAndAnswers.setGridOptionIds(String.valueOf(finalOption_Header.getId()));
-                                savedQuesAndAnswers.setGridAnsIds(String.valueOf(finalRadioGroup.getCheckedRadioButtonId()));
-                            }
-                        } else {
+                for (int j = 0; j < child; j++) {
+                    radioButton = new RadioButton(getApplicationContext());
+                    radioButton.setText(postQuestions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_value());
+                    radioButton.setId(Integer.parseInt(postQuestions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_id()));
+                    radioGroup.addView(radioButton);
+                    radioButton.setId(Integer.parseInt(postQuestions.get(questionNo).getOptions().get(i).getGrid().get(j).getGrid_id()));
+                }
+                grid_Linear_Layout.addView(option_Header);
+                grid_Linear_Layout.addView(radioGroup);
+                final RadioGroup finalRadioGroup = radioGroup;
+                final TextView finalOption_Header = option_Header;
+
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                        String optionId = String.valueOf(finalOption_Header.getId());
+                        String gridOptionId = String.valueOf(finalRadioGroup.getCheckedRadioButtonId());
+
+                        if (savedQuesAndAnswers == null || savedQuesAndAnswers.getGridQuesIds().size() == 0 || savedQuesAndAnswers.getGridOptionIds().size() == 0
+                                || savedQuesAndAnswers.getGridAnsIds().size() == 0) {
                             savedQuesAndAnswers.setGridQuesIds(selectedQuesId);
                             savedQuesAndAnswers.setGridOptionIds(String.valueOf(finalOption_Header.getId()));
                             savedQuesAndAnswers.setGridAnsIds(String.valueOf(finalRadioGroup.getCheckedRadioButtonId()));
+                        } else {
+                            if (savedQuesAndAnswers.getGridQuesIds().contains(selectedAnsId)) {
+                                if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
+                                    int optPos = savedQuesAndAnswers.getGridOptionIds().indexOf(optionId);
+                                    savedQuesAndAnswers.getGridAnsIds().set(optPos, gridOptionId);
+                                } else {
+                                    savedQuesAndAnswers.setGridOptionIds(String.valueOf(finalOption_Header.getId()));
+                                    savedQuesAndAnswers.setGridAnsIds(String.valueOf(finalRadioGroup.getCheckedRadioButtonId()));
+                                }
+                            } else {
+                                savedQuesAndAnswers.setGridQuesIds(selectedQuesId);
+                                savedQuesAndAnswers.setGridOptionIds(String.valueOf(finalOption_Header.getId()));
+                                savedQuesAndAnswers.setGridAnsIds(String.valueOf(finalRadioGroup.getCheckedRadioButtonId()));
+                            }
+                        }
+
+                        selectedGridOptions.add(String.valueOf(finalOption_Header.getId()));
+
+                        if (selectedGridOptions.size() == header) {
+                            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
+                            btn_quesNext.setEnabled(true);
                         }
                     }
-
-                    selectedGridOptions.add(String.valueOf(finalOption_Header.getId()));
-
-                    if (selectedGridOptions.size() == header) {
-                        btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
-                        btn_quesNext.setEnabled(true);
-                    }
-                }
-            });
+                });
+            }
         }
+
     }
 
     private void nextQuestion() {
@@ -400,9 +558,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         String cf_id = SdkPreferences.getCfId(this);
         String cmp_Id = SdkPreferences.getCmpId(this);
         String apiToken = SdkPreferences.getApiToken(this);
-        String questionType = SdkPreferences.getQuestionType(this);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, questionType);
+        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, quesType);
         Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
@@ -442,7 +599,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             btn_quesNext.setBackgroundResource(R.drawable.btn_pro_gray);
             btn_quesNext.setEnabled(false);
 
-            if(selectedGridOptions.size() !=0){
+            if (selectedGridOptions.size() != 0) {
                 if (selectedGridOptions.size() == header) {
                     btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
                     btn_quesNext.setEnabled(true);
@@ -458,45 +615,70 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setAnsJson() throws JSONException {
-
-        if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
-            dataPostJson1 = new JSONObject();
-            quesJson.put(selectedQuesId, dataPostJson1);
-            dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-            dataPostJson1.put("type", "1");
-        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
-            dataPostJson1 = new JSONObject();
-            quesJson.put(selectedQuesId, dataPostJson1);
-            dataPostJson1.put("selectedOptions", jsonArray2);
-            for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
-                jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
+        if (quesType.equalsIgnoreCase("Pre")) {
+            if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+                dataPostJson1.put("type", "1");
+            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("selectedOptions", jsonArray2);
+                for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
+                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
+                }
+                dataPostJson1.put("type", "2");
+            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+                dataPostJson1.put("type", "3");
+            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("4")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", edt_questionType.getText().toString());
+                dataPostJson1.put("type", "4");
+            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("5")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("id", selectedAnsId);
+                dataPostJson1.put("text", typeFiveReason);
+                dataPostJson1.put("type", "5");
             }
-            dataPostJson1.put("type", "2");
-        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
-            dataPostJson1 = new JSONObject();
-            quesJson.put(selectedQuesId, dataPostJson1);
-            dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-            dataPostJson1.put("type", "3");
-        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("4")) {
-            dataPostJson1 = new JSONObject();
-            quesJson.put(selectedQuesId, dataPostJson1);
-            dataPostJson1.put("options", edt_questionType.getText().toString());
-            dataPostJson1.put("type", "4");
-        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("5")) {
-            dataPostJson1 = new JSONObject();
-            quesJson.put(selectedQuesId, dataPostJson1);
-            dataPostJson1.put("id", selectedAnsId);
-            dataPostJson1.put("text", typeFiveReason);
-            dataPostJson1.put("type", "5");
-        } else if (questions.get(questionNo).getQuestion_type().equalsIgnoreCase("6")) {
-            dataPostJson1 = new JSONObject();
-            quesJson.put(selectedQuesId, dataPostJson1);
-            dataPostJson1.put("options", quesJsonGrid);
-            for (int i = 0; i < savedQuesAndAnswers.getGridAnsIds().size(); i++) {
-                quesJsonGrid.put(savedQuesAndAnswers.getGridOptionIds().get(i), savedQuesAndAnswers.getGridAnsIds().get(i));
+        } else {
+            if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+                dataPostJson1.put("type", "1");
+            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("selectedOptions", jsonArray2);
+                for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
+                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
+                }
+                dataPostJson1.put("type", "2");
+            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+                dataPostJson1.put("type", "3");
+            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("4")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", edt_questionType.getText().toString());
+                dataPostJson1.put("type", "4");
+            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("5")) {
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("id", selectedAnsId);
+                dataPostJson1.put("text", typeFiveReason);
+                dataPostJson1.put("type", "5");
             }
-            dataPostJson1.put("type", "6");
         }
+
     }
 
     @SuppressLint("NewApi")
@@ -505,12 +687,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             public CharSequence filter(CharSequence source, int start,
                                        int end, Spanned dest, int dstart, int dend) {
 
-                for (int i = start;i < end;i++) {
+                for (int i = start; i < end; i++) {
                     if (!Character.isLetterOrDigit(source.charAt(i)) &&
                             !Character.toString(source.charAt(i)).equals("_") &&
                             !Character.toString(source.charAt(i)).equals("-") &&
-                            !Character.toString(source.charAt(i)).equals(" "))
-                    {
+                            !Character.toString(source.charAt(i)).equals(" ")) {
                         return "";
                     }
                 }
@@ -550,8 +731,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         dataPostJson1 = null;
         quesJson = null;
         jsonArray2 = new JSONArray();
-        questions.clear();
-
         savedQuesAndAnswers.getCheckAnsId().clear();
         savedQuesAndAnswers.getCheckQuesId().clear();
         savedQuesAndAnswers.getGridAnsIds().clear();
@@ -559,6 +738,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         savedQuesAndAnswers.getGridQuesIds().clear();
         savedQuesAndAnswers.getRadioAnsIds().clear();
         savedQuesAndAnswers.getRadioQuesIds().clear();
+        questionNo = 0;
+        questionSize = 0;
+
+        if (quesType.equalsIgnoreCase("Pre")) {
+            preQuestions.clear();
+        } else {
+            postQuestions.clear();
+        }
     }
 
     private void setScreen() {
@@ -569,51 +756,46 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     SdkPreferences.setQuestionType(this, "pre");
-//                    try {
-//                        stagingJson.put("2", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     SdkPreferences.setQuestionType(this, "post");
-//                    try {
-//                        stagingJson.put("3", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("3", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("4", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("4", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("5", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("5", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = SdkPreferences.getCmpLengthCountFlag(this);
                 SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-//                try {
-//                    stagingJson.put("6", "1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    stagingJson.put("6", "1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -621,51 +803,51 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     SdkPreferences.setQuestionType(this, "pre");
-//                    try {
-//                        stagingJson.put("2", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("2", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     SdkPreferences.setQuestionType(this, "post");
-//                    try {
-//                        stagingJson.put("3", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("3", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("4", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("4", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("5", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("5", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = SdkPreferences.getCmpLengthCountFlag(this);
                 SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-//                try {
-//                    stagingJson.put("6", "1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    stagingJson.put("6", "1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }

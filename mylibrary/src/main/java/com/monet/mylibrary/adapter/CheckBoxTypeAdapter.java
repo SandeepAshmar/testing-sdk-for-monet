@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
+
 import java.util.ArrayList;
+
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
 public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapter.ViewHolder> {

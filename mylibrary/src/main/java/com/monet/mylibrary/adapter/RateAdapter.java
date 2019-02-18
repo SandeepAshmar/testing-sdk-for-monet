@@ -44,7 +44,7 @@ public class RateAdapter extends RecyclerView.Adapter<RateAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         i = i + 1;
         holder.tv_rate.setText(String.valueOf(i));
 
@@ -75,7 +75,6 @@ public class RateAdapter extends RecyclerView.Adapter<RateAdapter.ViewHolder> {
             holder.rate_view.setBackgroundResource(R.drawable.circle);
             holder.tv_rate.setTextColor(Color.parseColor("#000000"));
         }
-
 
     }
 

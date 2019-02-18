@@ -1,7 +1,6 @@
 package com.monet.mylibrary.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,24 +18,24 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.LandAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.model.YoutubePojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
-import com.monet.mylibrary.model.question.PreQuestions;
 import com.monet.mylibrary.model.question.SdkPojo;
-import com.monet.mylibrary.model.question.SdkPre;
-import com.monet.mylibrary.model.question.SdkQuestions;
 import com.monet.mylibrary.utils.SdkPreferences;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.activity.QuestionActivity.questions;
-import static com.monet.mylibrary.activity.QuestionActivity.questionSize;
+import static com.monet.mylibrary.activity.QuestionActivity.postQuestions;
+import static com.monet.mylibrary.activity.QuestionActivity.preQuestions;
 import static com.monet.mylibrary.utils.SdkPreferences.clearAllPreferences;
 
 public class LandingPage extends AppCompatActivity {
@@ -47,35 +46,35 @@ public class LandingPage extends AppCompatActivity {
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
     protected static ArrayList<String> postQuestion = new ArrayList<>();
-    protected static ArrayList<PreQuestions> preQuestions = new ArrayList<>();
     private static Button btn_landExit, btn_landProceed;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, cf_id, apiToken;
     private static ProgressBar landProgress;
     public static ArrayList<String> cmpSequance = new ArrayList<>();
     public static ArrayList<String> arrayList = new ArrayList<String>();
-
+    private static String videoUrl = "";
+    public static JSONObject stagingJson = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        mRecycler = findViewById(R.id.recyler_land);
-        tv_land_watch = findViewById(R.id.tv_land_watch);
-        btn_landExit = findViewById(R.id.btn_landExit);
-        btn_landProceed = findViewById(R.id.btn_landProceed);
-        land_chack = findViewById(R.id.land_chack);
-        landProgress = findViewById(R.id.landProgress);
+//        mRecycler = findViewById(R.id.recyler_land);
+//        tv_land_watch = findViewById(R.id.tv_land_watch);
+//        btn_landExit = findViewById(R.id.btn_landExit);
+//        btn_landProceed = findViewById(R.id.btn_landProceed);
+//        land_chack = findViewById(R.id.land_chack);
+//        landProgress = findViewById(R.id.landProgress);
 
-        mAdapter = new LandAdapter(this, detailsResponses);
+        mAdapter = new LandAdapter(LandingPage.this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
 
-        clearAllPreferences(this);
         arrayList.clear();
 
         btn_landExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btn_landExit.setClickable(false);
                 onBackPressed();
             }
         });
@@ -96,26 +95,70 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setScreen();
-//                Intent intent = new Intent(LandingPage.this, QuestionActivity.class);
-//                startActivity(intent);
-//                finish();
+                btn_landProceed.setClickable(false);
+                if(videoUrl.contains("youtube")){
+                    getVideoDetails();
+                }else{
+                    setScreen();
+                }
             }
         });
     }
 
-    public static void startCampaign(Activity activity, String token, String cmpId, String userId) {
+    public static void startCampaign(Activity activity, String cmpId, String userId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
+        clearAllPreferences(activity);
         preQuestions.clear();
         postQuestion.clear();
+        arrayList.clear();
         cmp_Id = cmpId;
         user_Id = userId;
-        apiToken = token;
-        getCmpFlow(activity, token, cmpId);
+        getCmpFlow(activity, cmpId);
     }
 
-    private static void getCmpFlow(final Activity activity, final String token, final String cmpId) {
+    private void getVideoDetails() {
+        landProgress.setVisibility(View.VISIBLE);
+        ApiInterface apiInterface = BaseUrl.getYoutubeRetrofit().create(ApiInterface.class);
+        Call<List<YoutubePojo>> listCall = apiInterface.getYoutubeUrl("?url=" + videoUrl);
+        listCall.enqueue(new Callback<List<YoutubePojo>>() {
+            @Override
+            public void onResponse(Call<List<YoutubePojo>> call, Response<List<YoutubePojo>> response) {
+                landProgress.setVisibility(View.GONE);
+                if (response.body() == null) {
+                    Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (response.body().get(0).getReason() == null) {
+                        int size = response.body().size();
+                        for (int i = 0; i < size; i++) {
+                            if (response.body().get(i).getQuality().contains("720")) {
+                                videoUrl = response.body().get(i).getUrl();
+                            } else if (i == size - 1) {
+                                videoUrl = response.body().get(0).getUrl();
+                            }
+                        }
+                        if (videoUrl.contains("=us")) {
+                            Toast.makeText(getApplicationContext(), "Sorry, This video can't play in your country", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            SdkPreferences.setVideoUrl(getApplicationContext(), videoUrl);
+                            setScreen();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.body().get(0).getReason(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<YoutubePojo>> call, Throwable t) {
+                landProgress.setVisibility(View.GONE);
+                Toast.makeText(LandingPage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private static void getCmpFlow(final Activity activity, final String cmpId) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
@@ -149,13 +192,15 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getCf_id());
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
-        questions.addAll(response.body().getPre().getQuestions());
-        questionSize = response.body().getPre().getQuestions().size();
+        preQuestions.addAll(response.body().getPre().getQuestions());
+        postQuestions.addAll(response.body().getPost().getQuestions());
         arrayList.addAll(response.body().getSequence());
-        SdkPreferences.setCmpLength(activity, cmpSequance.size());
+        SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
-        getCampDetails(activity, apiToken, cmp_Id);
         SdkPreferences.setVideoUrl(activity, response.body().getC_url());
+        videoUrl = response.body().getC_url();
+        apiToken = SdkPreferences.getApiToken(activity);
+        getCampDetails(activity, apiToken, cmp_Id);
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
@@ -200,51 +245,46 @@ public class LandingPage extends AppCompatActivity {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     SdkPreferences.setQuestionType(this, "pre");
-//                    try {
-//                        stagingJson.put("2", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     SdkPreferences.setQuestionType(this, "post");
-//                    try {
-//                        stagingJson.put("3", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("3", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("4", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("4", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("5", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("5", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = SdkPreferences.getCmpLengthCountFlag(this);
                 SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-//                try {
-//                    stagingJson.put("6", "1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    stagingJson.put("6", "1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -252,51 +292,51 @@ public class LandingPage extends AppCompatActivity {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     SdkPreferences.setQuestionType(this, "pre");
-//                    try {
-//                        stagingJson.put("2", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("2", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     SdkPreferences.setQuestionType(this, "post");
-//                    try {
-//                        stagingJson.put("3", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("3", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     SdkPreferences.setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("4", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("4", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("5", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        stagingJson.put("5", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = SdkPreferences.getCmpLengthCountFlag(this);
                 SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-//                try {
-//                    stagingJson.put("6", "1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    stagingJson.put("6", "1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }

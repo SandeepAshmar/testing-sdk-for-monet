@@ -1,6 +1,5 @@
 package com.monet.mylibrary.adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -78,9 +77,9 @@ public class LandAdapter extends RecyclerView.Adapter<LandAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-            img_landImage = itemView.findViewById(R.id.img_landImage);
-            tv_landCam = itemView.findViewById(R.id.tv_landCam);
-            tv_vid_landTime = itemView.findViewById(R.id.tv_vid_landTime);
+            img_landImage = itemView.findViewById(R.id.img_currentShows);
+            tv_landCam = itemView.findViewById(R.id.tv_nameCurrentShows);
+            tv_vid_landTime = itemView.findViewById(R.id.tv_videoTimeCurrentShows);
         }
     }
 }
