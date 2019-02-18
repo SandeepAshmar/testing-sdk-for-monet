@@ -2,8 +2,6 @@ package com.monet.mylibrary.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +14,9 @@ import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 

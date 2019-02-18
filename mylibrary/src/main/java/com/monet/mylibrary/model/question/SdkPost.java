@@ -3,15 +3,14 @@ package com.monet.mylibrary.model.question;
 import java.util.ArrayList;
 
 public class SdkPost {
+    private ArrayList<SdkQuestions> Questions;
 
-    private ArrayList<SdkPostQuestion> Questions;
-
-    public ArrayList<SdkPostQuestion> getQuestions ()
+    public ArrayList<SdkQuestions> getQuestions ()
     {
         return Questions;
     }
 
-    public void setQuestions (ArrayList<SdkPostQuestion> Questions)
+    public void setQuestions (ArrayList<SdkQuestions> Questions)
     {
         this.Questions = Questions;
     }
@@ -21,5 +20,4 @@ public class SdkPost {
     {
         return "ClassPojo [Questions = "+Questions+"]";
     }
-
 }

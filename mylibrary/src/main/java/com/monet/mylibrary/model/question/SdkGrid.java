@@ -1,22 +1,11 @@
 package com.monet.mylibrary.model.question;
 
 public class SdkGrid {
-
-    private String grid_id;
-
     private String grid_value;
 
     private String grid_q_id;
 
-    public String getGrid_id ()
-    {
-        return grid_id;
-    }
-
-    public void setGrid_id (String grid_id)
-    {
-        this.grid_id = grid_id;
-    }
+    private String grid_id;
 
     public String getGrid_value ()
     {
@@ -38,10 +27,19 @@ public class SdkGrid {
         this.grid_q_id = grid_q_id;
     }
 
+    public String getGrid_id ()
+    {
+        return grid_id;
+    }
+
+    public void setGrid_id (String grid_id)
+    {
+        this.grid_id = grid_id;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [grid_id = "+grid_id+", grid_value = "+grid_value+", grid_q_id = "+grid_q_id+"]";
+        return "ClassPojo [grid_value = "+grid_value+", grid_q_id = "+grid_q_id+", grid_id = "+grid_id+"]";
     }
-
 }

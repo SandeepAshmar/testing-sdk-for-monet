@@ -2,7 +2,6 @@ package com.monet.mylibrary.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,8 @@ import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
