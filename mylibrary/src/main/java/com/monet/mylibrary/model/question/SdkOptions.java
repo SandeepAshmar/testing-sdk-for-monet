@@ -3,12 +3,9 @@ package com.monet.mylibrary.model.question;
 import java.util.ArrayList;
 
 public class SdkOptions {
-
-    private String created_by;
+    private String option_value;
 
     private String created_on;
-
-    private String option_value;
 
     private ArrayList<SdkGrid> grid;
 
@@ -16,14 +13,16 @@ public class SdkOptions {
 
     private String question_id;
 
-    public String getCreated_by ()
+    private String created_by;
+
+    public String getOption_value ()
     {
-        return created_by;
+        return option_value;
     }
 
-    public void setCreated_by (String created_by)
+    public void setOption_value (String option_value)
     {
-        this.created_by = created_by;
+        this.option_value = option_value;
     }
 
     public String getCreated_on ()
@@ -34,16 +33,6 @@ public class SdkOptions {
     public void setCreated_on (String created_on)
     {
         this.created_on = created_on;
-    }
-
-    public String getOption_value ()
-    {
-        return option_value;
-    }
-
-    public void setOption_value (String option_value)
-    {
-        this.option_value = option_value;
     }
 
     public ArrayList<SdkGrid> getGrid ()
@@ -76,9 +65,19 @@ public class SdkOptions {
         this.question_id = question_id;
     }
 
+    public String getCreated_by ()
+    {
+        return created_by;
+    }
+
+    public void setCreated_by (String created_by)
+    {
+        this.created_by = created_by;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [created_by = "+created_by+", created_on = "+created_on+", option_value = "+option_value+", grid = "+grid+", option_id = "+option_id+", question_id = "+question_id+"]";
+        return "ClassPojo [option_value = "+option_value+", created_on = "+created_on+", grid = "+grid+", option_id = "+option_id+", question_id = "+question_id+", created_by = "+created_by+"]";
     }
 }

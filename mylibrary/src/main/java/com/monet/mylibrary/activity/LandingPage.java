@@ -3,9 +3,6 @@ package com.monet.mylibrary.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,6 +27,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -164,7 +164,7 @@ public class LandingPage extends AppCompatActivity {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
                     if (response.body().getCode().equals("200")) {
-                        if (response.body().getSequence().size() == 0) {
+                        if (response.body().getData().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
                             saveDetails(activity ,response);
@@ -186,15 +186,15 @@ public class LandingPage extends AppCompatActivity {
     private static void saveDetails(Activity activity, Response<SdkPojo> response){
         SdkPreferences.setCmpId(activity, cmp_Id);
         SdkPreferences.setUserId(activity, user_Id);
-        SdkPreferences.setCfId(activity, response.body().getCf_id());
-        SdkPreferences.setApiToken(activity, "Bearer " + response.body().getApi_token());
-        preQuestions.addAll(response.body().getPre().getQuestions());
-        postQuestions.addAll(response.body().getPost().getQuestions());
-        arrayList.addAll(response.body().getSequence());
+        SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
+        SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getApi_token());
+        preQuestions.addAll(response.body().getData().getPre().getQuestions());
+        postQuestions.addAll(response.body().getData().getPost().getQuestions());
+        arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
-        SdkPreferences.setCamEval(activity, response.body().getCmp_eval());
-        SdkPreferences.setVideoUrl(activity, response.body().getC_url());
-        videoUrl = response.body().getC_url();
+        SdkPreferences.setCamEval(activity, response.body().getData().getCmp_eval());
+        SdkPreferences.setVideoUrl(activity, response.body().getData().getC_url());
+        videoUrl = response.body().getData().getC_url();
         apiToken = SdkPreferences.getApiToken(activity);
         getCampDetails(activity, apiToken, cmp_Id);
     }
