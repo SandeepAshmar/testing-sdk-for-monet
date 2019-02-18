@@ -3,7 +3,7 @@ package com.monet.mylibrary.activity;
 import android.os.Bundle;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
-
+import me.relex.circleindicator.CircleIndicator;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ImageSliderAdapter;
 
@@ -17,6 +17,9 @@ public class ImageSlider extends AppCompatActivity {
 
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
         ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
+        imageSliderViewPager.setAdapter(imageSliderAdapter);
+        CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
+        circleIndicator.setViewPager(imageSliderViewPager);
     }
 
 
