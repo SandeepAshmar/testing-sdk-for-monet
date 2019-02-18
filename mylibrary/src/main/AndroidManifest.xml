@@ -12,11 +12,16 @@
     <uses-feature android:name="android.hardware.camera2.autofocus" />
 
     <application>
-        <activity android:name=".activity.LandingPage" />
-        <activity android:name=".activity.QuestionActivity" />
-        <activity android:name=".activity.EmotionScreen" />
-        <activity android:name=".activity.ReactionScreen" />
-        <activity android:name=".activity.ThankyouPage" />
+        <activity android:name=".activity.LandingPage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.QuestionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.EmotionScreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ReactionScreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ThankyouPage"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.PlayVideoAndRecordScreen"></activity>
     </application>
 

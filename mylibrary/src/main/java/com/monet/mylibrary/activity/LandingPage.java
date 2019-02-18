@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,6 +65,7 @@ public class LandingPage extends AppCompatActivity {
         land_chack = findViewById(R.id.land_chack);
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
 
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new LandAdapter(LandingPage.this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
 
@@ -214,11 +215,10 @@ public class LandingPage extends AppCompatActivity {
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getResponse().size() <= 1) {
-                            mRecycler.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 1));
-                            tv_land_watch.setText("watch " + response.body().getResponse().size() + " short clip");
+
+                            tv_land_watch.setText("In the following study you will watch " + response.body().getResponse().size() + " short clip");
                         } else {
-                            mRecycler.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 2));
-                            tv_land_watch.setText("watch " + response.body().getResponse().size() + " short clips");
+                            tv_land_watch.append("In the following study you will watch " + response.body().getResponse().size() + " short clips");
                         }
                         detailsResponses.addAll(response.body().getResponse());
                         mAdapter.notifyDataSetChanged();

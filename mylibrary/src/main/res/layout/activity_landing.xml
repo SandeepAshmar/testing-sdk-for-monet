@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,7 @@
     tools:context=".activity.LandingPage">
 
    <include
+       android:id="@+id/include"
        layout="@layout/toolbar_layout"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintEnd_toEndOf="parent"
@@ -18,44 +19,36 @@
 
    <TextView
        android:id="@+id/tv_land_watch"
-       android:layout_width="wrap_content"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_gravity="center"
+       android:layout_marginTop="22dp"
+       android:layout_marginRight="16dp"
+       android:layout_marginLeft="16dp"
        android:text="@string/short_clip_one"
        android:textColor="@color/colorWhite"
        android:textSize="16sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.497"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.14999998" />
+
+       android:layout_below="@+id/include"/>
 
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/recyler_land"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
        android:layout_marginBottom="8dp"
-       app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/tv_land_watch"
-       app:layout_constraintVertical_bias="0.100000024" />
+       android:layout_marginTop="10dp"
+       android:background="@color/colorTransparent"
+       android:layout_below="@+id/tv_land_watch"
+       android:layout_above="@+id/constraintLayout"/>
 
    <androidx.constraintlayout.widget.ConstraintLayout
        android:id="@+id/constraintLayout"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginTop="8dp"
+       android:layout_alignParentBottom="true"
        android:background="@color/colorEndColor"
-       android:elevation="6dp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="1.0">
+       android:elevation="6dp">
 
       <CheckBox
           android:id="@+id/land_chack"
@@ -218,4 +211,4 @@
 
     </LinearLayout>-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
