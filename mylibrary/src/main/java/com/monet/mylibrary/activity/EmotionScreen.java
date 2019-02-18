@@ -38,9 +38,9 @@ public class EmotionScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_screen);
 
-        imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
-        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
-        imageSliderViewPager.setAdapter(imageSliderAdapter);
+//        imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
+//        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
+//        imageSliderViewPager.setAdapter(imageSliderAdapter);
        // CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
        // circleIndicator.setViewPager(imageSliderViewPager);
     }
