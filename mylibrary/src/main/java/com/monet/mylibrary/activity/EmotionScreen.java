@@ -41,8 +41,8 @@ public class EmotionScreen extends AppCompatActivity {
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
         ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
         imageSliderViewPager.setAdapter(imageSliderAdapter);
-        CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
-        circleIndicator.setViewPager(imageSliderViewPager);
+       // CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
+       // circleIndicator.setViewPager(imageSliderViewPager);
     }
 
 //    private FrameLayout emotion_frame;
