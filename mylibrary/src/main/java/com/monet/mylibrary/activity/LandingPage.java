@@ -2,15 +2,15 @@ package com.monet.mylibrary.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,15 +41,15 @@ import static com.monet.mylibrary.utils.SdkPreferences.clearAllPreferences;
 public class LandingPage extends AppCompatActivity {
 
     private static final String TAG = "MonetAndroidSdk";
+    private ImageView img_toolbarBack;
     private static TextView tv_land_watch;
     private static RecyclerView mRecycler;
     private static LandAdapter mAdapter;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
     protected static ArrayList<String> postQuestion = new ArrayList<>();
-    private static Button btn_landExit, btn_landProceed;
+    private static Button btn_landProceed;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, cf_id, apiToken;
-    private static ProgressBar landProgress;
     public static ArrayList<String> cmpSequance = new ArrayList<>();
     public static ArrayList<String> arrayList = new ArrayList<String>();
     private static String videoUrl = "";
@@ -59,22 +59,21 @@ public class LandingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-//        mRecycler = findViewById(R.id.recyler_land);
-//        tv_land_watch = findViewById(R.id.tv_land_watch);
-//        btn_landExit = findViewById(R.id.btn_landExit);
-//        btn_landProceed = findViewById(R.id.btn_landProceed);
-//        land_chack = findViewById(R.id.land_chack);
-//        landProgress = findViewById(R.id.landProgress);
+        mRecycler = findViewById(R.id.recyler_land);
+        tv_land_watch = findViewById(R.id.tv_land_watch);
+        btn_landProceed = findViewById(R.id.btn_landAgree);
+        land_chack = findViewById(R.id.land_chack);
+        img_toolbarBack = findViewById(R.id.img_toolbarBack);
 
         mAdapter = new LandAdapter(LandingPage.this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
 
         arrayList.clear();
 
-        btn_landExit.setOnClickListener(new View.OnClickListener() {
+        img_toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_landExit.setClickable(false);
+                img_toolbarBack.setClickable(false);
                 onBackPressed();
             }
         });
@@ -118,13 +117,11 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void getVideoDetails() {
-        landProgress.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = BaseUrl.getYoutubeRetrofit().create(ApiInterface.class);
         Call<List<YoutubePojo>> listCall = apiInterface.getYoutubeUrl("?url=" + videoUrl);
         listCall.enqueue(new Callback<List<YoutubePojo>>() {
             @Override
             public void onResponse(Call<List<YoutubePojo>> call, Response<List<YoutubePojo>> response) {
-                landProgress.setVisibility(View.GONE);
                 if (response.body() == null) {
                     Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -152,7 +149,6 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<YoutubePojo>> call, Throwable t) {
-                landProgress.setVisibility(View.GONE);
                 Toast.makeText(LandingPage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -209,7 +205,6 @@ public class LandingPage extends AppCompatActivity {
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
             public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
-                landProgress.setVisibility(View.GONE);
                 if (response.body() == null) {
                     Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -231,7 +226,6 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
-                landProgress.setVisibility(View.GONE);
                 Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
