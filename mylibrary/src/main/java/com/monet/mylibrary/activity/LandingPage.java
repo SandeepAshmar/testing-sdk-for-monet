@@ -122,8 +122,8 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void getVideoDetails() {
-        ApiInterface apiInterface = BaseUrl.getYoutubeRetrofit().create(ApiInterface.class);
-        Call<List<YoutubePojo>> listCall = apiInterface.getYoutubeUrl("?url=" + videoUrl);
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<List<YoutubePojo>> listCall = apiInterface.getYoutubeUrl(videoUrl);
         listCall.enqueue(new Callback<List<YoutubePojo>>() {
             @Override
             public void onResponse(Call<List<YoutubePojo>> call, Response<List<YoutubePojo>> response) {
@@ -215,7 +215,6 @@ public class LandingPage extends AppCompatActivity {
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getResponse().size() <= 1) {
-
                             tv_land_watch.setText("In the following study you will\n watch " + response.body().getResponse().size() + " short clip");
                         } else {
                             tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
