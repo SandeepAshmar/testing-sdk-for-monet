@@ -22,7 +22,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ThankyouPage"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PlayVideoAndRecordScreen"></activity>
+        <activity android:name=".activity.PlayVideoAndRecordScreen"/>
     </application>
-
 </manifest>
