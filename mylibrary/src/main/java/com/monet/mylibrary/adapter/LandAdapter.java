@@ -1,8 +1,6 @@
 package com.monet.mylibrary.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LandAdapter extends RecyclerView.Adapter<LandAdapter.ViewHolder> {
 
@@ -31,7 +32,7 @@ public class LandAdapter extends RecyclerView.Adapter<LandAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_land_page, parent, false);
 
-       ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
 
@@ -42,25 +43,14 @@ public class LandAdapter extends RecyclerView.Adapter<LandAdapter.ViewHolder> {
 
         GetCampDetails_Response details_response = detailsResponses.get(position);
 
-        if(details_response.getC_thumb_url().isEmpty() && details_response.getC_thumb_url() == null){
+        if (details_response.getC_thumb_url().isEmpty() && details_response.getC_thumb_url() == null) {
             holder.img_landImage.setImageDrawable(null);
-        }else{
+        } else {
             Glide.with(ctx).load(details_response.getC_thumb_url()).into(holder.img_landImage);
         }
 
         holder.tv_landCam.setText(details_response.getCmp_name());
-
-        int seconds = Integer.valueOf(details_response.getC_length());
-
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        seconds = seconds % 60;
-
-        if(hours == 0){
-            holder.tv_vid_landTime.setText(minutes + ":" + seconds);
-        }else{
-            holder.tv_vid_landTime.setText(hours+":"+minutes + ":" + seconds);
-        }
+        holder.tv_vid_landTime.setText(details_response.getC_length());
 
     }
 

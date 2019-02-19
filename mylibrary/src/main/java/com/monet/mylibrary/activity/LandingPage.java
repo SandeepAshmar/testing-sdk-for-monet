@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.adapter.LandAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
@@ -26,8 +26,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,12 +38,11 @@ public class LandingPage extends AppCompatActivity {
 
     private static final String TAG = "MonetAndroidSdk";
     private ImageView img_toolbarBack;
-    private static TextView tv_land_watch;
-    private static RecyclerView mRecycler;
-    private static LandAdapter mAdapter;
+    private static ImageView img_currentShows;
+    private static TextView tv_land_watch, tv_landCam, tv_vid_landTime;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
     protected static ArrayList<String> postQuestion = new ArrayList<>();
-    private static Button btn_landProceed;
+    private static Button btn_landProceed,  btn_currentShows;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, cf_id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
@@ -55,16 +52,14 @@ public class LandingPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-
-        mRecycler = findViewById(R.id.recyler_land);
         tv_land_watch = findViewById(R.id.tv_land_watch);
         btn_landProceed = findViewById(R.id.btn_landAgree);
         land_chack = findViewById(R.id.land_chack);
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
-
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new LandAdapter(LandingPage.this, detailsResponses);
-        mRecycler.setAdapter(mAdapter);
+        img_currentShows = findViewById(R.id.img_currentShows);
+        tv_landCam = findViewById(R.id.tv_nameCurrentShows);
+        tv_vid_landTime = findViewById(R.id.tv_videoTimeCurrentShows);
+        btn_currentShows = findViewById(R.id.btn_currentShows);
 
         arrayList.clear();
 
@@ -168,8 +163,18 @@ public class LandingPage extends AppCompatActivity {
                         } else {
                             tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
                         }
-                        detailsResponses.addAll(response.body().getResponse());
-                        mAdapter.notifyDataSetChanged();
+
+                        if (response.body().getResponse().get(0).getC_thumb_url().isEmpty() && response.body().getResponse().get(0).getC_thumb_url() == null) {
+                            img_currentShows.setImageDrawable(null);
+                        } else {
+                            Glide.with(activity).load(response.body().getResponse().get(0).getC_thumb_url()).into(img_currentShows);
+                        }
+                        tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
+                        tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
+                        String test = response.body().getResponse().get(0).getCmp_name();
+                        test = String.valueOf(test.charAt(0));
+                        btn_currentShows.setText(test);
+
                     } else {
                         Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
