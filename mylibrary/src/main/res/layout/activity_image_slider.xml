@@ -7,7 +7,7 @@
     android:background="@drawable/bg_color"
     tools:context=".activity.ImageSlider">
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.core.view.ViewPager
         android:id="@+id/imageSliderViewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/imageSliderCircleIndicator"
@@ -26,6 +25,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageSliderViewPager">
     </me.relex.circleindicator.CircleIndicator>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
