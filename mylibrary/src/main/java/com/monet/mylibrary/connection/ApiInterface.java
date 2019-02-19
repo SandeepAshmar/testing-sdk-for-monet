@@ -11,8 +11,6 @@ import com.monet.mylibrary.model.survay.SurvayPost;
 
 import org.json.JSONObject;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,7 +19,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 public interface ApiInterface {
 
@@ -37,10 +34,6 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("savesurveyanswers")
     Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body SurvayPost survayPost);
-
-    @Headers("Content-Type: application/json")
-    @GET("videoUrlToMp4")
-    Call<List<YoutubePojo>> getYoutubeUrl(@Url String url);
 
     /*get camp flow*/
     @Headers("Content-Type: application/json")
