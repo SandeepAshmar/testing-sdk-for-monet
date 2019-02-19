@@ -1,34 +1,14 @@
 package com.monet.mylibrary.activity;
 
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-import me.relex.circleindicator.CircleIndicator;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.os.Bundle;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ImageSliderAdapter;
-import com.monet.mylibrary.fragment.FaceDetectionInsFirst;
-import com.monet.mylibrary.fragment.FaceDetectionInsForth;
-import com.monet.mylibrary.fragment.FaceDetectionInsSecound;
-import com.monet.mylibrary.fragment.FaceDetectionInsThird;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import me.relex.circleindicator.CircleIndicator;
 
 public class EmotionScreen extends AppCompatActivity {
 
@@ -38,11 +18,11 @@ public class EmotionScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_screen);
 
-//        imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
-//        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
-//        imageSliderViewPager.setAdapter(imageSliderAdapter);
-       // CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
-       // circleIndicator.setViewPager(imageSliderViewPager);
+       imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
+        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
+        imageSliderViewPager.setAdapter(imageSliderAdapter);
+        CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
+        circleIndicator.setViewPager(imageSliderViewPager);
     }
 
 //    private FrameLayout emotion_frame;
