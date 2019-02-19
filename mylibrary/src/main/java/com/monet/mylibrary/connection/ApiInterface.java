@@ -9,7 +9,6 @@ import com.monet.mylibrary.model.reaction.ReactionPost;
 import com.monet.mylibrary.model.reaction.ReactionResponse;
 import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.model.survay.SurvayPost;
-import com.monet.mylibrary.model.vimeoModel.VimeoPojo;
 
 import org.json.JSONObject;
 
@@ -40,11 +39,8 @@ public interface ApiInterface {
     @POST("savesurveyanswers")
     Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body SurvayPost survayPost);
 
-    @GET("video/{videoID}/config")
-    Call<VimeoPojo> getVideoDetails(@Path("videoID")String videoID);
-
     @Headers("Content-Type: application/json")
-    @GET
+    @GET("videoUrlToMp4")
     Call<List<YoutubePojo>> getYoutubeUrl(@Url String url);
 
     /*get camp flow*/

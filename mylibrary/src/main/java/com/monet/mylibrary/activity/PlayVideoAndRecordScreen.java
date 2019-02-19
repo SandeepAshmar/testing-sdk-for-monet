@@ -11,8 +11,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -23,9 +21,6 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.connection.ApiInterface;
-import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.model.vimeoModel.VimeoPojo;
 import com.monet.mylibrary.utils.SdkConstant;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.pedro.encoder.input.video.Camera1ApiManager;
@@ -37,9 +32,8 @@ import net.ossrs.rtmp.ConnectCheckerRtmp;
 
 import org.json.JSONException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
 import static com.monet.mylibrary.activity.LandingPage.stagingJson;
@@ -86,7 +80,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         if (video_url.contains("vimeo")) {
             video_url = video_url.replace("https://vimeo.com/", "");
-            getVimeoMPFour();
+//            getVimeoMPFour();
         } else {
             playVideo();
         }
@@ -100,39 +94,39 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         });
     }
 
-    private void getVimeoMPFour() {
-        ApiInterface apiInterface = BaseUrl.getVimeoClient().create(ApiInterface.class);
-        Call<VimeoPojo> pojoCall = apiInterface.getVideoDetails(video_url);
-
-        pojoCall.enqueue(new Callback<VimeoPojo>() {
-            @Override
-            public void onResponse(Call<VimeoPojo> call, Response<VimeoPojo> response) {
-                if (response.body() != null) {
-                    int size = response.body().getVimeoReq().getVimeoFiles().getProgressives().size();
-                    int i = 0;
-                    for (; i < size; i++) {
-                        if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("480")) {
-                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-                            break;
-                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("540")) {
-                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-                            break;
-                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("720")) {
-                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-                            break;
-                        } else if (i == size - 1) {
-                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(0).getUrl();
-                        }
-                    }
-                    playVideo();
-                }
-            }
-            @Override
-            public void onFailure(Call<VimeoPojo> call, Throwable t) {
-                Toast.makeText(PlayVideoAndRecordScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void getVimeoMPFour() {
+////        ApiInterface apiInterface = BaseUrl.getVimeoClient().create(ApiInterface.class);
+//        Call<VimeoPojo> pojoCall = apiInterface.getVideoDetails(video_url);
+//
+//        pojoCall.enqueue(new Callback<VimeoPojo>() {
+//            @Override
+//            public void onResponse(Call<VimeoPojo> call, Response<VimeoPojo> response) {
+//                if (response.body() != null) {
+//                    int size = response.body().getVimeoReq().getVimeoFiles().getProgressives().size();
+//                    int i = 0;
+//                    for (; i < size; i++) {
+//                        if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("480")) {
+//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
+//                            break;
+//                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("540")) {
+//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
+//                            break;
+//                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("720")) {
+//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
+//                            break;
+//                        } else if (i == size - 1) {
+//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(0).getUrl();
+//                        }
+//                    }
+//                    playVideo();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<VimeoPojo> call, Throwable t) {
+//                Toast.makeText(PlayVideoAndRecordScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void playVideo() {
 
