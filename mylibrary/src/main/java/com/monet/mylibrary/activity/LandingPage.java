@@ -45,7 +45,7 @@ public class LandingPage extends AppCompatActivity {
     protected static ArrayList<String> postQuestion = new ArrayList<>();
     private static Button btn_landProceed,  btn_currentShows;
     private static CheckBox land_chack;
-    private static String cmp_Id, user_Id, cf_id, apiToken;
+    private static String cmp_Id, user_Id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
 
