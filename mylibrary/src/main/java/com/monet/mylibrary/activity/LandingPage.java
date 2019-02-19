@@ -50,7 +50,6 @@ public class LandingPage extends AppCompatActivity {
     private static String cmp_Id, user_Id, cf_id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
-    private static ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class LandingPage extends AppCompatActivity {
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new LandAdapter(LandingPage.this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
-        apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+
         arrayList.clear();
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +106,7 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCmpFlow(final Activity activity) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
@@ -153,6 +153,7 @@ public class LandingPage extends AppCompatActivity {
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
