@@ -43,7 +43,7 @@ public class LandingPage extends AppCompatActivity {
     private static TextView tv_land_watch, tv_landCam, tv_vid_landTime;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
     protected static ArrayList<String> postQuestion = new ArrayList<>();
-    private static Button btn_landProceed,  btn_currentShows;
+    private static Button btn_landProceed, btn_currentShows;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
@@ -137,8 +137,12 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getApi_token());
-        preQuestions.addAll(response.body().getData().getPre().getQuestions());
-        postQuestions.addAll(response.body().getData().getPost().getQuestions());
+        if (response.body().getData().getPre() != null) {
+            preQuestions.addAll(response.body().getData().getPre().getQuestions());
+        }
+        if (response.body().getData().getPost() != null) {
+            postQuestions.addAll(response.body().getData().getPost().getQuestions());
+        }
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCamEval(activity, response.body().getData().getCmp_eval());
@@ -165,9 +169,7 @@ public class LandingPage extends AppCompatActivity {
                             tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
                         }
 
-                        if (response.body().getResponse().get(0).getC_thumb_url().isEmpty() && response.body().getResponse().get(0).getC_thumb_url() == null) {
-                            img_currentShows.setImageDrawable(null);
-                        } else {
+                        if (response.body().getResponse().get(0).getC_thumb_url() != null) {
                             Glide.with(activity).load(response.body().getResponse().get(0).getC_thumb_url())
                                     .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                                     .into(img_currentShows);
