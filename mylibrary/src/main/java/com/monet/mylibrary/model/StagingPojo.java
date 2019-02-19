@@ -2,7 +2,6 @@ package com.monet.mylibrary.model;
 
 public class StagingPojo {
 
-
     private String message;
 
     private String status;

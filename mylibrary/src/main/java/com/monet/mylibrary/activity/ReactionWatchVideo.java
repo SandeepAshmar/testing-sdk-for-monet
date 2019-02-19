@@ -12,10 +12,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
@@ -37,7 +33,6 @@ import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.model.Item;
 import com.monet.mylibrary.model.reaction.ReactionPost;
 import com.monet.mylibrary.model.reaction.ReactionResponse;
-import com.monet.mylibrary.model.vimeoModel.VimeoPojo;
 import com.monet.mylibrary.utils.SdkPreferences;
 
 import org.json.JSONArray;
@@ -46,6 +41,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,46 +123,11 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         if(video_id.contains("vimeo")){
             video_id = video_id.replace("https://vimeo.com/", "");
-            getVimeoMPFour();
         }else{
             playVideo();
         }
 
         setReactionIcons();
-    }
-
-    private void getVimeoMPFour() {
-        ApiInterface apiInterface = BaseUrl.getVimeoClient().create(ApiInterface.class);
-        Call<VimeoPojo> pojoCall = apiInterface.getVideoDetails(video_id);
-
-        pojoCall.enqueue(new Callback<VimeoPojo>() {
-            @Override
-            public void onResponse(Call<VimeoPojo> call, Response<VimeoPojo> response) {
-                if (response.body() != null) {
-                    int size = response.body().getVimeoReq().getVimeoFiles().getProgressives().size();
-                    int i = 0;
-                    for (; i < size; i++) {
-                        if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("480")) {
-                            video_id = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-                            break;
-                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("540")) {
-                            video_id = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-                            break;
-                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("720")) {
-                            video_id = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-                            break;
-                        } else if (i == size - 1) {
-                            video_id = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(0).getUrl();
-                        }
-                    }
-                    playVideo();
-                }
-            }
-            @Override
-            public void onFailure(Call<VimeoPojo> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void playVideo() {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,17 +14,16 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.LandAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.model.YoutubePojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.utils.SdkPreferences;
+import com.monet.mylibrary.utils.SdkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,10 +48,10 @@ public class LandingPage extends AppCompatActivity {
     private static Button btn_landProceed;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, cf_id, apiToken;
-    public static ArrayList<String> cmpSequance = new ArrayList<>();
     public static ArrayList<String> arrayList = new ArrayList<String>();
-    private static String videoUrl = "";
     public static JSONObject stagingJson = new JSONObject();
+    private static ApiInterface apiInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +66,7 @@ public class LandingPage extends AppCompatActivity {
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new LandAdapter(LandingPage.this, detailsResponses);
         mRecycler.setAdapter(mAdapter);
-
+        apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         arrayList.clear();
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
@@ -78,35 +76,21 @@ public class LandingPage extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        land_chack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (land_chack.isChecked()) {
-                    btn_landProceed.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_landProceed.setEnabled(true);
-                } else {
-                    btn_landProceed.setBackgroundResource(R.drawable.btn_pro_gray);
-                    btn_landProceed.setEnabled(false);
-                }
-            }
-        });
-
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_landProceed.setClickable(false);
-                if(videoUrl.contains("youtube")){
-                    getVideoDetails();
-                }else{
+                if (land_chack.isChecked()) {
                     setScreen();
+                } else {
+                    Toast.makeText(LandingPage.this, "Please check terms and conditions", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
 
-    public static void checkEmotionScreen(Activity activity){
-        activity.startActivity(new Intent(activity,EmotionScreen.class));
+    public static void checkEmotionScreen(Activity activity) {
+        activity.startActivity(new Intent(activity, EmotionScreen.class));
     }
 
     public static void startCampaign(Activity activity, String cmpId, String userId) {
@@ -118,53 +102,16 @@ public class LandingPage extends AppCompatActivity {
         arrayList.clear();
         cmp_Id = cmpId;
         user_Id = userId;
-        getCmpFlow(activity, cmpId);
+        getCmpFlow(activity);
     }
 
-    private void getVideoDetails() {
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<List<YoutubePojo>> listCall = apiInterface.getYoutubeUrl(videoUrl);
-        listCall.enqueue(new Callback<List<YoutubePojo>>() {
-            @Override
-            public void onResponse(Call<List<YoutubePojo>> call, Response<List<YoutubePojo>> response) {
-                if (response.body() == null) {
-                    Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (response.body().get(0).getReason() == null) {
-                        int size = response.body().size();
-                        for (int i = 0; i < size; i++) {
-                            if (response.body().get(i).getQuality().contains("720")) {
-                                videoUrl = response.body().get(i).getUrl();
-                            } else if (i == size - 1) {
-                                videoUrl = response.body().get(0).getUrl();
-                            }
-                        }
-                        if (videoUrl.contains("=us")) {
-                            Toast.makeText(getApplicationContext(), "Sorry, This video can't play in your country", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            SdkPreferences.setVideoUrl(getApplicationContext(), videoUrl);
-                            setScreen();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), response.body().get(0).getReason(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<YoutubePojo>> call, Throwable t) {
-                Toast.makeText(LandingPage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private static void getCmpFlow(final Activity activity, final String cmpId) {
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+    private static void getCmpFlow(final Activity activity) {
+        SdkUtils.progressDialog(activity, "Please wait...", true);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
+                SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -172,7 +119,7 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getData().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                         } else {
-                            saveDetails(activity ,response);
+                            saveDetails(activity, response);
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
@@ -182,13 +129,14 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
+                SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private static void saveDetails(Activity activity, Response<SdkPojo> response){
+    private static void saveDetails(Activity activity, Response<SdkPojo> response) {
         SdkPreferences.setCmpId(activity, cmp_Id);
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
@@ -199,17 +147,17 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCamEval(activity, response.body().getData().getCmp_eval());
         SdkPreferences.setVideoUrl(activity, response.body().getData().getC_url());
-        videoUrl = response.body().getData().getC_url();
         apiToken = SdkPreferences.getApiToken(activity);
         getCampDetails(activity, apiToken, cmp_Id);
     }
 
     private static void getCampDetails(final Activity activity, String token, final String cmpId) {
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        SdkUtils.progressDialog(activity, "Please wait...", true);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
         pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
             @Override
             public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
+                SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -229,6 +177,7 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
+                SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
