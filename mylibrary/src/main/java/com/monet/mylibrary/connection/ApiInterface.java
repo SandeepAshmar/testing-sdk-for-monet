@@ -23,7 +23,7 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @GET("campaignDetails")
-    Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Query("cam_id") String cam_id);
+    Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
 
     @Headers("Content-Type: application/json")
     @POST("sdk")
