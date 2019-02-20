@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SdkPreQuestions {
     private String survey_id;
 
-    private ArrayList<SdkPreOptions> Options;
+    private ArrayList<SdkOptions> Options;
 
     private String question;
 
@@ -33,12 +33,12 @@ public class SdkPreQuestions {
         this.survey_id = survey_id;
     }
 
-    public ArrayList<SdkPreOptions> getOptions ()
+    public ArrayList<SdkOptions> getOptions ()
     {
         return Options;
     }
 
-    public void setOptions (ArrayList<SdkPreOptions> Options)
+    public void setOptions (ArrayList<SdkOptions> Options)
     {
         this.Options = Options;
     }

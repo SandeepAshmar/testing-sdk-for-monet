@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SdkPostQuestions {
     private String survey_id;
 
-    private ArrayList<SdkPostOptions> Options;
+    private ArrayList<SdkOptions> Options;
 
     private String question;
 
@@ -33,12 +33,12 @@ public class SdkPostQuestions {
         this.survey_id = survey_id;
     }
 
-    public ArrayList<SdkPostOptions> getOptions ()
+    public ArrayList<SdkOptions> getOptions ()
     {
         return Options;
     }
 
-    public void setOptions (ArrayList<SdkPostOptions> Options)
+    public void setOptions (ArrayList<SdkOptions> Options)
     {
         this.Options = Options;
     }

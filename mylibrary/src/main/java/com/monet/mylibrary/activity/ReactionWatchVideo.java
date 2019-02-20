@@ -26,7 +26,6 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.adapter.IconsAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.listner.IOnItemClickListener;
@@ -68,7 +67,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     private RecyclerView icons_recycler;
     private ArrayList<Item> iconList = new ArrayList<>();
-    private IconsAdapter iconsAdapter;
+//    private IconsAdapter iconsAdapter;
     private GridLayoutManager gridLayoutManager;
     private String dialog_name, dialog_image;
     private Dialog dialog;
@@ -521,7 +520,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         gridLayoutManager = new GridLayoutManager(this, 5);
         icons_recycler.setLayoutManager(gridLayoutManager);
-        iconsAdapter = new IconsAdapter(iconList, this, iOnItemClickListener);
-        icons_recycler.setAdapter(iconsAdapter);
+//        iconsAdapter = new IconsAdapter(iconList, this, iOnItemClickListener);
+//        icons_recycler.setAdapter(iconsAdapter);
     }
 }

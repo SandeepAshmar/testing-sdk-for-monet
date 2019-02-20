@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.adapter.ImageSliderAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -30,8 +28,8 @@ public class EmotionScreen extends AppCompatActivity {
         tv_next = findViewById(R.id.tv_next);
         img_toolbarBack.setVisibility(View.GONE);
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
-        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getSupportFragmentManager());
-        imageSliderViewPager.setAdapter(imageSliderAdapter);
+//        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getSupportFragmentManager());
+//        imageSliderViewPager.setAdapter(imageSliderAdapter);
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
 

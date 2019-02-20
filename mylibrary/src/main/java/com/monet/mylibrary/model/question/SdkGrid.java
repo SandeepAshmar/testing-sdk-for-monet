@@ -1,6 +1,6 @@
 package com.monet.mylibrary.model.question;
 
-public class SdkPreGrid {
+public class SdkGrid {
 
     private String grid_value;
 
