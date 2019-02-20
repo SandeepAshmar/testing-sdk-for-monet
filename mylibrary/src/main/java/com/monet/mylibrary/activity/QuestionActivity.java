@@ -77,10 +77,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
-            } else {
-                nextQuestion();
             }
-
+            nextQuestion();
         }
     }
 
@@ -107,6 +105,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if (preQuestions.get(questionNo).getQuestion_type().equals("1")) {
 
             }
+            questionNo = (questionNo + 1);
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
             qusId = postQuestions.get(questionNo).getQuestion_id();
@@ -115,7 +114,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void nextQuestion() {
 
-        if(questionNo!=0){
+        if (questionNo != 0) {
             questionNo = (questionNo + 1);
         }
 
