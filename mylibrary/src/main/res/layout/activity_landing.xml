@@ -40,7 +40,6 @@
             android:id="@+id/img_currentShows"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@drawable/ic_imagenotavailable"
             android:scaleType="fitXY"
             tools:ignore="MissingConstraints" />
 
