@@ -63,9 +63,6 @@ public class LandingPage extends AppCompatActivity {
         btn_currentShows = findViewById(R.id.btn_currentShows);
 
         arrayList.clear();
-        Toast.makeText(this, ""+getApiToken(this), Toast.LENGTH_SHORT).show();
-
-//        clearAllPreferences(this);
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,10 +136,10 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getApi_token());
-        if (response.body().getData().getPre()!= null) {
+        if (response.body().getData().getPre().getQuestions() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
         }
-        if (response.body().getData().getPost() != null) {
+        if (response.body().getData().getPost().getQuestions() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
         }
         arrayList.addAll(response.body().getData().getSequence());
