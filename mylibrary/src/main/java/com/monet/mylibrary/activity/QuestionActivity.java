@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -32,6 +33,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static String quesType = "";
     public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
     public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
+    private int questionNo = 0;
+    public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         cl_questionLayout = findViewById(R.id.cl_questionLayout);
         btn_question = findViewById(R.id.btn_question);
         rv_question = findViewById(R.id.rv_question);
+        rv_question.setLayoutManager(new LinearLayoutManager(this));
         tv_questionNo = findViewById(R.id.tv_questionNo);
         tv_question = findViewById(R.id.tv_question);
         edt_questionType = findViewById(R.id.edt_questionType);
@@ -54,11 +58,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if (quesType.equalsIgnoreCase("Pre")) {
             questionSize = preQuestions.size();
-            Toast.makeText(this, "Pre", Toast.LENGTH_SHORT).show();
         } else {
             questionSize = postQuestions.size();
             Toast.makeText(this, "Post", Toast.LENGTH_SHORT).show();
         }
+        setQuestion();
     }
 
     @Override
@@ -77,5 +81,34 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
 
         }
+    }
+
+    private void setQuestion(){
+
+        if (questionNo == (questionSize - 1)) {
+            btn_question.setText("submit");
+        } else {
+            btn_question.setText("next");
+        }
+
+        if (questionNo == 0) {
+            tv_questionNo.setText("Q1.");
+        } else {
+            tv_questionNo.setText("Q" + (questionNo + 1) + ".");
+        }
+
+        if(quesType.equalsIgnoreCase("Pre")) {
+            tv_question.setText(preQuestions.get(questionNo).getQuestion());
+            qusId = preQuestions.get(questionNo).getQuestion_id();
+
+            if (preQuestions.get(questionNo).getQuestion_type().equals("1")) {
+
+            }
+        }else{
+            tv_question.setText(postQuestions.get(questionNo).getQuestion());
+            qusId = postQuestions.get(questionNo).getQuestion_id();
+        }
+
+
     }
 }
