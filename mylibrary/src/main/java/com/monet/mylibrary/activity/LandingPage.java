@@ -33,7 +33,7 @@ import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.QuestionActivity.postQuestions;
 import static com.monet.mylibrary.activity.QuestionActivity.preQuestions;
-import static com.monet.mylibrary.utils.SdkPreferences.clearAllPreferences;
+import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 
 public class LandingPage extends AppCompatActivity {
 
@@ -63,6 +63,8 @@ public class LandingPage extends AppCompatActivity {
         btn_currentShows = findViewById(R.id.btn_currentShows);
 
         arrayList.clear();
+        Toast.makeText(this, ""+getApiToken(this), Toast.LENGTH_SHORT).show();
+
 //        clearAllPreferences(this);
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +149,7 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCamEval(activity, response.body().getData().getCmp_eval());
         SdkPreferences.setVideoUrl(activity, response.body().getData().getC_url());
-        apiToken = SdkPreferences.getApiToken(activity);
+        apiToken = getApiToken(activity);
         getCampDetails(activity, apiToken, cmp_Id);
     }
 
