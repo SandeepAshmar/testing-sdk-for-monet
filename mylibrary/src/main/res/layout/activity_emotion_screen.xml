@@ -7,11 +7,24 @@
     android:background="@drawable/bg_color"
     tools:context=".activity.EmotionScreen">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/imageSliderViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="48dp"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageSliderCircleIndicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintVertical_bias="0.41" />
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/imageSliderCircleIndicator"
@@ -21,7 +34,25 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageSliderViewPager" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" >
+
+    </me.relex.circleindicator.CircleIndicator>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="NEXT"
+        android:textColor="@color/colorWhite"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageSliderCircleIndicator"
+        app:layout_constraintEnd_toEndOf="@+id/imageSliderCircleIndicator"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="@+id/imageSliderCircleIndicator"
+        app:layout_constraintTop_toTopOf="@+id/imageSliderCircleIndicator" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
