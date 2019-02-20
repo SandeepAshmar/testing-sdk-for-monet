@@ -144,6 +144,7 @@ public class LandingPage extends AppCompatActivity {
         }
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
+        SdkPreferences.setCmpLengthCount(activity, 0);
         SdkPreferences.setCamEval(activity, response.body().getData().getCmp_eval());
         SdkPreferences.setVideoUrl(activity, response.body().getData().getC_url());
         apiToken = getApiToken(activity);
