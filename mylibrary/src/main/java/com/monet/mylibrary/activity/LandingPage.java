@@ -63,6 +63,7 @@ public class LandingPage extends AppCompatActivity {
         btn_currentShows = findViewById(R.id.btn_currentShows);
 
         arrayList.clear();
+        clearAllPreferences(this);
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +92,6 @@ public class LandingPage extends AppCompatActivity {
     public static void startCampaign(Activity activity, String cmpId, String userId) {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
-        clearAllPreferences(activity);
         preQuestions.clear();
         postQuestion.clear();
         arrayList.clear();
@@ -137,10 +137,10 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getApi_token());
-        if (response.body().getData().getPre().getQuestions() != null) {
+        if (response.body().getData().getPre()!= null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
         }
-        if (response.body().getData().getPost().getQuestions() != null) {
+        if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
         }
         arrayList.addAll(response.body().getData().getSequence());
