@@ -162,9 +162,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         edt_questionType = findViewById(R.id.edt_questionType);
         back = findViewById(R.id.img_toolbarBack);
 
-        rate_layout = findViewById(R.id.rate_layout);
-        grid_Linear_Layout = findViewById(R.id.grid_linearLayout);
-        quesProgress = findViewById(R.id.quesProgress);
+//        rate_layout = findViewById(R.id.rate_layout);
+//        grid_Linear_Layout = findViewById(R.id.grid_linearLayout);
+//        quesProgress = findViewById(R.id.quesProgress);
 
         btn_question.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -407,10 +407,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 ////
 ////                        selectedGridOptions.add(String.valueOf(finalOption_Header.getId()));
 ////
-////                        if (selectedGridOptions.size() == header) {
-////                            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
-////                            btn_quesNext.setEnabled(true);
-////                        }
+////                        
 ////                    }
 ////                });
 ////            }
@@ -478,10 +475,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 ////
 ////                        selectedGridOptions.add(String.valueOf(finalOption_Header.getId()));
 ////
-////                        if (selectedGridOptions.size() == header) {
-////                            btn_quesNext.setBackgroundResource(R.drawable.btn_pro_activate);
-////                            btn_quesNext.setEnabled(true);
-////                        }
+////
 ////                    }
 ////                });
 ////            }
