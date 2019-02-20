@@ -1,6 +1,7 @@
 package com.monet.mylibrary.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,8 +10,6 @@ import android.widget.Toast;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ImageSliderAdapter;
-
-import org.w3c.dom.Text;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -61,7 +60,8 @@ public class EmotionScreen extends AppCompatActivity {
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EmotionScreen.this, "Next Button Clicked...", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(EmotionScreen.this,FaceDetectionScreen.class));
+                finish();
             }
         });
     }
