@@ -38,18 +38,12 @@ public class EmotionScreen extends AppCompatActivity {
         tv_next = findViewById(R.id.tv_next);
         img_toolbarBack.setVisibility(View.GONE);
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
-        if(checkCameraPermission())
-        {
-            Toast.makeText(this, "Permission granted oncreate", Toast.LENGTH_SHORT).show();
-        }else{
-            requestCameraPermission();
-        }
+
         ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getSupportFragmentManager());
         imageSliderViewPager.setAdapter(imageSliderAdapter);
 
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
-
 
 
         imageSliderViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -60,10 +54,9 @@ public class EmotionScreen extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position==2){
+                if (position == 2) {
                     tv_next.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     tv_next.setVisibility(View.GONE);
                 }
             }
@@ -115,6 +108,16 @@ public class EmotionScreen extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkCameraPermission()) {
+            Toast.makeText(this, "Permission granted onResume", Toast.LENGTH_SHORT).show();
+        } else {
+            requestCameraPermission();
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.DialogTheme);
@@ -131,8 +134,8 @@ public class EmotionScreen extends AppCompatActivity {
                 }
             });
             alertDialog.show();
-        }else{
-             //take positive actions
+        } else {
+            //take positive actions
             Toast.makeText(this, "Permission granted onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
         }
 
@@ -202,9 +205,6 @@ public class EmotionScreen extends AppCompatActivity {
 //        });
 //    }
 //
-
-
-
 
 
 }
