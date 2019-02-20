@@ -71,24 +71,25 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (i == R.id.img_toolbarBack) {
             finish();
         } else if (i == R.id.btn_question) {
-            if(qCardVisible){
+            if (qCardVisible) {
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
-                btn_question.setText("Next");
                 qCardVisible = false;
-            }else{
+            } else {
                 Toast.makeText(this, "question", Toast.LENGTH_SHORT).show();
             }
 
         }
     }
 
-    private void setQuestion(){
+    private void setQuestion() {
 
-        if (questionNo == (questionSize - 1)) {
-            btn_question.setText("submit");
-        } else {
-            btn_question.setText("next");
+        if (!qCardVisible) {
+            if (questionNo == (questionSize - 1)) {
+                btn_question.setText("submit");
+            } else {
+                btn_question.setText("Next");
+            }
         }
 
         if (questionNo == 0) {
@@ -97,14 +98,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             tv_questionNo.setText("Q" + (questionNo + 1) + ".");
         }
 
-        if(quesType.equalsIgnoreCase("Pre")) {
+        if (quesType.equalsIgnoreCase("Pre")) {
             tv_question.setText(preQuestions.get(questionNo).getQuestion());
             qusId = preQuestions.get(questionNo).getQuestion_id();
 
             if (preQuestions.get(questionNo).getQuestion_type().equals("1")) {
 
             }
-        }else{
+        } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
             qusId = postQuestions.get(questionNo).getQuestion_id();
         }
