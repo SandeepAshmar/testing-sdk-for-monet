@@ -63,7 +63,7 @@ public class LandingPage extends AppCompatActivity {
         btn_currentShows = findViewById(R.id.btn_currentShows);
 
         arrayList.clear();
-        clearAllPreferences(this);
+//        clearAllPreferences(this);
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
