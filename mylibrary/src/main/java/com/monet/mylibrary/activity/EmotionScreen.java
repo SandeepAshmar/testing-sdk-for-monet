@@ -2,9 +2,15 @@ package com.monet.mylibrary.activity;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ImageSliderAdapter;
+
+import org.w3c.dom.Text;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -13,16 +19,50 @@ import me.relex.circleindicator.CircleIndicator;
 public class EmotionScreen extends AppCompatActivity {
 
     private ViewPager imageSliderViewPager;
+    private ImageView img_toolbarBack;
+    private TextView tv_next;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_screen);
 
-       imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
-        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
-        imageSliderViewPager.setAdapter(imageSliderAdapter);
+        img_toolbarBack = findViewById(R.id.img_toolbarBack);
+        tv_next = findViewById(R.id.tv_next);
+        img_toolbarBack.setVisibility(View.GONE);
+        imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
+//        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
+//        imageSliderViewPager.setAdapter(imageSliderAdapter);
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
+
+        imageSliderViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position==2){
+                    tv_next.setVisibility(View.VISIBLE);
+                }
+                else{
+                    tv_next.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        tv_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EmotionScreen.this, "Next Button Clicked...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 //    private FrameLayout emotion_frame;
