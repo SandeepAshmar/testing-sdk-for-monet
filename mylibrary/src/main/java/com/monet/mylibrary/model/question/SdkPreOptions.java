@@ -2,12 +2,13 @@ package com.monet.mylibrary.model.question;
 
 import java.util.ArrayList;
 
-public class SdkOptions {
+public class SdkPreOptions {
+
     private String option_value;
 
     private String created_on;
 
-    private ArrayList<SdkGrid> grid;
+    private ArrayList<SdkPreGrid> grid;
 
     private String option_id;
 
@@ -35,12 +36,12 @@ public class SdkOptions {
         this.created_on = created_on;
     }
 
-    public ArrayList<SdkGrid> getGrid ()
+    public ArrayList<SdkPreGrid> getGrid ()
     {
         return grid;
     }
 
-    public void setGrid (ArrayList<SdkGrid> grid)
+    public void setGrid (ArrayList<SdkPreGrid> grid)
     {
         this.grid = grid;
     }

@@ -11,11 +11,11 @@ public class SdkData {
 
     private ArrayList<String> sequence;
 
-    private SdkPre pre;
+    private SdkPreType pre;
 
     private String c_url;
 
-    private SdkPost post;
+    private SdkPostType post;
 
     private String cf_id;
 
@@ -61,12 +61,12 @@ public class SdkData {
         this.sequence = sequence;
     }
 
-    public SdkPre getPre ()
+    public SdkPreType getPre ()
     {
         return pre;
     }
 
-    public void setPre (SdkPre pre)
+    public void setPre (SdkPreType pre)
     {
         this.pre = pre;
     }
@@ -81,12 +81,12 @@ public class SdkData {
         this.c_url = c_url;
     }
 
-    public SdkPost getPost ()
+    public SdkPostType getPost ()
     {
         return post;
     }
 
-    public void setPost (SdkPost post)
+    public void setPost (SdkPostType post)
     {
         this.post = post;
     }

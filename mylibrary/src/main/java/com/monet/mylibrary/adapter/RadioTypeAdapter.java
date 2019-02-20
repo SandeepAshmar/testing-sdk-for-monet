@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.activity.QuestionActivity;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.question.SdkOptions;
 
 import java.util.ArrayList;
 
