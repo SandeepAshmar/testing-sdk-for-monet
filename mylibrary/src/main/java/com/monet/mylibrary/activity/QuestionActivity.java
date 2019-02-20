@@ -109,15 +109,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
             qusId = postQuestions.get(questionNo).getQuestion_id();
+
+            questionNo = (questionNo + 1);
         }
     }
 
     private void nextQuestion() {
-
-        if (questionNo != 0) {
-            questionNo = (questionNo + 1);
-        }
-
         if (questionNo < questionSize) {
             setQuestion();
         } else {
