@@ -41,7 +41,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        cl_quesQCard = findViewById(R.id.cl_questionLayout);
+        cl_quesQCard = findViewById(R.id.cl_questionQCard);
         cl_questionLayout = findViewById(R.id.cl_questionLayout);
         btn_question = findViewById(R.id.btn_question);
         rv_question = findViewById(R.id.rv_question);
