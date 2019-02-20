@@ -1,5 +1,6 @@
 package com.monet.mylibrary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.listner.OnClearFromRecentService;
 import com.monet.mylibrary.model.question.SdkPostQuestions;
 import com.monet.mylibrary.model.question.SdkPreQuestions;
 import com.monet.mylibrary.utils.SdkPreferences;
@@ -35,6 +37,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
     private int questionNo = 0;
     public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType;
+    private OnClearFromRecentService onClearFromRecentService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             questionSize = postQuestions.size();
             Toast.makeText(this, "Post", Toast.LENGTH_SHORT).show();
         }
-        setQuestion();
     }
 
     @Override
@@ -76,7 +78,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
             } else {
-                Toast.makeText(this, "question", Toast.LENGTH_SHORT).show();
+                nextQuestion();
             }
 
         }
@@ -109,7 +111,52 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
             qusId = postQuestions.get(questionNo).getQuestion_id();
         }
+    }
 
+    private void nextQuestion() {
 
+        if(questionNo!=0){
+            questionNo = (questionNo + 1);
+        }
+
+        if (questionNo < questionSize) {
+            setQuestion();
+        } else {
+            questionNo = (questionNo - 1);
+        }
+    }
+
+    private void setPreviousQuestion() {
+        questionNo = (questionNo - 1);
+
+        if (questionNo == -1) {
+            clearValues();
+            finish();
+            onClearFromRecentService.onTaskRemoved(new Intent(QuestionActivity.this, OnClearFromRecentService.class));
+        } else {
+            setQuestion();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setPreviousQuestion();
+    }
+
+    private void clearValues() {
+//        dataPostJson1 = null;
+//        quesJson = null;
+//        jsonArray2 = new JSONArray();
+//        questions.clear();
+//
+//        savedQuesAndAnswers.getCheckAnsId().clear();
+//        savedQuesAndAnswers.getCheckQuesId().clear();
+//        savedQuesAndAnswers.getGridAnsIds().clear();
+//        savedQuesAndAnswers.getGridOptionIds().clear();
+//        savedQuesAndAnswers.getGridQuesIds().clear();
+//        savedQuesAndAnswers.getRadioAnsIds().clear();
+//        savedQuesAndAnswers.getRadioQuesIds().clear();
+//        savedQuesAndAnswers.getRateQuesId().clear();;
+//        savedQuesAndAnswers.getRateAnsId().clear();
     }
 }
