@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
@@ -169,9 +170,8 @@ public class LandingPage extends AppCompatActivity {
 
                         if (response.body().getResponse().get(0).getC_thumb_url() != null) {
                             Glide.with(activity).load(response.body().getResponse().get(0).getC_thumb_url())
+                                    .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                                     .into(img_currentShows);
-                        }else{
-                            img_currentShows.setImageResource(R.drawable.ic_imagenotavailable);
                         }
                         tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
                         tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
