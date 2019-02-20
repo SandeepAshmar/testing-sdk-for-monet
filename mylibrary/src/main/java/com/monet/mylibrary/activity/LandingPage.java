@@ -171,6 +171,7 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getResponse().get(0).getC_thumb_url() != null) {
                             Glide.with(activity).load(response.body().getResponse().get(0).getC_thumb_url())
                                     .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                                    .error(R.color.colorGreen)
                                     .into(img_currentShows);
                         }
                         tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
