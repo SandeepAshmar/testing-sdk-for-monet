@@ -27,6 +27,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question;
     private EditText edt_questionType;
+    private boolean qCardVisible = true;
     public static int questionSize;
     public static String quesType = "";
     public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
@@ -66,11 +67,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (i == R.id.img_toolbarBack) {
             finish();
         } else if (i == R.id.btn_question) {
-            if(cl_quesQCard.getVisibility() == View.VISIBLE){
+            if(qCardVisible){
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 btn_question.setText("Next");
+                qCardVisible = false;
             }else{
+                Toast.makeText(this, "question", Toast.LENGTH_SHORT).show();
             }
 
         }
