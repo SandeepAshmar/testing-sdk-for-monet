@@ -21,6 +21,7 @@ public class EmotionScreen extends AppCompatActivity {
     private ViewPager imageSliderViewPager;
     private ImageView img_toolbarBack;
     private TextView tv_next;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +31,8 @@ public class EmotionScreen extends AppCompatActivity {
         tv_next = findViewById(R.id.tv_next);
         img_toolbarBack.setVisibility(View.GONE);
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
-//        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this);
-//        imageSliderViewPager.setAdapter(imageSliderAdapter);
+        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getSupportFragmentManager());
+        imageSliderViewPager.setAdapter(imageSliderAdapter);
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
 
@@ -67,12 +68,6 @@ public class EmotionScreen extends AppCompatActivity {
 
 //    private FrameLayout emotion_frame;
 //    private LinearLayout btn_extll, btn_nextll;
-//    private FaceDetectionInsFirst faceDetectionInsFirst;
-//    private FaceDetectionInsSecound faceDetectionInsSecound;
-//    private FaceDetectionInsThird faceDetectionInsThird;
-//    private FaceDetectionInsForth faceDetectionInsForth;
-//    private String layoutShow = "first_layout";
-//    private Button btn_exit, btn_proceed, btn_next;
 //
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -86,20 +81,9 @@ public class EmotionScreen extends AppCompatActivity {
 //        btn_proceed = findViewById(R.id.btn_faceIns_proceed);
 //        btn_next = findViewById(R.id.btn_faceIns_next);
 //
-//        faceDetectionInsFirst = new FaceDetectionInsFirst();
-//        faceDetectionInsSecound = new FaceDetectionInsSecound();
-//        faceDetectionInsThird = new FaceDetectionInsThird();
-//        faceDetectionInsForth = new FaceDetectionInsForth();
-//
-//        setFragment(faceDetectionInsFirst);
 //        setButtonClicks();
 //    }
 //
-//    private void setFragment(Fragment fragment) {
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.emotion_frame, fragment);
-//        fragmentTransaction.commit();
-//    }
 //
 //    private void setButtonClicks(){
 //        btn_exit.setOnClickListener(new View.OnClickListener() {
