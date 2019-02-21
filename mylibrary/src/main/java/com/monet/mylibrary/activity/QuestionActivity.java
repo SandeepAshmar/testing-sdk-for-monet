@@ -223,13 +223,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (i == R.id.img_toolbarBack) {
             setPreviousQuestion();
         } else if (i == R.id.btn_question) {
+            btn_question.setBackgroundResource(R.drawable.btn_disabled);
+            btn_question.setEnabled(false);
             if (qCardVisible) {
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
                 btn_question.setText("Next");
-                btn_question.setBackgroundResource(R.drawable.btn_disabled);
-                btn_question.setEnabled(false);
             } else {
                 nextQuestion();
             }
