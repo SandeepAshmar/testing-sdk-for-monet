@@ -1,6 +1,5 @@
 package com.monet.mylibrary.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
-import com.monet.mylibrary.listner.OnClearFromRecentService;
+import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkPostQuestions;
 import com.monet.mylibrary.model.question.SdkPreQuestions;
@@ -49,13 +49,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
     private int questionNo = 0;
     public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
-    private OnClearFromRecentService onClearFromRecentService;
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     private JSONObject dataPostJson1 = new JSONObject();
     private JSONObject quesJson = new JSONObject();
     private JSONObject quesJsonGrid = new JSONObject();
     private JSONArray jsonArray2 = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
+    private CheckBoxTypeAdapter checkBoxTypeAdapter;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -93,6 +93,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
 
+            }
+        }
+    };
+
+    private CheckBoxClickListner checkBoxClickListner = new CheckBoxClickListner() {
+        @Override
+        public void onItemCheckBoxClick(View view, int position, String quesId, String ansId) {
+
+            selectedQuesId = quesId;
+
+            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getCheckQuesId().size() == 0 || savedQuesAndAnswers.getCheckAnsId().size() == 0) {
+                savedQuesAndAnswers.setCheckQuesId(quesId);
+                savedQuesAndAnswers.setCheckAnsId(ansId);
+            } else {
+                if (savedQuesAndAnswers.getCheckAnsId().contains(ansId)) {
+                    int pos = savedQuesAndAnswers.getCheckAnsId().indexOf(ansId);
+                    savedQuesAndAnswers.getCheckAnsId().remove(pos);
+                } else {
+                    savedQuesAndAnswers.setCheckAnsId(ansId);
+                }
             }
         }
     };
@@ -175,7 +195,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-
+            }else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
+                rv_question.setVisibility(View.VISIBLE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "2";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, preQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(checkBoxTypeAdapter);
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
@@ -204,7 +230,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (questionNo == -1) {
             clearValues();
             finish();
-            onClearFromRecentService.onTaskRemoved(new Intent(QuestionActivity.this, OnClearFromRecentService.class));
         } else {
             setQuestion();
         }
@@ -305,11 +330,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void clearValues() {
-//        dataPostJson1 = null;
-//        quesJson = null;
-//        jsonArray2 = new JSONArray();
-        preQuestions.clear();
-        postQuestions.clear();
+        dataPostJson1 = null;
+        quesJson = null;
+        jsonArray2 = new JSONArray();
         savedQuesAndAnswers.getCheckAnsId().clear();
         savedQuesAndAnswers.getCheckQuesId().clear();
         savedQuesAndAnswers.getGridAnsIds().clear();
@@ -317,7 +340,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         savedQuesAndAnswers.getGridQuesIds().clear();
         savedQuesAndAnswers.getRadioAnsIds().clear();
         savedQuesAndAnswers.getRadioQuesIds().clear();
-        savedQuesAndAnswers.getRateQuesId().clear();
-        savedQuesAndAnswers.getRateAnsId().clear();
+        questionNo = 0;
+        questionSize = 0;
+
+        if (quesType.equalsIgnoreCase("Pre")) {
+            preQuestions.clear();
+        } else {
+            postQuestions.clear();
+        }
     }
 }

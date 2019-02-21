@@ -25,12 +25,5 @@
             android:singleLine="false"
             android:paddingRight="30dp"
             android:layout_centerVertical="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorGray"
-            android:layout_below="@id/rd_opetionValue"
-            android:layout_marginTop="10dp"/>
     </RelativeLayout>
 </LinearLayout>
