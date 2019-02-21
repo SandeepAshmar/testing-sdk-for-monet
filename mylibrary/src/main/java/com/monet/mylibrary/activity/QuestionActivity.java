@@ -6,13 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
+import com.monet.mylibrary.adapter.RateAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
+import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkPostQuestions;
 import com.monet.mylibrary.model.question.SdkPreQuestions;
@@ -36,8 +39,9 @@ import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ConstraintLayout cl_quesQCard, cl_questionLayout;
-    private ImageView back;
+    private ConstraintLayout cl_quesQCard, cl_questionLayout, rate_layout;
+    private ImageView back, img_rate;
+    private SeekBar seekBar_rate;
     private Button btn_question;
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question;
@@ -47,7 +51,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static String quesType = "";
     public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
     public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
-    private int questionNo = 0;
+    private int questionNo = 0, radioType;
     public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     private JSONObject dataPostJson1 = new JSONObject();
@@ -56,6 +60,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private JSONArray jsonArray2 = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
+    private RateAdapter rateAdapter;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -117,6 +122,27 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
+    private IOnItemClickListener rateItemClick = new IOnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+
+            selectedAnsId = String.valueOf(position + 1);
+
+            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getRateQuesId().size() == 0) {
+                savedQuesAndAnswers.setRateQuesId(selectedQuesId);
+                savedQuesAndAnswers.setRateAnsId(selectedAnsId);
+            } else {
+                if (savedQuesAndAnswers.getRateQuesId().contains(selectedQuesId)) {
+                    int pos = savedQuesAndAnswers.getRateQuesId().indexOf(selectedQuesId);
+                    savedQuesAndAnswers.getRateAnsId().set(pos, selectedAnsId);
+                } else {
+                    savedQuesAndAnswers.setRateQuesId(selectedQuesId);
+                    savedQuesAndAnswers.setRateAnsId(selectedAnsId);
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +157,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         tv_question = findViewById(R.id.tv_question);
         edt_questionType = findViewById(R.id.edt_questionType);
         back = findViewById(R.id.img_toolbarBack);
+        rate_layout = findViewById(R.id.rate_layout);
+        img_rate = findViewById(R.id.img_rate);
+        seekBar_rate = findViewById(R.id.seekBar_rate);
 
         btn_question.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -189,6 +218,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             if (preQuestions.get(questionNo).getQuestion_type().equals("1")) {
                 rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
                 edt_questionType.setVisibility(View.GONE);
                 questionType = "1";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
@@ -196,15 +226,43 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setAdapter(radioTypeAdapter);
             } else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
                 rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
                 edt_questionType.setVisibility(View.GONE);
                 questionType = "2";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(checkBoxTypeAdapter);
+            }else if (preQuestions.get(questionNo).getQuestion_type().equals("3")) {
+                rv_question.setVisibility(View.GONE);
+                rate_layout.setVisibility(View.VISIBLE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "3";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
+
+
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
             qusId = postQuestions.get(questionNo).getQuestion_id();
+
+            if (postQuestions.get(questionNo).getQuestion_type().equals("1")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "1";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, postQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("2")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "2";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, postQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(checkBoxTypeAdapter);
+            }
 
         }
     }

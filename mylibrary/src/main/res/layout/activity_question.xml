@@ -30,7 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97" />
+        app:layout_constraintVertical_bias="0.97"
+        tools:ignore="HardcodedText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionQCard"
@@ -54,7 +55,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.303"
             app:srcCompat="@drawable/ic_question_icon"
-            tools:ignore="VectorDrawableCompat" />
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView3"
@@ -69,7 +70,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.586" />
+            app:layout_constraintVertical_bias="0.586"
+            tools:ignore="HardcodedText"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -82,18 +84,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.876" />
+            app:layout_constraintVertical_bias="0.876"
+            tools:ignore="HardcodedText"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btn_question"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
-        android:visibility="gone">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/tv_questionNo"
@@ -108,7 +113,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.073" />
+            app:layout_constraintVertical_bias="0.073"
+            tools:ignore="HardcodedText"/>
 
         <TextView
             android:id="@+id/tv_question"
@@ -124,13 +130,61 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.149" />
+            app:layout_constraintVertical_bias="0.149"
+            tools:ignore="HardcodedText"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rate_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question">
+
+            <ImageView
+                android:id="@+id/img_rate"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <SeekBar
+                android:id="@+id/seekBar_rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="8dp"
+                android:max="5"
+                android:progressTint="@color/colorWhite"
+                android:progressBackgroundTint="@color/colorGray"
+                android:thumbTint="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_rate"
+                tools:ignore="UnusedAttribute" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_question"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="5dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -150,15 +204,16 @@
             android:maxHeight="200dp"
             android:minHeight="200dp"
             android:padding="10dp"
-            android:visibility="gone"
             android:singleLine="false"
-            android:textColorHint="@color/colorWhite"
             android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_question"
-            app:layout_constraintVertical_bias="0.14999998" />
+            app:layout_constraintVertical_bias="0.14999998"
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
