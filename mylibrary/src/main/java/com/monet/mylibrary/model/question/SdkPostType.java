@@ -3,14 +3,14 @@ package com.monet.mylibrary.model.question;
 import java.util.ArrayList;
 
 public class SdkPostType {
-    private ArrayList<SdkQuestions> Questions;
+    private ArrayList<SdkPostQuestions> Questions;
 
-    public ArrayList<SdkQuestions> getQuestions ()
+    public ArrayList<SdkPostQuestions> getQuestions ()
     {
         return Questions;
     }
 
-    public void setQuestions (ArrayList<SdkQuestions> Questions)
+    public void setQuestions (ArrayList<SdkPostQuestions> Questions)
     {
         this.Questions = Questions;
     }
