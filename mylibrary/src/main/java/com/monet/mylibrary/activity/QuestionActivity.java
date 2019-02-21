@@ -147,6 +147,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             questionSize = postQuestions.size();
             Toast.makeText(this, "Post", Toast.LENGTH_SHORT).show();
         }
+
+        setQuestion();
     }
 
     @Override
@@ -159,11 +161,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
-            }
-            if (questionNo > 0) {
-                nextQuestion();
             } else {
-                setQuestion();
+                nextQuestion();
             }
         }
     }
@@ -195,7 +194,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-            }else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
                 rv_question.setVisibility(View.VISIBLE);
                 edt_questionType.setVisibility(View.GONE);
                 questionType = "2";
@@ -237,7 +236,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void setAnsJson() throws JSONException {
 
-        if(quesType.equalsIgnoreCase("Pre")) {
+        if (quesType.equalsIgnoreCase("Pre")) {
             if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -278,7 +277,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 //            }
 //            dataPostJson1.put("type", "6");
 //        }
-        }else{
+        } else {
             if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
