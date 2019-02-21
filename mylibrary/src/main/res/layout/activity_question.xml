@@ -62,16 +62,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:gravity="center"
             android:text="This part records your answers\nto a Questionnaire"
-            android:textColor="@color/colorWhite"
+            android:gravity="center"
             android:textSize="22sp"
+            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.586"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -85,7 +85,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.876"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -114,7 +114,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.073"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"/>
 
         <TextView
             android:id="@+id/tv_question"
@@ -131,7 +131,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.149"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rate_layout"
@@ -152,6 +152,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_grayemotion_one"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -168,8 +169,9 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
                 android:max="5"
-                android:progressDrawable="@drawable/seek_bar_line"
-                android:thumb="@drawable/seek_bar_thumb"
+                android:progressTint="@color/colorWhite"
+                android:progressBackgroundTint="@color/colorGray"
+                android:thumbTint="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -212,9 +214,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_question"
             app:layout_constraintVertical_bias="0.14999998"
-            tools:ignore="Autofill,HardcodedText,RtlHardcoded" />
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     <!-- <RelativeLayout

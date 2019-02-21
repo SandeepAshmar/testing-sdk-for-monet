@@ -42,7 +42,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private ConstraintLayout cl_quesQCard, cl_questionLayout, rate_layout;
     private ImageView back, img_rate;
     private SeekBar seekBar_rate;
-    private Button btn_question;
+    public static Button btn_question;
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question;
     private EditText edt_questionType;
@@ -67,6 +67,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         public void onItemClick(View view, int position, String quesId, String ansId) {
             selectedQuesId = quesId;
             selectedAnsId = ansId;
+
+            btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_question.setEnabled(true);
 
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getRadioQuesIds().size() == 0 || savedQuesAndAnswers.getRadioAnsIds().size() == 0) {
                 savedQuesAndAnswers.setRadioQuesIds(quesId);
@@ -107,6 +110,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         public void onItemCheckBoxClick(View view, int position, String quesId, String ansId) {
 
             selectedQuesId = quesId;
+
+            btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_question.setEnabled(true);
 
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getCheckQuesId().size() == 0 || savedQuesAndAnswers.getCheckAnsId().size() == 0) {
                 savedQuesAndAnswers.setCheckQuesId(quesId);
@@ -177,6 +183,37 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Post", Toast.LENGTH_SHORT).show();
         }
 
+        seekBar_rate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                btn_question.setEnabled(true);
+
+                if(progress <= 1){
+                    img_rate.setImageResource(R.drawable.ic_grayemotion_one);
+                }else if(progress == 2){
+                    img_rate.setImageResource(R.drawable.ic_grayemotion_two);
+                }else if(progress == 3){
+                    img_rate.setImageResource(R.drawable.ic_grayemotion_three);
+                }else if(progress == 4){
+                    img_rate.setImageResource(R.drawable.ic_grayemotion_four);
+                }else if(progress == 5){
+                    img_rate.setImageResource(R.drawable.ic_grayemotion_five);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         setQuestion();
     }
 
@@ -190,6 +227,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
+                btn_question.setText("Next");
+                btn_question.setBackgroundResource(R.drawable.btn_disabled);
+                btn_question.setEnabled(false);
             } else {
                 nextQuestion();
             }
