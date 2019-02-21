@@ -1,6 +1,8 @@
 package com.monet.mylibrary.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +15,6 @@ import android.widget.Toast;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
-import com.monet.mylibrary.adapter.RateAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
@@ -60,7 +61,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private JSONArray jsonArray2 = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
-    private RateAdapter rateAdapter;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -132,20 +132,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onItemClick(View view, int position) {
 
-            selectedAnsId = String.valueOf(position + 1);
-
-            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getRateQuesId().size() == 0) {
-                savedQuesAndAnswers.setRateQuesId(selectedQuesId);
-                savedQuesAndAnswers.setRateAnsId(selectedAnsId);
-            } else {
-                if (savedQuesAndAnswers.getRateQuesId().contains(selectedQuesId)) {
-                    int pos = savedQuesAndAnswers.getRateQuesId().indexOf(selectedQuesId);
-                    savedQuesAndAnswers.getRateAnsId().set(pos, selectedAnsId);
-                } else {
-                    savedQuesAndAnswers.setRateQuesId(selectedQuesId);
-                    savedQuesAndAnswers.setRateAnsId(selectedAnsId);
-                }
-            }
         }
     };
 
@@ -183,23 +169,61 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Post", Toast.LENGTH_SHORT).show();
         }
 
+        edt_questionType.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0){
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
+                }else{
+                    btn_question.setBackgroundResource(R.drawable.btn_disabled);
+                    btn_question.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         seekBar_rate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int position, boolean fromUser) {
 
                 btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
                 btn_question.setEnabled(true);
 
-                if(progress <= 1){
+                if(position <= 1){
                     img_rate.setImageResource(R.drawable.ic_grayemotion_one);
-                }else if(progress == 2){
+                }else if(position == 2){
                     img_rate.setImageResource(R.drawable.ic_grayemotion_two);
-                }else if(progress == 3){
+                }else if(position == 3){
                     img_rate.setImageResource(R.drawable.ic_grayemotion_three);
-                }else if(progress == 4){
+                }else if(position == 4){
                     img_rate.setImageResource(R.drawable.ic_grayemotion_four);
-                }else if(progress == 5){
+                }else if(position == 5){
                     img_rate.setImageResource(R.drawable.ic_grayemotion_five);
+                }
+
+                selectedAnsId = String.valueOf(position);
+
+                if (savedQuesAndAnswers == null || savedQuesAndAnswers.getRateQuesId().size() == 0) {
+                    savedQuesAndAnswers.setRateQuesId(selectedQuesId);
+                    savedQuesAndAnswers.setRateAnsId(selectedAnsId);
+                } else {
+                    if (savedQuesAndAnswers.getRateQuesId().contains(selectedQuesId)) {
+                        int pos = savedQuesAndAnswers.getRateQuesId().indexOf(selectedQuesId);
+                        savedQuesAndAnswers.getRateAnsId().set(pos, selectedAnsId);
+                    } else {
+                        savedQuesAndAnswers.setRateQuesId(selectedQuesId);
+                        savedQuesAndAnswers.setRateAnsId(selectedAnsId);
+                    }
                 }
             }
 
@@ -279,8 +303,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "3";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
-
-
+//                seekBar_rate.setMax(radioType);
+            }else if (preQuestions.get(questionNo).getQuestion_type().equals("4")) {
+                rv_question.setVisibility(View.GONE);
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.VISIBLE);
+                questionType = "4";
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
