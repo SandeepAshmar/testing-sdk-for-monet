@@ -169,6 +169,7 @@
                 android:layout_marginBottom="8dp"
                 android:max="5"
                 android:progressDrawable="@drawable/seek_bar_line"
+                android:thumb="@drawable/seek_bar_thumb"
                 android:progressTint="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,10 +1,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape
-            android:shape="line">
+            android:shape="rectangle">
             <stroke
                 android:color="@color/colorGray"
-                android:width="10dp"/>
+                android:width="5dp"/>
+            <solid android:color="@color/colorGray"/>
+            <corners android:radius="5dp"/>
         </shape>
     </item>
 
@@ -14,7 +16,10 @@
                 android:shape="line">
                 <stroke
                     android:color="@color/colorWhite"
-                    android:width="10dp"/>
+                    android:width="5dp"/>
+
+                <solid android:color="@color/colorWhite"/>
+                <corners android:radius="5dp"/>
             </shape>
         </clip>
     </item>
@@ -26,6 +31,9 @@
                 <stroke
                     android:color="@color/colorWhite"
                     android:width="10dp"/>
+
+                <solid android:color="@color/colorWhite"/>
+                <corners android:radius="5dp"/>
             </shape>
         </clip>
     </item>
