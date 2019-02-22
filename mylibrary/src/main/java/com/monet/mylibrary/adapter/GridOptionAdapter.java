@@ -25,11 +25,14 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     private Context context;
     private RadioClickListner radioClickListner;
     private ArrayList<SdkGrid> gridArrayList;
+    private String optionId = "";
 
-    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<SdkGrid> gridArrayList) {
+    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<SdkGrid> gridArrayList,
+                             String optionId) {
         this.context = context;
         this.radioClickListner = radioClickListner;
         this.gridArrayList = gridArrayList;
+        this.optionId = optionId;
     }
 
     @NonNull
@@ -63,20 +66,25 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     }
 
     private void colorChange(ViewHolder holder, SdkGrid sdkGrid) {
-        if(savedQuesAndAnswers == null || savedQuesAndAnswers.gridQuesIds == null
-                || savedQuesAndAnswers.gridOptionIds == null || savedQuesAndAnswers.gridAnsIds == null){
+        if (savedQuesAndAnswers == null || savedQuesAndAnswers.gridQuesIds == null
+                || savedQuesAndAnswers.gridOptionIds == null || savedQuesAndAnswers.gridAnsIds == null) {
             Log.e("", "");
-        }else{
-            if(savedQuesAndAnswers.getGridOptionIds().contains(sdkGrid.getGrid_q_id())){
-                if(savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGrid_id())){
-                    holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
-                    holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+        } else {
+            if (savedQuesAndAnswers.getGridQuesIds().contains(sdkGrid.getGrid_q_id())) {
+                if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
+                    if (savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGrid_id())) {
+                        holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+                        holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+                    } else {
+                        holder.rd_view.setBackground(null);
+                        holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+                    }
                 }else{
                     holder.rd_view.setBackground(null);
                     holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
                 }
 
-            }else {
+            } else {
                 holder.rd_view.setBackground(null);
                 holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
             }
@@ -91,6 +99,7 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView rd_opetionValue;
         private RelativeLayout rd_view;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             rd_opetionValue = itemView.findViewById(R.id.rd_opetionValue);
