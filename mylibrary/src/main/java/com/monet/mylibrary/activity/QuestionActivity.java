@@ -304,6 +304,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "1";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
@@ -313,6 +314,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "2";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, preQuestions.get(questionNo).getOptions());
@@ -322,6 +324,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.VISIBLE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "3";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
@@ -332,12 +335,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
                 rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "4";
             }else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "5";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(this, preQuestions.get(questionNo).getOptions(), radioClickListner);
@@ -347,6 +352,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
+                btn_question.setVisibility(View.GONE);
                 questionType = "6";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size());
@@ -361,6 +367,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "1";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, postQuestions.get(questionNo).getOptions(), radioClickListner);
@@ -369,6 +377,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "2";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, postQuestions.get(questionNo).getOptions());
@@ -377,6 +387,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.VISIBLE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "3";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(postQuestions.get(questionNo).getRadio_type());
@@ -386,11 +398,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "4";
             }else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
                 questionType = "5";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(this, postQuestions.get(questionNo).getOptions(), radioClickListner);
@@ -400,6 +416,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
+                btn_question.setVisibility(View.GONE);
                 questionType = "6";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size());
