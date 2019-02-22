@@ -94,7 +94,7 @@ public class GridFragment extends Fragment {
     }
 
     private void setAdapter(ArrayList<SdkGrid> sdkGrid) {
-        gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid);
+        gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid, optionId);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();
     }
