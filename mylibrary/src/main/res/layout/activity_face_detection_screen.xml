@@ -41,7 +41,7 @@
         android:id="@+id/img_cornerAlignLeftBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:src="@drawable/ic_corner_align_left_bottom"
         app:layout_constraintBottom_toBottomOf="@+id/preview"
         app:layout_constraintEnd_toStartOf="@+id/img_cornerAlignRightBottom"
