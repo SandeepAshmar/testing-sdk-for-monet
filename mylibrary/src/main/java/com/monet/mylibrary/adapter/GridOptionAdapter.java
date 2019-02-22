@@ -25,14 +25,11 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     private Context context;
     private RadioClickListner radioClickListner;
     private ArrayList<SdkGrid> gridArrayList;
-    private String questionId = "";
 
-    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<SdkGrid> gridArrayList,
-                             String questionId) {
+    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<SdkGrid> gridArrayList) {
         this.context = context;
         this.radioClickListner = radioClickListner;
         this.gridArrayList = gridArrayList;
-        this.questionId = questionId;
     }
 
     @NonNull

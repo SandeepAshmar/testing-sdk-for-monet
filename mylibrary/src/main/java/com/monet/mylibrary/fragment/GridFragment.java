@@ -60,17 +60,17 @@ public class GridFragment extends Fragment {
 
         if(survayType.equalsIgnoreCase("pre")){
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            setAdapter(preQuestions.get(questionNo).getOptions().get(optionPosition).getGrid(), preQuestions.get(questionNo).getQuestion_id());
+            setAdapter(preQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }else{
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getGrid(), postQuestions.get(questionNo).getQuestion_id());
+            setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }
 
         return view;
     }
 
-    private void setAdapter(ArrayList<SdkGrid> sdkGrid, String question_id) {
-        gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid, question_id);
+    private void setAdapter(ArrayList<SdkGrid> sdkGrid) {
+        gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();
     }
