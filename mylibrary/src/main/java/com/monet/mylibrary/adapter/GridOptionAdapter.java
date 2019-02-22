@@ -1,6 +1,8 @@
 package com.monet.mylibrary.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +18,21 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
+
 public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.ViewHolder> {
 
     private Context context;
     private RadioClickListner radioClickListner;
     private ArrayList<SdkGrid> gridArrayList;
+    private String questionId = "";
 
-    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<SdkGrid> gridArrayList) {
+    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<SdkGrid> gridArrayList,
+                             String questionId) {
         this.context = context;
         this.radioClickListner = radioClickListner;
         this.gridArrayList = gridArrayList;
+        this.questionId = questionId;
     }
 
     @NonNull
@@ -54,6 +61,29 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
                 }
             }
         });
+
+        colorChange(holder, sdkGrid);
+    }
+
+    private void colorChange(ViewHolder holder, SdkGrid sdkGrid) {
+        if(savedQuesAndAnswers == null || savedQuesAndAnswers.gridQuesIds == null
+                || savedQuesAndAnswers.gridOptionIds == null || savedQuesAndAnswers.gridAnsIds == null){
+            Log.e("", "");
+        }else{
+            if(savedQuesAndAnswers.getGridOptionIds().contains(sdkGrid.getGrid_q_id())){
+                if(savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGrid_id())){
+                    holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+                    holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+                }else{
+                    holder.rd_view.setBackground(null);
+                    holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+                }
+
+            }else {
+                holder.rd_view.setBackground(null);
+                holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+            }
+        }
     }
 
     @Override
