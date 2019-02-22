@@ -161,6 +161,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         btn_question.setOnClickListener(this);
         back.setOnClickListener(this);
 
+        dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
+
         token = getApiToken(this);
         cmp_id = getCmpId(this);
         cf_id = getCfId(this);
@@ -321,7 +323,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
-                edt_questionType.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
                 questionType = "5";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(this, preQuestions.get(questionNo).getOptions(), radioClickListner);
@@ -364,7 +366,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
-                edt_questionType.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
                 questionType = "5";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(this, postQuestions.get(questionNo).getOptions(), radioClickListner);
