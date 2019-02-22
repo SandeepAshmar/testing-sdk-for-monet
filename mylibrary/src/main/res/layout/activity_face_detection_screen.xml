@@ -41,12 +41,13 @@
         android:id="@+id/img_cornerAlignLeftBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="376dp"
         android:src="@drawable/ic_corner_align_left_bottom"
         app:layout_constraintBottom_toBottomOf="@+id/preview"
         app:layout_constraintEnd_toStartOf="@+id/img_cornerAlignRightBottom"
         app:layout_constraintHorizontal_bias="0.096"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.93" />
 
     <ImageView
         android:id="@+id/img_cornerAlignRightBottom"
