@@ -53,7 +53,7 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (radioClickListner != null) {
-                    radioClickListner.onItemClick(v, position, sdkGrid.getGrid_q_id(), sdkGrid.getGrid_id());
+                    radioClickListner.onItemClick(v, position, "", sdkGrid.getGrid_id());
                     notifyDataSetChanged();
                 }
             }

@@ -28,7 +28,7 @@ import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 public class GridFragment extends Fragment {
 
     private int optionPosition = 0, questionNo = 0;
-    private String survayType = "", questionId = "";
+    private String survayType = "", questionId = "", optionId = "";
     private TextView tv_gridOption, tv_gridCount;
     private RecyclerView rv_grid;
     private GridOptionAdapter gridOptionAdapter;
@@ -39,20 +39,20 @@ public class GridFragment extends Fragment {
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getGridQuesIds().size() == 0 || savedQuesAndAnswers.getGridOptionIds().size() == 0
                     || savedQuesAndAnswers.getGridAnsIds().size() == 0) {
                 savedQuesAndAnswers.setGridQuesIds(questionId);
-                savedQuesAndAnswers.setGridOptionIds(quesId);
+                savedQuesAndAnswers.setGridOptionIds(optionId);
                 savedQuesAndAnswers.setGridAnsIds(ansId);
             } else {
                 if (savedQuesAndAnswers.getGridQuesIds().contains(questionId)) {
-                    if (savedQuesAndAnswers.getGridOptionIds().contains(quesId)) {
-                        int optPos = savedQuesAndAnswers.getGridOptionIds().indexOf(quesId);
+                    if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
+                        int optPos = savedQuesAndAnswers.getGridOptionIds().indexOf(optionId);
                         savedQuesAndAnswers.getGridAnsIds().set(optPos, ansId);
                     } else {
-                        savedQuesAndAnswers.setGridOptionIds(String.valueOf(quesId));
+                        savedQuesAndAnswers.setGridOptionIds(String.valueOf(optionId));
                         savedQuesAndAnswers.setGridAnsIds(String.valueOf(ansId));
                     }
                 } else {
                     savedQuesAndAnswers.setGridQuesIds(questionId);
-                    savedQuesAndAnswers.setGridOptionIds(String.valueOf(quesId));
+                    savedQuesAndAnswers.setGridOptionIds(String.valueOf(optionId));
                     savedQuesAndAnswers.setGridAnsIds(String.valueOf(ansId));
                 }
             }
@@ -80,10 +80,12 @@ public class GridFragment extends Fragment {
 
         if(survayType.equalsIgnoreCase("pre")){
             questionId = preQuestions.get(questionNo).getQuestion_id();
+            optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
             setAdapter(preQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }else{
             questionId = postQuestions.get(questionNo).getQuestion_id();
+            optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_id();
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
             setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }
