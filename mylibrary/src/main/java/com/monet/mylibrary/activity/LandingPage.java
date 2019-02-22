@@ -18,6 +18,8 @@ import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.question.SdkPojo;
+import com.monet.mylibrary.model.question.SdkPostQuestions;
+import com.monet.mylibrary.model.question.SdkPreQuestions;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.monet.mylibrary.utils.SdkUtils;
 
@@ -31,8 +33,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.activity.QuestionActivity.postQuestions;
-import static com.monet.mylibrary.activity.QuestionActivity.preQuestions;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 
 public class LandingPage extends AppCompatActivity {
@@ -42,7 +42,8 @@ public class LandingPage extends AppCompatActivity {
     private static ImageView img_currentShows;
     private static TextView tv_land_watch, tv_landCam, tv_vid_landTime;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    protected static ArrayList<String> postQuestion = new ArrayList<>();
+    public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
+    public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
     private static Button btn_landProceed, btn_currentShows;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, apiToken;
@@ -92,7 +93,7 @@ public class LandingPage extends AppCompatActivity {
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
         preQuestions.clear();
-        postQuestion.clear();
+        postQuestions.clear();
         arrayList.clear();
         cmp_Id = cmpId;
         user_Id = userId;

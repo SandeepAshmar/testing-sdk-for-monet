@@ -30,7 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97" />
+        app:layout_constraintVertical_bias="0.97"
+        tools:ignore="HardcodedText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionQCard"
@@ -54,7 +55,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.303"
             app:srcCompat="@drawable/ic_question_icon"
-            tools:ignore="VectorDrawableCompat" />
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView3"
@@ -69,7 +70,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.586" />
+            app:layout_constraintVertical_bias="0.586"
+            tools:ignore="HardcodedText"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -82,18 +84,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.876" />
+            app:layout_constraintVertical_bias="0.876"
+            tools:ignore="HardcodedText"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btn_question"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
-        android:visibility="gone">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/tv_questionNo"
@@ -108,12 +113,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.073" />
+            app:layout_constraintVertical_bias="0.073"
+            tools:ignore="HardcodedText"/>
 
         <TextView
             android:id="@+id/tv_question"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
@@ -124,17 +130,107 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.149" />
+            app:layout_constraintVertical_bias="0.149"
+            tools:ignore="HardcodedText"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rate_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question">
+
+            <ImageView
+                android:id="@+id/img_rate"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_grayemotion_one"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <SeekBar
+                android:id="@+id/seekBar_rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="8dp"
+                android:max="5"
+                android:progressBackgroundTint="@color/colorGray"
+                android:progressTint="@color/colorWhite"
+                android:thumbTint="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_rate"
+                tools:ignore="UnusedAttribute" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/indicatorGrid"
+                android:overScrollMode="never" />
+
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/indicatorGrid"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_alignParentBottom="true"
+                android:elevation="1dp"/>
+
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_question"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="5dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_question" />
+
+        <LinearLayout
+            android:id="@+id/ll_edtLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/colorWhite"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question"
+            app:layout_constraintVertical_bias="0.14999998">
 
         <EditText
             android:id="@+id/edt_questionType"
@@ -142,251 +238,33 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/comment_box"
             android:gravity="top|left"
             android:hint="write your answer here"
-            android:inputType="text"
             android:lines="8"
+            android:maxLength="500"
             android:maxHeight="200dp"
             android:minHeight="200dp"
             android:padding="10dp"
-            android:visibility="gone"
             android:singleLine="false"
-            android:textColorHint="@color/colorWhite"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_question"
-            app:layout_constraintVertical_bias="0.14999998" />
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray"
+            android:visibility="visible"
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/tv_edtCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"
+                android:text="0/500"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    <!-- <RelativeLayout
-         android:id="@+id/rl_quesQCard"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_above="@id/ll_quesQCardBtn"
-         android:visibility="visible">
-
-         <ProgressBar
-             android:id="@+id/quesProgress"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_centerInParent="true"
-             android:visibility="gone"/>
-
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_centerInParent="true"
-             android:layout_margin="10dp"
-             android:orientation="vertical">
-
-             <ImageView
-                 android:layout_width="120dp"
-                 android:layout_height="120dp"
-                 android:layout_gravity="center"
-                 android:layout_marginTop="20dp"
-                 app:srcCompat="@drawable/ic_question_icon"
-                 tools:ignore="VectorDrawableCompat" />
-
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center"
-                 android:layout_marginTop="20dp"
-                 android:gravity="center"
-                 android:text="@string/question_first"
-                 android:textColor="@color/colorBlack"
-                 android:textSize="16dp" />
-
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center"
-                 android:layout_marginTop="20dp"
-                 android:gravity="center"
-                 android:text="@string/question_secound"
-                 android:textColor="@color/colorBlack"
-                 android:textSize="16dp" />
-
-         </LinearLayout>
-
-     </RelativeLayout>
-
-     <LinearLayout
-         android:id="@+id/ll_quesQCardBtn"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:orientation="horizontal"
-         android:weightSum="2">
-
-         <Button
-             android:id="@+id/btn_quesqa_exit"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_margin="15dp"
-             android:layout_weight="1"
-             android:background="@drawable/btn_exit"
-             android:text="exit"
-             android:textAllCaps="false" />
-
-         <Button
-             android:id="@+id/btn_quesqa_proceed"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_margin="15dp"
-             android:layout_weight="1"
-             android:background="@drawable/btn_pro_activate"
-             android:text="proceed"
-             android:textAllCaps="false"
-             android:textColor="@color/colorWhite" />
-
-     </LinearLayout>
-
-     <LinearLayout
-         android:id="@+id/ll_question"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_above="@id/ll_quesNextBtn"
-         android:orientation="vertical"
-         android:visibility="gone">
-
-         <TextView
-             android:id="@+id/tv_questionNo"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:layout_marginBottom="10dp"
-             android:gravity="center"
-             android:hint="questionNo"
-             android:textSize="18sp" />
-
-         <TextView
-             android:id="@+id/tv_question"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:layout_marginLeft="20dp"
-             android:layout_marginRight="20dp"
-             android:layout_marginTop="0dp"
-             android:gravity="center"
-             android:hint="question"
-             android:textColor="@color/colorBlack"
-             android:textSize="16sp" />
-
-         <TextView
-             android:id="@+id/tv_questionSelect"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:layout_marginLeft="20dp"
-             android:layout_marginRight="20dp"
-             android:layout_marginTop="20dp"
-             android:gravity="center"
-             android:hint="questionType"
-             android:textSize="16sp" />
-
-         <RelativeLayout
-             android:id="@+id/rate_layout"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginBottom="10dp"
-             android:layout_marginLeft="15dp"
-             android:layout_marginRight="15dp"
-             android:layout_marginTop="50dp"
-             android:visibility="gone">
-
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentStart="true"
-                 android:text="Not at all likely"
-                 android:textColor="@color/colorBlack" />
-
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentEnd="true"
-                 android:text="Extremely likely"
-                 android:textColor="@color/colorBlack" />
-
-         </RelativeLayout>
-
-         <androidx.recyclerview.widget.RecyclerView
-             android:id="@+id/rv_question"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="15dp"
-             android:overScrollMode="never"
-             android:visibility="visible" />
-
-         <ScrollView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:fillViewport="true"
-             android:groupIndicator="@null">
-
-             <LinearLayout
-                 android:id="@+id/grid_linearLayout"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_marginBottom="80dp"
-                 android:layout_marginLeft="10dp"
-                 android:layout_marginTop="10dp"
-                 android:groupIndicator="@null"
-                 android:orientation="vertical"
-                 android:paddingBottom="16dp"
-                 android:visibility="gone" />
-         </ScrollView>
-
-         <EditText
-             android:id="@+id/edt_questionType"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginLeft="10dp"
-             android:layout_marginRight="10dp"
-             android:layout_marginTop="15dp"
-             android:background="@drawable/comment_box"
-             android:gravity="top|left"
-             android:hint="write your answer here"
-             android:inputType="text"
-             android:lines="8"
-             android:maxHeight="200dp"
-             android:minHeight="200dp"
-             android:padding="10dp"
-             android:singleLine="false"
-             android:textColor="@color/colorBlack"
-             android:visibility="gone" />
-
-     </LinearLayout>
-
-     <LinearLayout
-         android:id="@+id/ll_quesNextBtn"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_alignParentStart="true"
-         android:gravity="center"
-         android:orientation="horizontal"
-         android:visibility="gone">
-
-         <Button
-             android:id="@+id/btn_quesNext"
-             android:layout_width="150dp"
-             android:layout_height="wrap_content"
-             android:layout_margin="15dp"
-             android:background="@drawable/btn_pro_gray"
-             android:text="Next"
-             android:textAllCaps="false"
-             android:textColor="@color/colorWhite" />
-
-
-     </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
