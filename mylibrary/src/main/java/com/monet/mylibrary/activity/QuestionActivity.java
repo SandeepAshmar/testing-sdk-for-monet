@@ -1,7 +1,11 @@
 package com.monet.mylibrary.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +23,6 @@ import com.monet.mylibrary.adapter.RadioTypeAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.question.SdkPostQuestions;
-import com.monet.mylibrary.model.question.SdkPreQuestions;
 import com.monet.mylibrary.utils.AnswerSavedClass;
 import com.monet.mylibrary.utils.SdkPreferences;
 
@@ -28,13 +30,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.monet.mylibrary.activity.LandingPage.postQuestions;
+import static com.monet.mylibrary.activity.LandingPage.preQuestions;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
@@ -52,8 +54,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private boolean qCardVisible = true;
     public static int questionSize;
     public static String quesType = "";
-    public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
-    public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
     private int questionNo = 0, radioType;
     public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
@@ -63,6 +63,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private JSONArray jsonArray2 = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
+    private Dialog dialog;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -90,7 +91,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 if (quesType.equalsIgnoreCase("pre")) {
                     String yes = preQuestions.get(questionNo).getOptions().get(position).getOption_value();
                     if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
-//                        showDialog();
+                        showDialog();
                     } else {
                         typeFiveReason = "";
                     }
@@ -317,6 +318,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
                 questionType = "4";
+            }else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "5";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                radioTypeAdapter = new RadioTypeAdapter(this, preQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
@@ -352,6 +361,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
                 questionType = "4";
+            }else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                edt_questionType.setVisibility(View.GONE);
+                questionType = "5";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                radioTypeAdapter = new RadioTypeAdapter(this, postQuestions.get(questionNo).getOptions(), radioClickListner);
+                rv_question.setAdapter(radioTypeAdapter);
             }
 
         }
@@ -380,6 +397,52 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         } else {
             setQuestion();
         }
+    }
+
+    @SuppressLint("NewApi")
+    public void showDialog() {
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start,
+                                       int end, Spanned dest, int dstart, int dend) {
+
+                for (int i = start; i < end; i++) {
+                    if (!Character.isLetterOrDigit(source.charAt(i)) &&
+                            !Character.toString(source.charAt(i)).equals("_") &&
+                            !Character.toString(source.charAt(i)).equals("-") &&
+                            !Character.toString(source.charAt(i)).equals(" ")) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_typefive);
+
+        final EditText edt_dialogFive;
+        Button btn_dialogFive;
+
+        edt_dialogFive = dialog.findViewById(R.id.edt_dialogFive);
+        btn_dialogFive = dialog.findViewById(R.id.btn_dialogFive);
+
+        edt_dialogFive.setFilters(new InputFilter[]{filter});
+
+        dialog.show();
+
+        btn_dialogFive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edt_dialogFive.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter your review", Toast.LENGTH_SHORT).show();
+                } else {
+                    typeFiveReason = edt_dialogFive.getText().toString();
+                    dialog.dismiss();
+                }
+
+            }
+        });
     }
 
     private void setAnsJson() throws JSONException {
