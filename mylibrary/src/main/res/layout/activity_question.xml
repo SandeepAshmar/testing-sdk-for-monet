@@ -193,7 +193,8 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pager_grid"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_above="@+id/indicatorGrid"
                 android:overScrollMode="never" />
 
@@ -201,8 +202,7 @@
                 android:id="@+id/indicatorGrid"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
-                android:layout_alignParentBottom="true"
-                android:elevation="1dp"/>
+                android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
 
