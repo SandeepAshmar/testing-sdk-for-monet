@@ -424,25 +424,51 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         dialog.setContentView(R.layout.dialog_typefive);
 
         final EditText edt_dialogFive;
-        Button btn_dialogFive;
+        final TextView tv_dialogLimit, tv_submitDialog, tv_cancelDialog;
 
         edt_dialogFive = dialog.findViewById(R.id.edt_dialogFive);
-        btn_dialogFive = dialog.findViewById(R.id.btn_dialogFive);
+        tv_submitDialog = dialog.findViewById(R.id.tv_submitDialog);
+        tv_dialogLimit = dialog.findViewById(R.id.tv_dialogLimit);
+        tv_cancelDialog = dialog.findViewById(R.id.tv_cancelDialog);
 
         edt_dialogFive.setFilters(new InputFilter[]{filter});
 
+        edt_dialogFive.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_dialogLimit.setText(s.length()+"/150");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         dialog.show();
 
-        btn_dialogFive.setOnClickListener(new View.OnClickListener() {
+        tv_submitDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (edt_dialogFive.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter your review", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please write your answer", Toast.LENGTH_SHORT).show();
                 } else {
                     typeFiveReason = edt_dialogFive.getText().toString();
                     dialog.dismiss();
                 }
 
+            }
+        });
+
+        tv_cancelDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
     }
