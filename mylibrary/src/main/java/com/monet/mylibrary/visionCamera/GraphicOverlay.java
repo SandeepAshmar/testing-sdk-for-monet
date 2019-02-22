@@ -39,11 +39,11 @@ public class GraphicOverlay extends View {
     private int mFacing = CameraSource.CAMERA_FACING_BACK;
     private Set<Graphic> mGraphics = new HashSet<>();
     public boolean detecting = false;
-    public boolean detecting1 = false;
-    public boolean detecting2 = false;
-    public boolean detecting3 = false;
-    public Handler handler = new Handler();
-    public Runnable runnable;
+//    public boolean detecting1 = false;
+//    public boolean detecting2 = false;
+//    public boolean detecting3 = false;
+//    public Handler handler = new Handler();
+//    public Runnable runnable;
     public int i = 1;
 
     public static abstract class Graphic {
@@ -123,7 +123,7 @@ public class GraphicOverlay extends View {
         synchronized (mLock) {
             mGraphics.add(graphic);
             detecting = true;
-            setView();
+//            setView();
 //            changeImage();
         }
         postInvalidate();
@@ -136,7 +136,7 @@ public class GraphicOverlay extends View {
         synchronized (mLock) {
             mGraphics.remove(graphic);
             detecting = false;
-            setView();
+//            setView();
 //            changeImage();img_detect
 
         }
@@ -175,94 +175,94 @@ public class GraphicOverlay extends View {
         }
     }
 
-    private void setView() {
+//    private void setView() {
+//
+//        if(detecting){
+//            if(detecting3){
+//                FaceDetectionScreen.tv_detecting.setTextColor(Color.GREEN);
+//                FaceDetectionScreen.tv_detecting.setText("Finish");
+//            }else{
+//                FaceDetectionScreen.tv_detecting.setTextColor(Color.GREEN);
+//                FaceDetectionScreen.tv_detecting.setText("Detecting");
+//            }
+//
+//        }else{
+//            if(detecting3){
+//                FaceDetectionScreen.tv_detecting.setTextColor(Color.GREEN);
+//                FaceDetectionScreen.tv_detecting.setText("Finish");
+//            }else{
+//                FaceDetectionScreen.tv_detecting.setTextColor(Color.RED);
+//                FaceDetectionScreen.tv_detecting.setText("Not Detecting");
+//            }
+//        }
+//
+//        runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                if (detecting) {
+//                    if (detecting1 != true) {
+//                        detectFirst();
+//                    }else if(detecting2 !=true){
+//                        detectSecond();
+//                    }else if(detecting3 !=true){
+//                        detectThird();
+//                    }
+//                } else {
+//                    detecting1 = false;
+//                    detecting2 = false;
+//                    detecting3 = false;
+//                }
+//            }
+//        };
+//        handler.postDelayed(runnable, 1000);
+//
+//
+//    }
 
-        if(detecting){
-            if(detecting3){
-                FaceDetectionScreen.tv_detecting.setTextColor(Color.GREEN);
-                FaceDetectionScreen.tv_detecting.setText("Finish");
-            }else{
-                FaceDetectionScreen.tv_detecting.setTextColor(Color.GREEN);
-                FaceDetectionScreen.tv_detecting.setText("Detecting");
-            }
+//    private void detectFirst() {
+//        if (detecting) {
+//            FaceDetectionScreen.v_cOne.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    FaceDetectionScreen.v_cOne.setBackgroundResource(R.drawable.ic_green_back);
+//                   detecting1 = true;
+//                   detecting2 = false;
+//                   detecting3 = false;
+//                }
+//            }, 1000);
+//        }
+//    }
 
-        }else{
-            if(detecting3){
-                FaceDetectionScreen.tv_detecting.setTextColor(Color.GREEN);
-                FaceDetectionScreen.tv_detecting.setText("Finish");
-            }else{
-                FaceDetectionScreen.tv_detecting.setTextColor(Color.RED);
-                FaceDetectionScreen.tv_detecting.setText("Not Detecting");
-            }
-        }
+//    private void detectSecond() {
+//        if (detecting) {
+//            FaceDetectionScreen.v_cTwo.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    FaceDetectionScreen.v_cTwo.setBackgroundResource(R.drawable.ic_green_back);
+//                    detecting1 = true;
+//                    detecting2 = true;
+//                    detecting3 = false;
+//                }
+//            }, 1000);
+//        }
+//
+//    }
 
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (detecting) {
-                    if (detecting1 != true) {
-                        detectFirst();
-                    }else if(detecting2 !=true){
-                        detectSecond();
-                    }else if(detecting3 !=true){
-                        detectThird();
-                    }
-                } else {
-                    detecting1 = false;
-                    detecting2 = false;
-                    detecting3 = false;
-                }
-            }
-        };
-        handler.postDelayed(runnable, 1000);
-
-
-    }
-
-    private void detectFirst() {
-        if (detecting) {
-            FaceDetectionScreen.v_cOne.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    FaceDetectionScreen.v_cOne.setBackgroundResource(R.drawable.ic_green_back);
-                   detecting1 = true;
-                   detecting2 = false;
-                   detecting3 = false;
-                }
-            }, 1000);
-        }
-    }
-
-    private void detectSecond() {
-        if (detecting) {
-            FaceDetectionScreen.v_cTwo.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    FaceDetectionScreen.v_cTwo.setBackgroundResource(R.drawable.ic_green_back);
-                    detecting1 = true;
-                    detecting2 = true;
-                    detecting3 = false;
-                }
-            }, 1000);
-        }
-
-    }
-
-    private void detectThird() {
-        if (detecting) {
-            FaceDetectionScreen.v_cThree.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    FaceDetectionScreen.v_cThree.setBackgroundResource(R.drawable.ic_green_back);
-                    FaceDetectionScreen.btn_feceDetct.setEnabled(true);
-                    FaceDetectionScreen.btn_feceDetct.setBackgroundResource(R.drawable.btn_pro_activate);
-                    detecting1 = true;
-                    detecting2 = true;
-                    detecting3 = true;
-                }
-            }, 1000);
-        }
-    }
+//    private void detectThird() {
+//        if (detecting) {
+//            FaceDetectionScreen.v_cThree.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    FaceDetectionScreen.v_cThree.setBackgroundResource(R.drawable.ic_green_back);
+//                    FaceDetectionScreen.btn_feceDetct.setEnabled(true);
+//                    FaceDetectionScreen.btn_feceDetct.setBackgroundResource(R.drawable.btn_pro_activate);
+//                    detecting1 = true;
+//                    detecting2 = true;
+//                    detecting3 = true;
+//                }
+//            }, 1000);
+//        }
+//    }
 
 //    private void changeImage(){
 //        if(detecting){

@@ -2,14 +2,8 @@ package com.monet.mylibrary.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -18,49 +12,37 @@ import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.monet.monet_networks.visionCamera.FaceGraphic;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.visionCamera.CameraSourcePreview;
+import com.monet.mylibrary.visionCamera.FaceGraphic;
 import com.monet.mylibrary.visionCamera.GraphicOverlay;
 
 import java.io.IOException;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class FaceDetectionScreen extends AppCompatActivity {
 
-    public static TextView tv_detecting;
-    public static ImageView v_cOne, v_cTwo, v_cThree;
-    public static Button btn_feceDetct;
     private static final String TAG = "FaceTracker";
     private CameraSource mCameraSource = null;
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
     private static final int RC_HANDLE_GMS = 9001;
-    public boolean detecting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_detection_screen);
 
-        tv_detecting = findViewById(R.id.tv_detecting);
-        v_cOne = findViewById(R.id.v_cOne);
-        v_cTwo = findViewById(R.id.v_cTwo);
-        v_cThree = findViewById(R.id.v_cThree);
-        btn_feceDetct = findViewById(R.id.btn_feceDetct);
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
-        btn_feceDetct.setEnabled(false);
+    }
 
-        btn_feceDetct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn_feceDetct.setClickable(false);
-                mPreview.stop();
-                mPreview.release();
-                startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
-                finish();
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createCameraSource();
+        startCameraSource();
     }
 
     private void createCameraSource() {
@@ -133,10 +115,11 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mFaceGraphic.updateFace(face);
 
         }
+
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
-            detecting = false;
+            // detecting = false;
         }
 
         @Override
@@ -146,9 +129,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        createCameraSource();
-        startCameraSource();
-        super.onResume();
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

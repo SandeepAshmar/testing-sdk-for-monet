@@ -11,10 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ImageSliderAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,6 +83,16 @@ public class EmotionScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkCameraPermission()) {
+         //   Toast.makeText(this, "Permission granted onResume", Toast.LENGTH_SHORT).show();
+        } else {
+            requestCameraPermission();
+        }
+    }
+
     private void requestCameraPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale
                 (this, Manifest.permission.CAMERA)) {
@@ -108,16 +116,6 @@ public class EmotionScreen extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (checkCameraPermission()) {
-            Toast.makeText(this, "Permission granted onResume", Toast.LENGTH_SHORT).show();
-        } else {
-            requestCameraPermission();
-        }
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.DialogTheme);
@@ -136,75 +134,9 @@ public class EmotionScreen extends AppCompatActivity {
             alertDialog.show();
         } else {
             //take positive actions
-            Toast.makeText(this, "Permission granted onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, "Permission granted onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-
-    //    private FrameLayout emotion_frame;
-//    private LinearLayout btn_extll, btn_nextll;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_emotion_screen);
-//
-//        emotion_frame = findViewById(R.id.emotion_frame);
-//        btn_extll = findViewById(R.id.faceIns_firstBtnll);
-//        btn_nextll = findViewById(R.id.faceIns_secoundBtnll);
-//        btn_exit = findViewById(R.id.btn_faceIns_exit);
-//        btn_proceed = findViewById(R.id.btn_faceIns_proceed);
-//        btn_next = findViewById(R.id.btn_faceIns_next);
-//
-//        setButtonClicks();
-//    }
-//
-//
-//    private void setButtonClicks(){
-//        btn_exit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                btn_exit.setClickable(false);
-//                finish();
-//            }
-//        });
-//
-//        btn_proceed.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                btn_proceed.setClickable(false);
-//                setFragment(faceDetectionInsSecound);
-//                btn_extll.setVisibility(View.GONE);
-//                btn_nextll.setVisibility(View.VISIBLE);
-//                if (checkCameraPermission()) {
-//                    Log.e("Tag", "Camera and External storage Permission's are allowed");
-//                } else {
-//                    requestCameraPermission();
-//                }
-//            }
-//        });
-//
-//        btn_next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(layoutShow.equals("first_layout")){
-//                    setFragment(faceDetectionInsThird);
-//                    layoutShow = "secoundLayout";
-//                }
-//                else if(layoutShow.equals("secoundLayout")){
-//                    setFragment(faceDetectionInsForth);
-//                    layoutShow = "thirdLayout";
-//                }
-//                else if(layoutShow.equals("thirdLayout")){
-//                    btn_next.setClickable(false);
-//                    startActivity(new Intent(EmotionScreen.this, FaceDetectionScreen.class));
-//                    finish();
-//                }
-//            }
-//        });
-//    }
-//
-
 
 }

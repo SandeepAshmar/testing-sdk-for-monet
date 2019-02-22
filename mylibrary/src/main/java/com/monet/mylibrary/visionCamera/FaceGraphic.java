@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.monet.monet_networks.visionCamera;
+package com.monet.mylibrary.visionCamera;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
