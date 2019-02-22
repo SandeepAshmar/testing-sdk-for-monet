@@ -58,7 +58,7 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 0;
+        return gridArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
