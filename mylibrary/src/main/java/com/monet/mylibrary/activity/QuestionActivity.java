@@ -13,12 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
+import com.monet.mylibrary.adapter.GridSliderAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.IOnItemClickListener;
@@ -34,6 +36,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import me.relex.circleindicator.CircleIndicator;
 
 import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
@@ -46,7 +50,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private ConstraintLayout cl_quesQCard, cl_questionLayout, rate_layout;
     private ImageView back, img_rate;
     private SeekBar seekBar_rate;
+    private ViewPager gridViewPager;
     private LinearLayout ll_edtLayout;
+    private RelativeLayout rl_grid;
     public static Button btn_question;
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_edtCount;
@@ -63,6 +69,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private JSONArray jsonArray2 = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
+    private GridSliderAdapter gridSliderAdapter;
+    private CircleIndicator indicatorGrid;
     private Dialog dialog;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
@@ -157,6 +165,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         seekBar_rate = findViewById(R.id.seekBar_rate);
         ll_edtLayout = findViewById(R.id.ll_edtLayout);
         tv_edtCount = findViewById(R.id.tv_edtCount);
+        gridViewPager = findViewById(R.id.pager_grid);
+        rl_grid = findViewById(R.id.rl_grid);
+        indicatorGrid = findViewById(R.id.indicatorGrid);
 
         btn_question.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -292,6 +303,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
                 questionType = "1";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
@@ -300,6 +312,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
                 questionType = "2";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, preQuestions.get(questionNo).getOptions());
@@ -308,6 +321,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.VISIBLE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
                 questionType = "3";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
@@ -317,15 +331,27 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
+                rl_grid.setVisibility(View.GONE);
                 questionType = "4";
             }else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
                 questionType = "5";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(this, preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
+            }else if(preQuestions.get(questionNo).getQuestion_type().equals("6")){
+                rv_question.setVisibility(View.GONE);
+                rate_layout.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.VISIBLE);
+                questionType = "6";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size());
+                gridViewPager.setAdapter(gridSliderAdapter);
+                indicatorGrid.setViewPager(gridViewPager);
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
@@ -369,6 +395,16 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(this, postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
+            }else if(postQuestions.get(questionNo).getQuestion_type().equals("6")){
+                rv_question.setVisibility(View.GONE);
+                rate_layout.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.VISIBLE);
+                questionType = "6";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size());
+                gridViewPager.setAdapter(gridSliderAdapter);
+                indicatorGrid.setViewPager(gridViewPager);
             }
 
         }
