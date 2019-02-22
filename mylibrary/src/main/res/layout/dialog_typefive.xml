@@ -37,6 +37,8 @@
         android:gravity="top|left"
         android:hint="Write your answer"
         android:paddingBottom="15dp"
+        android:maxLength="150"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,! "
         android:singleLine="false"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="parent"

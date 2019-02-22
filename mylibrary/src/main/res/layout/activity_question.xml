@@ -215,7 +215,6 @@
             android:background="@drawable/comment_box"
             android:gravity="top|left"
             android:hint="write your answer here"
-            android:inputType="text"
             android:lines="8"
             android:maxLength="500"
             android:maxHeight="200dp"
