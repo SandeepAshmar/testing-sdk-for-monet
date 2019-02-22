@@ -9,13 +9,13 @@
     <com.monet.mylibrary.visionCamera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6">
+        app:layout_constraintVertical_bias="0.0">
 
         <com.monet.mylibrary.visionCamera.GraphicOverlay
             android:id="@+id/faceOverlay"
@@ -41,7 +41,7 @@
         android:id="@+id/img_cornerAlignLeftBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="376dp"
         android:src="@drawable/ic_corner_align_left_bottom"
         app:layout_constraintBottom_toBottomOf="@+id/preview"
         app:layout_constraintEnd_toStartOf="@+id/img_cornerAlignRightBottom"
@@ -53,9 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_corner_align_right_bottom"
-        app:layout_constraintBottom_toBottomOf="@+id/preview"
+        app:layout_constraintBottom_toBottomOf="@+id/img_cornerAlignLeftBottom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="@+id/preview"
         app:layout_constraintTop_toTopOf="@+id/img_cornerAlignLeftBottom"
         app:layout_constraintVertical_bias="0.0" />
