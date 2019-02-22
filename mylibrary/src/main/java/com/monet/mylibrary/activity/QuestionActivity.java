@@ -257,8 +257,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (i == R.id.img_toolbarBack) {
             setPreviousQuestion();
         } else if (i == R.id.btn_question) {
-            btn_question.setBackgroundResource(R.drawable.btn_disabled);
-            btn_question.setEnabled(false);
             if (qCardVisible) {
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
@@ -384,6 +382,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
         questionNo = (questionNo + 1);
         if (questionNo < questionSize) {
+            btn_question.setBackgroundResource(R.drawable.btn_disabled);
+            btn_question.setEnabled(false);
             setQuestion();
         } else {
             questionNo = (questionNo - 1);
@@ -397,6 +397,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             clearValues();
             finish();
         } else {
+            btn_question.setBackgroundResource(R.drawable.btn_disabled);
+            btn_question.setEnabled(false);
             setQuestion();
         }
     }
