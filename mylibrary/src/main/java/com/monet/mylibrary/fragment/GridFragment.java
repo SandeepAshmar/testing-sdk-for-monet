@@ -2,7 +2,6 @@ package com.monet.mylibrary.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ public class GridFragment extends Fragment {
     private TextView tv_gridOption, tv_gridCount;
     private RecyclerView rv_grid;
     private GridOptionAdapter gridOptionAdapter;
-    private View view;
 
     private RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -79,19 +77,18 @@ public class GridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_grid, container, false);
-        return view;
+        View view = inflater.inflate(R.layout.fragment_grid, container, false);
+        optionPosition = getArguments().getInt("position");
+        survayType = getArguments().getString("survayType");
+        questionNo = getArguments().getInt("questionNo");
+        return initView(view);
     }
 
-    private void initView(){
+    private View initView(View view){
         tv_gridCount = view.findViewById(R.id.tv_gridCount);
         tv_gridOption = view.findViewById(R.id.tv_gridOption);
         rv_grid = view.findViewById(R.id.rv_grid);
         rv_grid.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        optionPosition = getArguments().getInt("position");
-        survayType = getArguments().getString("survayType");
-        questionNo = getArguments().getInt("questionNo");
 
         tv_gridCount.setText("Question "+(optionPosition+1));
 
@@ -107,26 +104,13 @@ public class GridFragment extends Fragment {
             setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }
 
+        return view;
     }
 
     private void setAdapter(ArrayList<SdkGrid> sdkGrid) {
         gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid, optionId);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initView();
-                }
-            }, 100);
-        }
     }
 
 }

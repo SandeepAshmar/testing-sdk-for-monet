@@ -8,6 +8,16 @@ public class SdkGrid {
 
     private String grid_id;
 
+    private boolean isChecked;
+
+    public boolean getChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public String getGrid_value ()
     {
         return grid_value;
