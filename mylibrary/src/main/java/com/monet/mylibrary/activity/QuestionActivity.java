@@ -22,6 +22,7 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.GridSliderAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
+import com.monet.mylibrary.adapter.SingleImageSelectionAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.IOnItemClickListener;
 import com.monet.mylibrary.listner.RadioClickListner;
@@ -56,6 +57,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static Button btn_question;
     private RecyclerView rv_question;
     private TextView tv_questionNo, tv_question, tv_edtCount;
+    public static TextView tv_nextGrid;
     private EditText edt_questionType;
     private boolean qCardVisible = true;
     public static int questionSize;
@@ -72,6 +74,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private GridSliderAdapter gridSliderAdapter;
     private CircleIndicator indicatorGrid;
     private Dialog dialog;
+    private SingleImageSelectionAdapter singleImageSelectionAdapter;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -139,7 +142,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    private IOnItemClickListener rateItemClick = new IOnItemClickListener() {
+    private IOnItemClickListener imageRadioClickListner = new IOnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
 
@@ -168,6 +171,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         gridViewPager = findViewById(R.id.pager_grid);
         rl_grid = findViewById(R.id.rl_grid);
         indicatorGrid = findViewById(R.id.indicatorGrid);
+        tv_nextGrid = findViewById(R.id.tv_nextGrid);
 
         btn_question.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -276,6 +280,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 nextQuestion();
             }
+        }else if(i == R.id.tv_nextGrid){
+            btn_question.performClick();
         }
     }
 
@@ -358,6 +364,16 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
+            }else if (preQuestions.get(questionNo).getQuestion_type().equals("7")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
+                questionType = "7";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(this, imageRadioClickListner, preQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(singleImageSelectionAdapter);
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
