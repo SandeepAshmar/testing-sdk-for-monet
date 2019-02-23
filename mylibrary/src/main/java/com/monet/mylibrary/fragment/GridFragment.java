@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
+import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.dataPostJson1;
 import static com.monet.mylibrary.activity.QuestionActivity.quesJson;
 import static com.monet.mylibrary.activity.QuestionActivity.quesJsonGrid;
@@ -76,8 +77,12 @@ public class GridFragment extends Fragment {
                 if(savedQuesAndAnswers.getGridAnsIds().size() ==
                         preQuestions.get(questionNo).getOptions().size()){
                     tv_nextGrid.setVisibility(View.VISIBLE);
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
                 }else{
                     tv_nextGrid.setVisibility(View.GONE);
+                    btn_question.setBackgroundResource(R.drawable.btn_disabled);
+                    btn_question.setEnabled(false);
                 }
 
             }else{
