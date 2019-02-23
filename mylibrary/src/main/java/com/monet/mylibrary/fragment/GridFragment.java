@@ -26,6 +26,7 @@ import static com.monet.mylibrary.activity.QuestionActivity.dataPostJson1;
 import static com.monet.mylibrary.activity.QuestionActivity.quesJson;
 import static com.monet.mylibrary.activity.QuestionActivity.quesJsonGrid;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
+import static com.monet.mylibrary.activity.QuestionActivity.tv_nextGrid;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +70,18 @@ public class GridFragment extends Fragment {
                 dataPostJson1.put("type", "6");
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+
+            if(survayType.equalsIgnoreCase("pre")){
+                if(savedQuesAndAnswers.getGridAnsIds().size() ==
+                        preQuestions.get(questionNo).getOptions().size()){
+                    tv_nextGrid.setVisibility(View.VISIBLE);
+                }else{
+                    tv_nextGrid.setVisibility(View.GONE);
+                }
+
+            }else{
+
             }
         }
     };

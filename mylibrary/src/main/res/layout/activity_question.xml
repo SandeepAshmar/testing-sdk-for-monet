@@ -182,7 +182,7 @@
 
         <RelativeLayout
             android:id="@+id/rl_grid"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -193,16 +193,29 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pager_grid"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_above="@+id/indicatorGrid"
                 android:overScrollMode="never" />
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicatorGrid"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_alignParentBottom="true"/>
+
+            <TextView
+                android:id="@+id/tv_nextGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:visibility="gone"
+                android:elevation="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/colorWhite"
+                tools:ignore="HardcodedText,UnusedAttribute" />
 
         </RelativeLayout>
 
@@ -251,7 +264,7 @@
             android:textColor="@color/colorGray"
             android:textColorHint="@color/colorGray"
             android:visibility="visible"
-            tools:ignore="Autofill,HardcodedText,RtlHardcoded"/>
+            tools:ignore="Autofill,HardcodedText,RtlHardcoded,TextFields"/>
 
             <TextView
                 android:id="@+id/tv_edtCount"
@@ -261,7 +274,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
                 android:text="0/500"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
