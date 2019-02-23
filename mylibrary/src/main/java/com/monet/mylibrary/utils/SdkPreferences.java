@@ -127,11 +127,4 @@ public class SdkPreferences {
         mPrefsEditor.putString("sdk_videoUrl", value);
         mPrefsEditor.commit();
     }
-
-    public static void clearAllPreferences(Context ctx) {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mPrefsEditor = mPrefs.edit();
-        mPrefsEditor.clear();
-        mPrefsEditor.commit();
-    }
 }

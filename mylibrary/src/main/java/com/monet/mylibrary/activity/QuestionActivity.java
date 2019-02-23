@@ -602,16 +602,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("text", typeFiveReason);
                 dataPostJson1.put("type", "5");
             }
-//        else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("6")) {
-//            dataPostJson1 = new JSONObject();
-//            quesJsonGrid = new JSONObject();
-//            quesJson.put(selectedQuesId, dataPostJson1);
-//            dataPostJson1.put("options", quesJsonGrid);
-//            for (int i = 0; i < savedQuesAndAnswers.getGridAnsIds().size(); i++) {
-//                quesJsonGrid.put(savedQuesAndAnswers.getGridOptionIds().get(i), savedQuesAndAnswers.getGridAnsIds().get(i));
-//            }
-//            dataPostJson1.put("type", "6");
-//        }
         }
 
         Log.d("json", "json " + quesJson);
