@@ -160,6 +160,7 @@ public class CameraSourcePreview extends ViewGroup {
 //        int childHeight = (int)(((float) layoutWidth / (float) width) * height);
         int childHeight = layoutHeight;
 
+
         // If height is too tall using fit width, does fit height instead.
         if (childHeight > layoutHeight) {
             childHeight = layoutHeight;
