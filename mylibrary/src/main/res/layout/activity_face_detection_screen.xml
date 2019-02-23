@@ -9,7 +9,8 @@
     <com.monet.mylibrary.visionCamera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -19,8 +20,8 @@
 
         <com.monet.mylibrary.visionCamera.GraphicOverlay
             android:id="@+id/faceOverlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="wra"
+            android:layout_height="match_parent"
             android:visibility="invisible" />
 
     </com.monet.mylibrary.visionCamera.CameraSourcePreview>
