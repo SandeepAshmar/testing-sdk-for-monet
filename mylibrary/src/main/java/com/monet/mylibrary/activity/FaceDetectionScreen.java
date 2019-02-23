@@ -2,8 +2,11 @@ package com.monet.mylibrary.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -28,6 +31,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
     private static final int RC_HANDLE_GMS = 9001;
+    private ImageView img_cornerAlignRightTop,img_cornerAlignLeftBottom,img_cornerAlignRightBottom,img_cornerAlignLeftTop;
+    private TextView tv_notify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +41,32 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
+        img_cornerAlignRightTop = findViewById(R.id.img_cornerAlignRightTop);
+        img_cornerAlignLeftBottom = findViewById(R.id.img_cornerAlignLeftBottom);
+        img_cornerAlignRightBottom = findViewById(R.id.img_cornerAlignRightBottom);
+        img_cornerAlignLeftTop = findViewById(R.id.img_cornerAlignLeftTop);
+        tv_notify = findViewById(R.id.tv_notify);
+
     }
+
+    private void setFrameGreen() {
+        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
+        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
+        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
+        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
+        tv_notify.setBackgroundColor(Color.parseColor("#226501"));
+        tv_notify.setText("Detected");
+    }
+
+    private void setFrameRed() {
+        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
+        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
+        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
+        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
+        tv_notify.setBackgroundColor(Color.parseColor("#ff3939"));
+        tv_notify.setText("Adjust your face");
+    }
+
 
     @Override
     protected void onResume() {
@@ -113,12 +143,14 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-
+            setFrameGreen();
+            Log.d(TAG, "face detected..." + detectionResults);
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
+            setFrameRed();
             // detecting = false;
         }
 
@@ -127,6 +159,9 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.remove(mFaceGraphic);
         }
     }
+
+
+
 
     @Override
     public void onBackPressed() {
