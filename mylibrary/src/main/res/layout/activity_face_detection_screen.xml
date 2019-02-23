@@ -20,7 +20,7 @@
 
         <com.monet.mylibrary.visionCamera.GraphicOverlay
             android:id="@+id/faceOverlay"
-            android:layout_width="wra"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:visibility="invisible" />
 
