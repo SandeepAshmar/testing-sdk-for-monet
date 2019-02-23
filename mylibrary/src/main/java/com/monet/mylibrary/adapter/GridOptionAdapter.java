@@ -48,21 +48,23 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final SdkGrid sdkGrid = gridArrayList.get(position);
-
-        holder.rd_opetionValue.setText(sdkGrid.getGrid_value());
+        holder.rd_opetionValue.setText(gridArrayList.get(position).getGrid_value());
 
         holder.rd_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (radioClickListner != null) {
-                    radioClickListner.onItemClick(v, position, "", sdkGrid.getGrid_id());
+                    radioClickListner.onItemClick(v, position, "", gridArrayList.get(position).getGrid_id());
+                    for (int i = 0; i <gridArrayList.size() ; i++) {
+                        gridArrayList.get(i).setChecked(false);
+                    }
+                    gridArrayList.get(position).setChecked(true);
                     notifyDataSetChanged();
                 }
             }
         });
 
-        colorChange(holder, sdkGrid);
+        colorChange(holder, gridArrayList.get(position));
     }
 
     private void colorChange(ViewHolder holder, SdkGrid sdkGrid) {
@@ -73,20 +75,40 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
             if (savedQuesAndAnswers.getGridQuesIds().contains(sdkGrid.getGrid_q_id())) {
                 if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
                     if (savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGrid_id())) {
+                        if (sdkGrid.getChecked()) {
+                            holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+                            holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+                        } else {
+                            holder.rd_view.setBackground(null);
+                            holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+                        }
+                    } else {
+                        if (sdkGrid.getChecked()) {
+                            holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+                            holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+                        } else {
+                            holder.rd_view.setBackground(null);
+                            holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+                        }
+                    }
+                }else{
+                    if (sdkGrid.getChecked()) {
                         holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
                         holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
                     } else {
                         holder.rd_view.setBackground(null);
                         holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
                     }
-                }else{
-                    holder.rd_view.setBackground(null);
-                    holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
                 }
 
             } else {
-                holder.rd_view.setBackground(null);
-                holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+                if (sdkGrid.getChecked()) {
+                    holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+                    holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+                } else {
+                    holder.rd_view.setBackground(null);
+                    holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
+                }
             }
         }
     }
