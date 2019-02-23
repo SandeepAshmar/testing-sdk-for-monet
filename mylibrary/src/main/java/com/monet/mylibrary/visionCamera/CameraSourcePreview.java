@@ -163,7 +163,7 @@ public class CameraSourcePreview extends ViewGroup {
         if (childHeight > layoutHeight) {
             childHeight = layoutHeight;
 //            childWidth = (int)(((float) layoutHeight / (float) height) * width);
-            childWidth = layoutWidth;
+            childWidth = 50;
         }
 
         for (int i = 0; i < getChildCount(); ++i) {
