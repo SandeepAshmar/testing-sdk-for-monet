@@ -142,6 +142,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             setFrameGreen();
+            Log.d(TAG, "face detected...");
         }
 
         @Override
