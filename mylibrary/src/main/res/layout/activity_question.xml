@@ -213,7 +213,7 @@
                 android:elevation="5dp"
                 android:textColor="@color/colorWhite"
                 android:layout_above="@+id/indicatorGrid"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,UnusedAttribute" />
 
         </RelativeLayout>
 
