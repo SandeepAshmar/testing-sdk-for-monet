@@ -174,6 +174,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         tv_nextGrid = findViewById(R.id.tv_nextGrid);
 
         btn_question.setOnClickListener(this);
+        tv_nextGrid.setOnClickListener(this);
         back.setOnClickListener(this);
 
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
