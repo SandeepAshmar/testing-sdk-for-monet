@@ -55,6 +55,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
         img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
         tv_notify.setBackgroundColor(Color.parseColor("#226501"));
+        tv_notify.setText("Detected");
     }
 
     private void setFrameRed() {
@@ -63,6 +64,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
         img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
         tv_notify.setBackgroundColor(Color.parseColor("#ff3939"));
+        tv_notify.setText("Adjust your face");
     }
 
 
@@ -142,7 +144,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             setFrameGreen();
-            Log.d(TAG, "face detected...");
+          //  Log.d(TAG, "face detected...");
         }
 
         @Override
