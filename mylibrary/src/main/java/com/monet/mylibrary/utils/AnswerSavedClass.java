@@ -13,6 +13,42 @@ public class AnswerSavedClass {
     public ArrayList<String> checkAnsId = new ArrayList<>();
     public ArrayList<String> rateQuesId = new ArrayList<>();
     public ArrayList<String> rateAnsId = new ArrayList<>();
+    public ArrayList<String> singleImageQId = new ArrayList<>();
+    public ArrayList<String> singleImageOid = new ArrayList<>();
+    public ArrayList<String> multiImageQid = new ArrayList<>();
+    public ArrayList<String> multiImageOid = new ArrayList<>();
+
+    public ArrayList<String> getSingleImageQId() {
+        return singleImageQId;
+    }
+
+    public void setSingleImageQId(String singleImageQId) {
+        this.singleImageQId.add(singleImageQId);
+    }
+
+    public ArrayList<String> getSingleImageOid() {
+        return singleImageOid;
+    }
+
+    public void setSingleImageOid(String singleImageOid) {
+        this.singleImageOid.add(singleImageOid);
+    }
+
+    public ArrayList<String> getMultiImageQid() {
+        return multiImageQid;
+    }
+
+    public void setMultiImageQid(String multiImageQid) {
+        this.multiImageQid.add(multiImageQid);
+    }
+
+    public ArrayList<String> getMultiImageOid() {
+        return multiImageOid;
+    }
+
+    public void setMultiImageOid(String multiImageOid) {
+        this.multiImageOid.add(multiImageOid);
+    }
 
     public ArrayList<String> getRateQuesId() {
         return rateQuesId;
