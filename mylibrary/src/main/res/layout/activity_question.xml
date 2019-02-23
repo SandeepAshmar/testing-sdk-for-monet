@@ -211,8 +211,10 @@
                 android:text="Next"
                 android:visibility="gone"
                 android:elevation="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
                 android:textColor="@color/colorWhite"
-                android:layout_above="@+id/indicatorGrid"
                 tools:ignore="HardcodedText,UnusedAttribute" />
 
         </RelativeLayout>

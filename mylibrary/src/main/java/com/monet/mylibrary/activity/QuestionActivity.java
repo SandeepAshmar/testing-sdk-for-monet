@@ -109,7 +109,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     String yes = postQuestions.get(questionNo).getOptions().get(position).getOption_value();
                     if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
-//                        showDialog();
+                        showDialog();
                     } else {
                         typeFiveReason = "";
                     }

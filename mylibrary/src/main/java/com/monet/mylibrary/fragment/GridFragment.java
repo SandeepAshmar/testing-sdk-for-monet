@@ -74,7 +74,7 @@ public class GridFragment extends Fragment {
 
             if(survayType.equalsIgnoreCase("pre")){
                 if(savedQuesAndAnswers.getGridAnsIds().size() ==
-                        preQuestions.get(questionNo).getOptions().get(optionPosition).getGrid().size()){
+                        preQuestions.get(questionNo).getOptions().size()){
                     tv_nextGrid.setVisibility(View.VISIBLE);
                 }else{
                     tv_nextGrid.setVisibility(View.GONE);
