@@ -61,9 +61,10 @@ public class FaceDetectionScreen extends AppCompatActivity {
         }
 
         mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(640, 480)
+//                .setRequestedPreviewSize(640, 480)
+                .setRequestedPreviewSize(1240, 1480)
                 .setFacing(CameraSource.CAMERA_FACING_FRONT)
-                .setRequestedFps(1.0f)
+                .setRequestedFps(30.0f)
                 .build();
     }
 
