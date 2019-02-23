@@ -74,6 +74,20 @@
         app:layout_constraintTop_toTopOf="@+id/preview"
         app:layout_constraintVertical_bias="0.073" />
 
+    <TextView
+        android:id="@+id/tv_notify"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Hello World!"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preview" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
