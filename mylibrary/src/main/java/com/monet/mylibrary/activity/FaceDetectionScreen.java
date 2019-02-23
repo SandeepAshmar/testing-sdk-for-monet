@@ -113,7 +113,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            Log.d(TAG, "Face Detected..."); // read the face appearing in preview
 
         }
 
