@@ -63,10 +63,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int questionNo = 0, radioType;
     public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
-    private JSONObject dataPostJson1 = new JSONObject();
-    private JSONObject quesJson = new JSONObject();
-    private JSONObject quesJsonGrid = new JSONObject();
-    private JSONArray jsonArray2 = new JSONArray();
+    public static JSONObject dataPostJson1 = new JSONObject();
+    public static JSONObject quesJson = new JSONObject();
+    public static JSONObject quesJsonGrid = new JSONObject();
+    public static JSONArray jsonArray2 = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
     private GridSliderAdapter gridSliderAdapter;

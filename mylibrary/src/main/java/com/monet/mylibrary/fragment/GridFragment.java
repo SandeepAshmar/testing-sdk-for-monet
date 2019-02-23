@@ -2,6 +2,7 @@ package com.monet.mylibrary.fragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.monet.mylibrary.adapter.GridOptionAdapter;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkGrid;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
+import static com.monet.mylibrary.activity.QuestionActivity.dataPostJson1;
+import static com.monet.mylibrary.activity.QuestionActivity.quesJson;
+import static com.monet.mylibrary.activity.QuestionActivity.quesJsonGrid;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
 /**
@@ -56,6 +62,17 @@ public class GridFragment extends Fragment {
                     savedQuesAndAnswers.setGridAnsIds(String.valueOf(ansId));
                 }
             }
+
+            try {
+                quesJson.put(questionId, dataPostJson1);
+                dataPostJson1.put("options", quesJsonGrid);
+                quesJsonGrid.put(optionId, ansId);
+                dataPostJson1.put("type", "6");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("TAG", "grid json "+quesJson);
         }
     };
 
