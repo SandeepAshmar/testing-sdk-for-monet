@@ -70,7 +70,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static JSONObject dataPostJson1 = new JSONObject();
     public static JSONObject quesJson = new JSONObject();
     public static JSONObject quesJsonGrid = new JSONObject();
-    public static JSONArray jsonArray2 = new JSONArray();
+    public static JSONArray jsonArray = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
     private CheckBoxTypeAdapter checkBoxTypeAdapter;
     private GridSliderAdapter gridSliderAdapter;
@@ -221,6 +221,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         tv_nextGrid.setOnClickListener(this);
         back.setOnClickListener(this);
 
+        dataPostJson1 = new JSONObject();
+        quesJson = new JSONObject();
+        quesJsonGrid = new JSONObject();
+        jsonArray= new JSONArray();
+
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
 
         token = getApiToken(this);
@@ -317,6 +322,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (i == R.id.img_toolbarBack) {
             setPreviousQuestion();
         } else if (i == R.id.btn_question) {
+
+            if(btn_question.getText().toString().equalsIgnoreCase("Proceed")){
+                btn_question.setBackgroundResource(R.drawable.btn_disabled);
+                btn_question.setEnabled(false);
+            }
+
             if (qCardVisible) {
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
@@ -635,11 +646,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "1");
             } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+                jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
-                dataPostJson1.put("selectedOptions", jsonArray2);
+                dataPostJson1.put("selectedOptions", jsonArray);
                 for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
-                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
+                    jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
                 }
                 dataPostJson1.put("type", "2");
             } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
@@ -666,12 +678,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
             }else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
-                jsonArray2 = new JSONArray();
+                jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
-                dataPostJson1.put("selectedOptions", jsonArray2);
+                dataPostJson1.put("selectedOptions", jsonArray);
                 for (int i = 0; i < savedQuesAndAnswers.getMultiImageOid().size(); i++) {
-                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
+                    jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
                 }
                 dataPostJson1.put("type", "8");
             }
@@ -682,11 +694,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "1");
             } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+                jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
-                dataPostJson1.put("selectedOptions", jsonArray2);
+                dataPostJson1.put("selectedOptions", jsonArray);
                 for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
-                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
+                    jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
                 }
                 dataPostJson1.put("type", "2");
             } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
@@ -712,12 +725,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
             }else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
-                jsonArray2 = new JSONArray();
+                jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
-                dataPostJson1.put("selectedOptions", jsonArray2);
+                dataPostJson1.put("selectedOptions", jsonArray);
                 for (int i = 0; i < savedQuesAndAnswers.getMultiImageOid().size(); i++) {
-                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
+                    jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
                 }
                 dataPostJson1.put("type", "8");
             }
@@ -734,7 +747,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private void clearValues() {
         dataPostJson1 = null;
         quesJson = null;
-        jsonArray2 = new JSONArray();
+        quesJsonGrid = null;
+        jsonArray = new JSONArray();
         savedQuesAndAnswers.getCheckAnsId().clear();
         savedQuesAndAnswers.getCheckQuesId().clear();
         savedQuesAndAnswers.getGridAnsIds().clear();
