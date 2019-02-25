@@ -347,6 +347,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 nextQuestion();
             }
         }else if(i == R.id.tv_nextGrid){
+            tv_nextGrid.setVisibility(View.GONE);
             btn_question.performClick();
         }
     }

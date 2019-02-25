@@ -44,6 +44,39 @@ public class GridFragment extends Fragment {
     private RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
         public void onItemClick(View view, int position, String quesId, String ansId) {
+
+            if (survayType.equalsIgnoreCase("pre")) {
+                if (savedQuesAndAnswers.getGridQuesIds().contains(preQuestions.get(questionNo).getQuestion_id())) {
+                    savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                    if (savedQuesAndAnswers.getSelectedIntSize() ==
+                            preQuestions.get(questionNo).getOptions().size()) {
+                        tv_nextGrid.setVisibility(View.VISIBLE);
+                        btn_question.setEnabled(true);
+                    } else {
+                        tv_nextGrid.setVisibility(View.GONE);
+                        btn_question.setEnabled(false);
+                    }
+                } else {
+                    savedQuesAndAnswers.setSelectedIntSize(1);
+                    tv_nextGrid.setVisibility(View.GONE);
+                }
+            } else {
+                if (savedQuesAndAnswers.getGridQuesIds().contains(postQuestions.get(questionNo).getQuestion_id())) {
+                    savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                    if (savedQuesAndAnswers.getSelectedIntSize() ==
+                            postQuestions.get(questionNo).getOptions().size()) {
+                        tv_nextGrid.setVisibility(View.VISIBLE);
+                        btn_question.setEnabled(true);
+                    } else {
+                        tv_nextGrid.setVisibility(View.GONE);
+                        btn_question.setEnabled(false);
+                    }
+                } else {
+                    savedQuesAndAnswers.setSelectedIntSize(1);
+                    tv_nextGrid.setVisibility(View.GONE);
+                }
+            }
+
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getGridQuesIds().size() == 0 || savedQuesAndAnswers.getGridOptionIds().size() == 0
                     || savedQuesAndAnswers.getGridAnsIds().size() == 0) {
                 savedQuesAndAnswers.setGridQuesIds(questionId);
@@ -74,25 +107,6 @@ public class GridFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            if(survayType.equalsIgnoreCase("pre")){
-                if(!savedQuesAndAnswers.getGridQuesIds().contains(preQuestions.get(questionNo).getQuestion_id())){
-                    savedQuesAndAnswers.setSelectedIntSize(1);
-                    tv_nextGrid.setVisibility(View.GONE);
-                }else{
-                    savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize()+1));
-                    if(savedQuesAndAnswers.getSelectedIntSize() ==
-                            preQuestions.get(questionNo).getOptions().size()){
-                        tv_nextGrid.setVisibility(View.VISIBLE);
-                        btn_question.setEnabled(true);
-                    }else{
-                        tv_nextGrid.setVisibility(View.GONE);
-                        btn_question.setEnabled(false);
-                    }
-                }
-            }else{
-
-            }
         }
     };
 
@@ -107,26 +121,26 @@ public class GridFragment extends Fragment {
         return initView(view);
     }
 
-    private View initView(View view){
+    private View initView(View view) {
         tv_gridCount = view.findViewById(R.id.tv_gridCount);
         tv_gridOption = view.findViewById(R.id.tv_gridOption);
         rv_grid = view.findViewById(R.id.rv_grid);
         rv_grid.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        tv_gridCount.setText("Question "+(optionPosition+1));
+        tv_gridCount.setText("Question " + (optionPosition + 1));
 
-        if(survayType.equalsIgnoreCase("pre")){
+        if (survayType.equalsIgnoreCase("pre")) {
+
             questionId = preQuestions.get(questionNo).getQuestion_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
             setAdapter(preQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
-        }else{
+        } else {
             questionId = postQuestions.get(questionNo).getQuestion_id();
             optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_id();
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
             setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }
-
 
 
         return view;
