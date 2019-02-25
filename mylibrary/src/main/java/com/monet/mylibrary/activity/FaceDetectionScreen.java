@@ -196,15 +196,17 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-//            detecting = true;
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFaceDetected();
-                }
-            };
-            handler.postDelayed(runnable,1000);
-            Log.d(TAG, "face detected..." + detectionResults);
+           // detecting = true;
+            if (detecting) {
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        setFaceDetected();
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+            }
+            Log.d(TAG, "face detected..." + detectionResults + "  " + face.getContours());
         }
 
         @Override
