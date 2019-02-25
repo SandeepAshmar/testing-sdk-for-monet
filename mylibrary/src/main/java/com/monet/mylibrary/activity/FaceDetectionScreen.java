@@ -58,47 +58,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     }
 
-    private void setFaceDetected() {
-        if (detecting1 && detecting2 && detecting3) {
-            tv_notify.setText("Wait a second");
-            //setFrameGreen();
-            //startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
-            Toast.makeText(this, "Intent Start...", Toast.LENGTH_SHORT).show();
-            // finish();
-        } else if (detecting1 && detecting2) {
-            tv_notify.setText("Wait a second");
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFrameGreen();
-                    detecting3 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        } else if (detecting1) {
-            tv_notify.setText("Wait a second");
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFrameGreen();
-                    detecting2 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        } else {
-            tv_notify.setText("Wait a second");
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFrameGreen();
-                    detecting1 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        }
-
-    }
-
     private void setFrameGreen() {
         img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
         img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
@@ -195,12 +154,11 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-
-         //   setView(detecting);
+            setView();
             //  detectionResults.getFrameMetadata().getTimestampMillis();
 //            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
 //
-            Log.d(TAG, "face detected..." + detectionResults + "  =" + detectionResults.getFrameMetadata().getId() );
+            Log.d(TAG, "face detected..." + detectionResults + "  =" + face.getContours());
 
         }
 
@@ -208,10 +166,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-          //  setFrameRed();
-            // detecting = false;
-//            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
-            Log.d(TAG, "face detected not  " + detectionResults.getFrameMetadata().getId());
+            setView();
+            Log.d(TAG, "face detected not  ");
         }
 
         @Override
@@ -220,32 +176,79 @@ public class FaceDetectionScreen extends AppCompatActivity {
         }
     }
 
-    private void setView(boolean value) {
+    private void setView() {
         if (detecting) {
-            if (detecting3 && detecting2 && detecting1) {
-                Toast.makeText(this, "Intent Call", Toast.LENGTH_SHORT).show();
-            } else if (detecting2 && detecting1) {
-                detecting2 = false;
-                detecting1 = false;
-            } else {
-                detecting1 = false;
-            }
+           if (detecting3){
+
+               Log.d(TAG, "Intent Will be call here ...");
+           }
             runnable = new Runnable() {
                 @Override
                 public void run() {
                     if (detecting) {
                         if (detecting1 != true) {
                             detectFirst();
+                        } else if (detecting2 != true) {
+                            detectSecond();
+                        } else if (detecting3 != true) {
+                            detectThird();
+                        }
+                        else {
+                            detecting1 = false;
+                            detecting2 = false;
+                            detecting3 = false;
                         }
                     }
                 }
             };
+            handler.postDelayed(runnable,1000);
 
         }
     }
 
-    private void detectFirst() {
+    private void detectThird() {
+        if (detecting) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "face detected.... third");
+                    detecting1 = true;
+                    detecting2 = true;
+                    detecting3 = true;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+    }
 
+    private void detectSecond() {
+        if (detecting) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "face detected.... second");
+                    detecting1 = true;
+                    detecting2 = true;
+                    detecting3 = false;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+    }
+
+    private void detectFirst() {
+        if (detecting) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "face detected.... first");
+                    detecting1 = true;
+                    detecting2 = false;
+                    detecting3 = false;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 
     @Override
