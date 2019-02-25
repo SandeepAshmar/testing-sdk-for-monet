@@ -60,7 +60,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private void setFaceDetected() {
         if (detecting1 && detecting2 && detecting3) {
             tv_notify.setText("Wait a second");
-            setFrameGreen();
+            //setFrameGreen();
             startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
             finish();
         } else if (detecting1 && detecting2) {
