@@ -10,9 +10,9 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.adapter.ImageSliderAdapter;
+import com.monet.mylibrary.adapter.EmotionImageSliderAdapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,8 +37,8 @@ public class EmotionScreen extends AppCompatActivity {
         img_toolbarBack.setVisibility(View.GONE);
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
 
-        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getSupportFragmentManager());
-        imageSliderViewPager.setAdapter(imageSliderAdapter);
+        EmotionImageSliderAdapter emotionImageSliderAdapter = new EmotionImageSliderAdapter(getSupportFragmentManager());
+        imageSliderViewPager.setAdapter(emotionImageSliderAdapter);
 
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
