@@ -579,6 +579,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         Button firstText = findViewById(R.id.button);
         TextView videoName = findViewById(R.id.textView5);
         Button proceed = findViewById(R.id.button2);
+        ImageView backTollbar =  findViewById(R.id.img_toolbarBack);
+        backTollbar.setVisibility(View.GONE);
 
         if(getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")){
             img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
@@ -595,7 +597,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setScreen();
+                submitAnswer();
             }
         });
 
