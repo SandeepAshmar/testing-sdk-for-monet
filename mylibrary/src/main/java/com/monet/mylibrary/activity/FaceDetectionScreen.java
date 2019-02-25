@@ -42,6 +42,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
     public boolean detecting1 = false;
     public boolean detecting2 = false;
     public boolean detecting3 = false;
+    private int temp = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +197,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
+            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
            // detecting = true;
 //            if (detecting) {
 //                runnable = new Runnable() {
@@ -206,7 +208,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
 //                };
 //                handler.postDelayed(runnable, 1000);
 //            }
-            Log.d(TAG, "face detected..." + detectionResults + "  =" + detectionResults.getFrameMetadata().getTimestampMillis());
+            Log.d(TAG, "face detected..." + detectionResults + "  =" + second );
         }
 
         @Override
