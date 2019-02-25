@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
@@ -48,7 +49,9 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
 
         final SdkOptions sdkOption = sdkOptions.get(position);
         if(sdkOption.getOption_value() != null){
-            Glide.with(ctx).load(sdkOption.getOption_value()).into(holder.thumb);
+            Glide.with(ctx).load(sdkOption.getOption_value())
+                    .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                    .into(holder.thumb);
         }else{
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         }
