@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
@@ -23,7 +24,6 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
     private Context ctx;
     private ImageQClickListner imageQClickListner;
     private ArrayList<SdkOptions> sdkOptions;
-    private String noneId = "";
 
     public MultipleImageSelectionAdapter(Context ctx, ImageQClickListner imageQClickListner,
                                          ArrayList<SdkOptions> sdkOptions) {
@@ -48,7 +48,9 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
         final SdkOptions question_options = sdkOptions.get(position);
 
         if (question_options.getOption_value() != null) {
-            Glide.with(ctx).load(question_options.getOption_value()).into(holder.thumb);
+            Glide.with(ctx).load(question_options.getOption_value())
+                    .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                    .into(holder.thumb);
         } else {
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         }
