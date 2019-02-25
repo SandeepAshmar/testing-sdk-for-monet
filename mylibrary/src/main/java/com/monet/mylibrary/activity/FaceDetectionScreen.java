@@ -215,7 +215,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
 //            detecting = false;
             setFrameRed();
             // detecting = false;
-            Log.d(TAG, "face detected not  " + detectionResults.getFrameMetadata().getTimestampMillis());
+            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis() % 1000);
+            Log.d(TAG, "face detected not  " + second);
         }
 
         @Override
