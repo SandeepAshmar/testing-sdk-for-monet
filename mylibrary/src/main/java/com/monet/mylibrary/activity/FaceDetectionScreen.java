@@ -195,7 +195,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-            setView(detecting);
+            setView();
             //  detectionResults.getFrameMetadata().getTimestampMillis();
 //            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
 //
@@ -207,7 +207,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-            setView(detecting);
+            setView();
             Log.d(TAG, "face detected not  ");
         }
 
@@ -217,16 +217,11 @@ public class FaceDetectionScreen extends AppCompatActivity {
         }
     }
 
-    private void setView(boolean value) {
+    private void setView() {
         if (detecting) {
-            if (detecting3 && detecting2 && detecting1) {
-                Toast.makeText(this, "Intent Call", Toast.LENGTH_SHORT).show();
-            } else if (detecting2 && detecting1) {
-                detecting2 = false;
-                detecting1 = false;
-            } else {
-                detecting1 = false;
-            }
+           if (detecting3){
+               Toast.makeText(this, "Intent called...", Toast.LENGTH_SHORT).show();
+           }
             runnable = new Runnable() {
                 @Override
                 public void run() {
