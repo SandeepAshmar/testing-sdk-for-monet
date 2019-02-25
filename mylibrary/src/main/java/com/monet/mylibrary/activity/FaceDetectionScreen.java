@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -61,8 +62,9 @@ public class FaceDetectionScreen extends AppCompatActivity {
         if (detecting1 && detecting2 && detecting3) {
             tv_notify.setText("Wait a second");
             //setFrameGreen();
-            startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
-            finish();
+            //startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
+            Toast.makeText(this, "Intent Start...", Toast.LENGTH_SHORT).show();
+           // finish();
         } else if (detecting1 && detecting2) {
             tv_notify.setText("Wait a second");
             runnable = new Runnable() {
@@ -195,7 +197,13 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
 //            detecting = true;
-            setFaceDetected();
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    setFaceDetected();
+                }
+            };
+            handler.postDelayed(runnable,1000);
             Log.d(TAG, "face detected..." + detectionResults);
         }
 
