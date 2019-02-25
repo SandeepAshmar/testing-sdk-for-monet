@@ -127,4 +127,41 @@ public class SdkPreferences {
         mPrefsEditor.putString("sdk_videoUrl", value);
         mPrefsEditor.commit();
     }
+
+    public static String getThumbUrl(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getString("sdk_thumbUrl", "Nothing");
+    }
+
+    public static void setThumbUrl(Context ctx, String value) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putString("sdk_thumbUrl", value);
+        mPrefsEditor.commit();
+    }
+
+    public static String getCmpName(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getString("sdk_CmpName", "");
+    }
+
+    public static void setCmpName(Context ctx, String value) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putString("sdk_CmpName", value);
+        mPrefsEditor.commit();
+    }
+
+    public static String getVideoTime(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getString("sdk_VideoTime", "");
+    }
+
+    public static void setVideoTime(Context ctx, String value) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putString("sdk_VideoTime", value);
+        mPrefsEditor.commit();
+    }
+
 }

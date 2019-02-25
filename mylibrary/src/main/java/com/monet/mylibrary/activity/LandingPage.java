@@ -33,6 +33,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
+import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
+import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
 
 public class LandingPage extends AppCompatActivity {
 
@@ -172,9 +175,12 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getResponse().get(0).getC_thumb_url() != null) {
                             Glide.with(activity).load(response.body().getResponse().get(0).getC_thumb_url())
                                     .into(img_currentShows);
+                            setThumbUrl(activity, response.body().getResponse().get(0).getC_thumb_url());
                         }
                         tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
+                        setCmpName(activity, response.body().getResponse().get(0).getCmp_name());
                         tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
+                        setVideoTime(activity, response.body().getResponse().get(0).getC_length());
                         String test = response.body().getResponse().get(0).getCmp_name();
                         test = String.valueOf(test.charAt(0));
                         btn_currentShows.setText(test);
