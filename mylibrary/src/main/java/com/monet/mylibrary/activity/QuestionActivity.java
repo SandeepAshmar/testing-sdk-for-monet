@@ -666,6 +666,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
             }else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
+                jsonArray2 = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("selectedOptions", jsonArray2);
