@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +34,9 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private static final int RC_HANDLE_GMS = 9001;
     private ImageView img_cornerAlignRightTop,img_cornerAlignLeftBottom,img_cornerAlignRightBottom,img_cornerAlignLeftTop;
     private TextView tv_notify;
+    private Runnable runnable;
+    private Handler handler;
+    public boolean detecting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +54,19 @@ public class FaceDetectionScreen extends AppCompatActivity {
     }
 
     private void setFrameGreen() {
-        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
-        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
-        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
-        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
-        tv_notify.setBackgroundColor(Color.parseColor("#226501"));
-        tv_notify.setText("Detected");
+       tv_notify.postDelayed(new Runnable() {
+           @Override
+           public void run() {
+               img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
+               img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
+               img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
+               img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
+               tv_notify.setBackgroundColor(Color.parseColor("#226501"));
+               tv_notify.setText("Detected");
+           }
+       },1000);
+
+
     }
 
     private void setFrameRed() {
@@ -143,6 +154,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
+            detecting = true;
             setFrameGreen();
             Log.d(TAG, "face detected..." + detectionResults);
         }
@@ -150,8 +162,10 @@ public class FaceDetectionScreen extends AppCompatActivity {
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
+            detecting = false;
             setFrameRed();
             // detecting = false;
+            Log.d(TAG, "face detected not  " + detectionResults);
         }
 
         @Override
@@ -159,9 +173,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.remove(mFaceGraphic);
         }
     }
-
-
-
 
     @Override
     public void onBackPressed() {
