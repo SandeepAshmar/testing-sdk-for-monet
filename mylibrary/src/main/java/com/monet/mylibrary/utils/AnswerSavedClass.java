@@ -9,6 +9,7 @@ public class AnswerSavedClass {
     public ArrayList<String> gridQuesIds = new ArrayList<>();
     public ArrayList<String> gridOptionIds = new ArrayList<>();
     public ArrayList<String> gridAnsIds = new ArrayList<>();
+    public int selectedIntSize = 0;
     public ArrayList<String> checkQuesId = new ArrayList<>();
     public ArrayList<String> checkAnsId = new ArrayList<>();
     public ArrayList<String> rateQuesId = new ArrayList<>();
@@ -17,6 +18,14 @@ public class AnswerSavedClass {
     public ArrayList<String> singleImageOid = new ArrayList<>();
     public ArrayList<String> multiImageQid = new ArrayList<>();
     public ArrayList<String> multiImageOid = new ArrayList<>();
+
+    public int getSelectedIntSize() {
+        return selectedIntSize;
+    }
+
+    public void setSelectedIntSize(int selectedIntSize) {
+        this.selectedIntSize = selectedIntSize;
+    }
 
     public ArrayList<String> getSingleImageQId() {
         return singleImageQId;
