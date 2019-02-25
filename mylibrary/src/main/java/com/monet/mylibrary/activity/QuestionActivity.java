@@ -188,7 +188,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     int pos = savedQuesAndAnswers.getMultiImageOid().indexOf(optionId);
                     savedQuesAndAnswers.getMultiImageOid().remove(pos);
                 } else {
-                    savedQuesAndAnswers.setCheckAnsId(optionId);
+                    savedQuesAndAnswers.setMultiImageOid(optionId);
                 }
             }
 
