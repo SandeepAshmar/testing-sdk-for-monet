@@ -76,17 +76,20 @@ public class GridFragment extends Fragment {
             }
 
             if(survayType.equalsIgnoreCase("pre")){
-                if(savedQuesAndAnswers.getGridAnsIds().size() ==
-                        preQuestions.get(questionNo).getOptions().size()){
-                    tv_nextGrid.setVisibility(View.VISIBLE);
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                }else{
+                if(!savedQuesAndAnswers.getGridQuesIds().contains(preQuestions.get(questionNo).getQuestion_id())){
+                    savedQuesAndAnswers.setSelectedIntSize(1);
                     tv_nextGrid.setVisibility(View.GONE);
-                    btn_question.setBackgroundResource(R.drawable.btn_disabled);
-                    btn_question.setEnabled(false);
+                }else{
+                    savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize()+1));
+                    if(savedQuesAndAnswers.getSelectedIntSize() ==
+                            preQuestions.get(questionNo).getOptions().size()){
+                        tv_nextGrid.setVisibility(View.VISIBLE);
+                        btn_question.setEnabled(true);
+                    }else{
+                        tv_nextGrid.setVisibility(View.GONE);
+                        btn_question.setEnabled(false);
+                    }
                 }
-
             }else{
 
             }
@@ -123,6 +126,8 @@ public class GridFragment extends Fragment {
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
             setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getGrid());
         }
+
+
 
         return view;
     }
