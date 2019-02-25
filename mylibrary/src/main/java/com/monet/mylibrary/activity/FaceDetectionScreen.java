@@ -2,6 +2,7 @@ package com.monet.mylibrary.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,17 +33,20 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
     private static final int RC_HANDLE_GMS = 9001;
-    private ImageView img_cornerAlignRightTop,img_cornerAlignLeftBottom,img_cornerAlignRightBottom,img_cornerAlignLeftTop;
+    private ImageView img_cornerAlignRightTop, img_cornerAlignLeftBottom, img_cornerAlignRightBottom, img_cornerAlignLeftTop;
     private TextView tv_notify;
     private Runnable runnable;
     private Handler handler;
     public boolean detecting = false;
+    public boolean detecting1 = false;
+    public boolean detecting2 = false;
+    public boolean detecting3 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_detection_screen);
-
+        handler = new Handler();
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         img_cornerAlignRightTop = findViewById(R.id.img_cornerAlignRightTop);
@@ -53,20 +57,55 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     }
 
+    private void setFaceDetected() {
+        if (detecting1 && detecting2 && detecting3) {
+            tv_notify.setText("Wait a second");
+            //setFrameGreen();
+            startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
+            finish();
+        } else if (detecting1 && detecting2) {
+            tv_notify.setText("Wait a second");
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    setFrameGreen();
+                    detecting3 = true;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        } else if (detecting1)
+        {
+            tv_notify.setText("Wait a second");
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    setFrameGreen();
+                    detecting2 = true;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+        else{
+            tv_notify.setText("Wait a second");
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    setFrameGreen();
+                    detecting1 = true;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+
+    }
+
     private void setFrameGreen() {
-       tv_notify.postDelayed(new Runnable() {
-           @Override
-           public void run() {
-               img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
-               img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
-               img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
-               img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
-               tv_notify.setBackgroundColor(Color.parseColor("#226501"));
-               tv_notify.setText("Detected");
-           }
-       },1000);
-
-
+        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
+        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
+        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
+        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
+        tv_notify.setBackgroundColor(Color.parseColor("#226501"));
+        tv_notify.setText("Detected");
     }
 
     private void setFrameRed() {
@@ -102,7 +141,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
         }
 
         mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(640, 480)
+//                .setRequestedPreviewSize(640, 480)
+                .setRequestedPreviewSize(840, 680)
                 .setFacing(CameraSource.CAMERA_FACING_FRONT)
                 .setRequestedFps(30.0f)
                 .build();
@@ -154,15 +194,15 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            detecting = true;
-            setFrameGreen();
+//            detecting = true;
+            setFaceDetected();
             Log.d(TAG, "face detected..." + detectionResults);
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
-            detecting = false;
+//            detecting = false;
             setFrameRed();
             // detecting = false;
             Log.d(TAG, "face detected not  " + detectionResults);
