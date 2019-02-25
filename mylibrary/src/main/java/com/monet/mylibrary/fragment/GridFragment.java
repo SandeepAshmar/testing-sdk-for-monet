@@ -13,6 +13,7 @@ import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.question.SdkGrid;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,7 @@ public class GridFragment extends Fragment {
             }
 
             try {
+                dataPostJson1 = new JSONObject();
                 quesJson.put(questionId, dataPostJson1);
                 dataPostJson1.put("options", quesJsonGrid);
                 quesJsonGrid.put(optionId, ansId);
