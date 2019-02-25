@@ -220,6 +220,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private void setView() {
         if (detecting) {
            if (detecting3){
+
                Toast.makeText(this, "Intent called...", Toast.LENGTH_SHORT).show();
            }
             runnable = new Runnable() {
