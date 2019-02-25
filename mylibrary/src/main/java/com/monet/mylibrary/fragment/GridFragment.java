@@ -130,6 +130,7 @@ public class GridFragment extends Fragment {
         tv_gridCount.setText("Question " + (optionPosition + 1));
 
         if (survayType.equalsIgnoreCase("pre")) {
+
             questionId = preQuestions.get(questionNo).getQuestion_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
