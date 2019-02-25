@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.GridSliderAdapter;
+import com.monet.mylibrary.adapter.MultipleImageSelectionAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
 import com.monet.mylibrary.adapter.SingleImageSelectionAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
@@ -76,6 +77,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private CircleIndicator indicatorGrid;
     private Dialog dialog;
     private SingleImageSelectionAdapter singleImageSelectionAdapter;
+    private MultipleImageSelectionAdapter multipleImageSelectionAdapter;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -164,6 +166,32 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     savedQuesAndAnswers.setSingleImageOid(optionId);
                 }
             }
+        }
+    };
+
+    private ImageQClickListner multiImageSelectionListner = new ImageQClickListner() {
+        @Override
+        public void onItemClick(String quesId, String optionId) {
+
+            btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_question.setEnabled(true);
+
+            selectedQuesId = quesId;
+            selectedAnsId = optionId;
+
+            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getMultiImageQid().size() == 0 ||
+                    savedQuesAndAnswers.getMultiImageOid().size() == 0) {
+                savedQuesAndAnswers.setMultiImageQid(quesId);
+                savedQuesAndAnswers.setMultiImageOid(optionId);
+            } else {
+                if (savedQuesAndAnswers.getMultiImageOid().contains(optionId)) {
+                    int pos = savedQuesAndAnswers.getMultiImageOid().indexOf(optionId);
+                    savedQuesAndAnswers.getMultiImageOid().remove(pos);
+                } else {
+                    savedQuesAndAnswers.setCheckAnsId(optionId);
+                }
+            }
+
         }
     };
 
@@ -405,8 +433,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "8";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 rv_question.setLayoutManager(new GridLayoutManager(this, 3));
-                singleImageSelectionAdapter = new SingleImageSelectionAdapter(this, imageQClickListner, preQuestions.get(questionNo).getOptions());
-                rv_question.setAdapter(singleImageSelectionAdapter);
+                multipleImageSelectionAdapter = new MultipleImageSelectionAdapter(this, multiImageSelectionListner, preQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(multipleImageSelectionAdapter);
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
