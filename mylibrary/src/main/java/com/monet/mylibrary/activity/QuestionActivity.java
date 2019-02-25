@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -748,11 +747,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        Log.d("json", "json " + quesJson);
+//        Log.d("json", "json " + quesJson);
     }
 
     private void submitAnswer() {
-        progressDialog(getApplicationContext(), "Please wait...", true);
+        progressDialog(QuestionActivity.this, "Please wait...", true);
         String cf_id = SdkPreferences.getCfId(getApplicationContext());
         String cmp_Id = SdkPreferences.getCmpId(getApplicationContext());
         String apiToken = SdkPreferences.getApiToken(getApplicationContext());
@@ -762,7 +761,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
             public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
-                progressDialog(getApplicationContext(), "Please wait...", false);
+                progressDialog(QuestionActivity.this, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
                     onBackPressed();
@@ -779,7 +778,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<SurvayPojo> call, Throwable t) {
-                progressDialog(getApplicationContext(), "Please wait...", false);
+                progressDialog(QuestionActivity.this, "Please wait...", false);
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
