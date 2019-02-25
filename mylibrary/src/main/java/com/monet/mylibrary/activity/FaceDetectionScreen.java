@@ -195,12 +195,11 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-
-         //   setView(detecting);
+            setView(detecting);
             //  detectionResults.getFrameMetadata().getTimestampMillis();
 //            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
 //
-            Log.d(TAG, "face detected..." + detectionResults + "  =" + detectionResults.getFrameMetadata().getId() );
+            Log.d(TAG, "face detected..." + detectionResults + "  =" + face.getContours());
 
         }
 
@@ -208,10 +207,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-          //  setFrameRed();
-            // detecting = false;
-//            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
-            Log.d(TAG, "face detected not  " + detectionResults.getFrameMetadata().getId());
+            setView(detecting);
+            Log.d(TAG, "face detected not  ");
         }
 
         @Override
@@ -236,16 +233,67 @@ public class FaceDetectionScreen extends AppCompatActivity {
                     if (detecting) {
                         if (detecting1 != true) {
                             detectFirst();
+                        } else if (detecting2 != true) {
+                            detectSecond();
+                        } else if (detecting3 != true) {
+                            detectThird();
+                        }
+                        else {
+                            detecting1 = false;
+                            detecting2 = false;
+                            detecting3 = false;
                         }
                     }
                 }
             };
+            handler.postDelayed(runnable,1000);
 
         }
     }
 
-    private void detectFirst() {
+    private void detectThird() {
+        if (detecting) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "face detected.... third");
+                    detecting1 = true;
+                    detecting2 = true;
+                    detecting3 = true;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+    }
 
+    private void detectSecond() {
+        if (detecting) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "face detected.... second");
+                    detecting1 = true;
+                    detecting2 = true;
+                    detecting3 = false;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+    }
+
+    private void detectFirst() {
+        if (detecting) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "face detected.... first");
+                    detecting1 = true;
+                    detecting2 = false;
+                    detecting3 = false;
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 
     @Override
