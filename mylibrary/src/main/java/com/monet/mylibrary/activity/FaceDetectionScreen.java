@@ -2,7 +2,6 @@ package com.monet.mylibrary.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,7 +64,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
             //setFrameGreen();
             //startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
             Toast.makeText(this, "Intent Start...", Toast.LENGTH_SHORT).show();
-           // finish();
+            // finish();
         } else if (detecting1 && detecting2) {
             tv_notify.setText("Wait a second");
             runnable = new Runnable() {
@@ -76,8 +75,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 }
             };
             handler.postDelayed(runnable, 1000);
-        } else if (detecting1)
-        {
+        } else if (detecting1) {
             tv_notify.setText("Wait a second");
             runnable = new Runnable() {
                 @Override
@@ -87,8 +85,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 }
             };
             handler.postDelayed(runnable, 1000);
-        }
-        else{
+        } else {
             tv_notify.setText("Wait a second");
             runnable = new Runnable() {
                 @Override
@@ -197,34 +194,58 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
-           // detecting = true;
-//            if (detecting) {
-//                runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        setFaceDetected();
-//                    }
-//                };
-//                handler.postDelayed(runnable, 1000);
-//            }
-            Log.d(TAG, "face detected..." + detectionResults + "  =" + second );
+            detecting = true;
+
+         //   setView(detecting);
+            //  detectionResults.getFrameMetadata().getTimestampMillis();
+//            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
+//
+            Log.d(TAG, "face detected..." + detectionResults + "  =" + detectionResults.getFrameMetadata().getId() );
+
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
-//            detecting = false;
-            setFrameRed();
+            detecting = false;
+          //  setFrameRed();
             // detecting = false;
-            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
-            Log.d(TAG, "face detected not  " + second);
+//            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
+            Log.d(TAG, "face detected not  " + detectionResults.getFrameMetadata().getId());
         }
 
         @Override
         public void onDone() {
             mOverlay.remove(mFaceGraphic);
         }
+    }
+
+    private void setView(boolean value) {
+        if (detecting) {
+            if (detecting3 && detecting2 && detecting1) {
+                Toast.makeText(this, "Intent Call", Toast.LENGTH_SHORT).show();
+            } else if (detecting2 && detecting1) {
+                detecting2 = false;
+                detecting1 = false;
+            } else {
+                detecting1 = false;
+            }
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (detecting) {
+                        if (detecting1 != true) {
+                            detectFirst();
+                        }
+                    }
+                }
+            };
+
+        }
+    }
+
+    private void detectFirst() {
+
     }
 
     @Override
