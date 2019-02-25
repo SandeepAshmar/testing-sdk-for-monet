@@ -58,47 +58,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     }
 
-    private void setFaceDetected() {
-        if (detecting1 && detecting2 && detecting3) {
-            tv_notify.setText("Wait a second");
-            //setFrameGreen();
-            //startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
-            Toast.makeText(this, "Intent Start...", Toast.LENGTH_SHORT).show();
-            // finish();
-        } else if (detecting1 && detecting2) {
-            tv_notify.setText("Wait a second");
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFrameGreen();
-                    detecting3 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        } else if (detecting1) {
-            tv_notify.setText("Wait a second");
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFrameGreen();
-                    detecting2 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        } else {
-            tv_notify.setText("Wait a second");
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    setFrameGreen();
-                    detecting1 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        }
-
-    }
-
     private void setFrameGreen() {
         img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
         img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
@@ -221,7 +180,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         if (detecting) {
            if (detecting3){
 
-               Toast.makeText(this, "Intent called...", Toast.LENGTH_SHORT).show();
+               Log.d(TAG, "Intent Will be call here ...");
            }
             runnable = new Runnable() {
                 @Override
