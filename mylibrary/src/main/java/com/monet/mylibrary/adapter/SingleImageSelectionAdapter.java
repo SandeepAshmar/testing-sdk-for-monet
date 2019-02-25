@@ -49,6 +49,8 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
         final SdkOptions sdkOption = sdkOptions.get(position);
         if(sdkOption.getOption_value() != null){
             Glide.with(ctx).load(sdkOption.getOption_value()).into(holder.thumb);
+        }else{
+            holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
