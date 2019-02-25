@@ -24,7 +24,7 @@ import com.monet.mylibrary.adapter.GridSliderAdapter;
 import com.monet.mylibrary.adapter.RadioTypeAdapter;
 import com.monet.mylibrary.adapter.SingleImageSelectionAdapter;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
-import com.monet.mylibrary.listner.IOnItemClickListener;
+import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.utils.AnswerSavedClass;
 import com.monet.mylibrary.utils.SdkPreferences;
@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -142,10 +143,27 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    private IOnItemClickListener imageRadioClickListner = new IOnItemClickListener() {
+    private ImageQClickListner imageQClickListner = new ImageQClickListner() {
         @Override
-        public void onItemClick(View view, int position) {
+        public void onItemClick(String quesId, String optionId) {
+            btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_question.setEnabled(true);
 
+            selectedQuesId = quesId;
+            selectedAnsId = optionId;
+
+            if (savedQuesAndAnswers == null || savedQuesAndAnswers.getSingleImageQId().size() == 0 || savedQuesAndAnswers.getSingleImageOid().size() == 0) {
+                savedQuesAndAnswers.setSingleImageQId(quesId);
+                savedQuesAndAnswers.setSingleImageOid(optionId);
+            } else {
+                if (savedQuesAndAnswers.getSingleImageQId().contains(quesId)) {
+                    int pos = savedQuesAndAnswers.getSingleImageQId().indexOf(quesId);
+                    savedQuesAndAnswers.getSingleImageOid().set(pos, optionId);
+                } else {
+                    savedQuesAndAnswers.setSingleImageQId(quesId);
+                    savedQuesAndAnswers.setSingleImageOid(optionId);
+                }
+            }
         }
     };
 
@@ -158,7 +176,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         cl_questionLayout = findViewById(R.id.cl_questionLayout);
         btn_question = findViewById(R.id.btn_question);
         rv_question = findViewById(R.id.rv_question);
-        rv_question.setLayoutManager(new LinearLayoutManager(this));
         tv_questionNo = findViewById(R.id.tv_questionNo);
         tv_question = findViewById(R.id.tv_question);
         edt_questionType = findViewById(R.id.edt_questionType);
@@ -314,6 +331,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "1";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new LinearLayoutManager(this));
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
             } else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
@@ -324,6 +342,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "2";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new LinearLayoutManager(this));
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(this, checkBoxClickListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(checkBoxTypeAdapter);
             } else if (preQuestions.get(questionNo).getQuestion_type().equals("3")) {
@@ -352,6 +371,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "5";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new LinearLayoutManager(this));
                 radioTypeAdapter = new RadioTypeAdapter(this, preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
             }else if(preQuestions.get(questionNo).getQuestion_type().equals("6")){
@@ -373,7 +393,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "7";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
-                singleImageSelectionAdapter = new SingleImageSelectionAdapter(this, imageRadioClickListner, preQuestions.get(questionNo).getOptions());
+                rv_question.setLayoutManager(new GridLayoutManager(this, 3));
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(this, imageQClickListner, preQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(singleImageSelectionAdapter);
+            }else if (preQuestions.get(questionNo).getQuestion_type().equals("8")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
+                questionType = "8";
+                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new GridLayoutManager(this, 3));
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(this, imageQClickListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
             }
         } else {
