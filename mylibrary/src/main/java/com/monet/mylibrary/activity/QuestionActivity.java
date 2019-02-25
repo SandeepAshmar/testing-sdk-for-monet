@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.GridSliderAdapter;
@@ -56,6 +57,9 @@ import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
+import static com.monet.mylibrary.utils.SdkPreferences.getCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.getThumbUrl;
+import static com.monet.mylibrary.utils.SdkPreferences.getVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -560,8 +564,41 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             setQuestion();
         } else {
             questionNo = (questionNo - 1);
-            submitAnswer();
+            if(quesType.equalsIgnoreCase("Pre")){
+                changeView();
+            }else{
+                submitAnswer();
+            }
         }
+    }
+
+    private void changeView(){
+        setContentView(R.layout.item_pre_complete);
+        ImageView img_preComThumb = findViewById(R.id.img_preComThumb);
+        TextView tv_time = findViewById(R.id.textView6);
+        Button firstText = findViewById(R.id.button);
+        TextView videoName = findViewById(R.id.textView5);
+        Button proceed = findViewById(R.id.button2);
+
+        if(getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")){
+            img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
+        }else{
+            Glide.with(QuestionActivity.this).load(getThumbUrl(this)).into(img_preComThumb);
+        }
+
+        tv_time.setText(getVideoTime(QuestionActivity.this)+" Mins");
+        String test = getCmpName(QuestionActivity.this);
+        test = String.valueOf(test.charAt(0));
+        firstText.setText(test);
+        videoName.setText(getCmpName(QuestionActivity.this));
+
+        proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setScreen();
+            }
+        });
+
     }
 
     private void setPreviousQuestion() {
