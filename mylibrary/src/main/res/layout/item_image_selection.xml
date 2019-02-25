@@ -15,15 +15,15 @@
 
     <ImageView
         android:id="@+id/img_itemThumb"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:background="@drawable/ic_imagenotavailable"/>
 
     <ImageView
         android:id="@+id/img_itemSelection"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_centerInParent="true"/>
 
     </RelativeLayout>

@@ -57,6 +57,7 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
                 if(imageQClickListner != null){
                     imageQClickListner.onItemClick(sdkOption.getQuestion_id(), sdkOption.getOption_id());
                 }
+                notifyDataSetChanged();
             }
         });
 
