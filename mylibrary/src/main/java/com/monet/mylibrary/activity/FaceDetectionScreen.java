@@ -206,7 +206,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
 //                };
 //                handler.postDelayed(runnable, 1000);
 //            }
-            Log.d(TAG, "face detected..." + detectionResults + "  =" + face.getContours());
+            Log.d(TAG, "face detected..." + detectionResults + "  =" + detectionResults.getFrameMetadata());
         }
 
         @Override
