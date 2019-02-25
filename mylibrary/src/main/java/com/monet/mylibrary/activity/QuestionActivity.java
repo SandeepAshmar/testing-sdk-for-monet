@@ -177,7 +177,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             btn_question.setEnabled(true);
 
             selectedQuesId = quesId;
-            selectedAnsId = optionId;
 
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getMultiImageQid().size() == 0 ||
                     savedQuesAndAnswers.getMultiImageOid().size() == 0) {
@@ -499,6 +498,28 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
+            }else if (postQuestions.get(questionNo).getQuestion_type().equals("7")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
+                questionType = "7";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new GridLayoutManager(this, 3));
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(this, imageQClickListner, postQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(singleImageSelectionAdapter);
+            }else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
+                rv_question.setVisibility(View.VISIBLE);
+                rate_layout.setVisibility(View.GONE);
+                ll_edtLayout.setVisibility(View.GONE);
+                rl_grid.setVisibility(View.GONE);
+                btn_question.setVisibility(View.VISIBLE);
+                questionType = "8";
+                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new GridLayoutManager(this, 3));
+                multipleImageSelectionAdapter = new MultipleImageSelectionAdapter(this, multiImageSelectionListner, postQuestions.get(questionNo).getOptions());
+                rv_question.setAdapter(multipleImageSelectionAdapter);
             }
 
         }
@@ -638,16 +659,21 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("text", typeFiveReason);
                 dataPostJson1.put("type", "5");
             }
-//            else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("6")) {
-//                dataPostJson1 = new JSONObject();
-//                quesJsonGrid = new JSONObject();
-//                quesJson.put(selectedQuesId, dataPostJson1);
-//                dataPostJson1.put("options", quesJsonGrid);
-//                for (int i = 0; i < savedQuesAndAnswers.getGridAnsIds().size(); i++) {
-//                    quesJsonGrid.put(savedQuesAndAnswers.getGridOptionIds().get(i), savedQuesAndAnswers.getGridAnsIds().get(i));
-//                }
-//                dataPostJson1.put("type", "6");
-//            }
+            //6 no question json set on another screen
+            else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")){
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+                dataPostJson1.put("type", "7");
+            }else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("selectedOptions", jsonArray2);
+                for (int i = 0; i < savedQuesAndAnswers.getMultiImageOid().size(); i++) {
+                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
+                }
+                dataPostJson1.put("type", "8");
+            }
         } else {
             if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
                 dataPostJson1 = new JSONObject();
@@ -678,6 +704,20 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("id", selectedAnsId);
                 dataPostJson1.put("text", typeFiveReason);
                 dataPostJson1.put("type", "5");
+            }//6 no question json set on another screen
+            else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")){
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
+                dataPostJson1.put("type", "7");
+            }else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
+                dataPostJson1 = new JSONObject();
+                quesJson.put(selectedQuesId, dataPostJson1);
+                dataPostJson1.put("selectedOptions", jsonArray2);
+                for (int i = 0; i < savedQuesAndAnswers.getMultiImageOid().size(); i++) {
+                    jsonArray2.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
+                }
+                dataPostJson1.put("type", "8");
             }
         }
 
