@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.StringSignature;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
@@ -34,7 +33,7 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
 
     @NonNull
     @Override
-    public MultipleImageSelectionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_image_selection, parent, false);
 
@@ -44,12 +43,11 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MultipleImageSelectionAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final SdkOptions question_options = sdkOptions.get(position);
 
         if (question_options.getOption_value() != null) {
             Glide.with(ctx).load(question_options.getOption_value())
-                    .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                     .into(holder.thumb);
         } else {
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
@@ -75,13 +73,13 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
                 savedQuesAndAnswers.getMultiImageOid() != null) {
             if (savedQuesAndAnswers.getMultiImageQid().contains(question_options.getQuestion_id())) {
                 if (savedQuesAndAnswers.getMultiImageOid().contains(question_options.getOption_id())) {
-                    holder.seleciton.setVisibility(View.VISIBLE);
-                    holder.seleciton.setBackgroundResource(R.drawable.ic_checkbox_image);
+                    holder.selection.setVisibility(View.VISIBLE);
+                    holder.selection.setBackgroundResource(R.drawable.ic_checkbox_image);
                 } else {
-                    holder.seleciton.setVisibility(View.GONE);
+                    holder.selection.setVisibility(View.GONE);
                 }
             } else {
-                holder.seleciton.setVisibility(View.GONE);
+                holder.selection.setVisibility(View.GONE);
             }
         }
     }
@@ -92,12 +90,12 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView thumb, seleciton;
+        private ImageView thumb, selection;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             thumb = itemView.findViewById(R.id.img_itemThumb);
-            seleciton = itemView.findViewById(R.id.img_itemSelection);
+            selection = itemView.findViewById(R.id.img_itemSelection);
         }
     }
 }

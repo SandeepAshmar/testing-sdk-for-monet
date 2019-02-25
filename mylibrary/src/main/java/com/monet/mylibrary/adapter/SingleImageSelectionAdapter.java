@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.StringSignature;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
@@ -50,7 +49,6 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
         final SdkOptions sdkOption = sdkOptions.get(position);
         if(sdkOption.getOption_value() != null){
             Glide.with(ctx).load(sdkOption.getOption_value())
-                    .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                     .into(holder.thumb);
         }else{
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
@@ -76,12 +74,12 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView thumb, seleciton;
+        private ImageView thumb, selection;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             thumb = itemView.findViewById(R.id.img_itemThumb);
-            seleciton = itemView.findViewById(R.id.img_itemSelection);
+            selection = itemView.findViewById(R.id.img_itemSelection);
         }
     }
 
@@ -91,15 +89,15 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
         } else {
             if(savedQuesAndAnswers.getSingleImageQId().contains(question_options.getQuestion_id())){
                 if (savedQuesAndAnswers.getSingleImageOid().contains(question_options.getOption_id())) {
-                    holder.seleciton.setVisibility(View.VISIBLE);
-                    holder.seleciton.setBackgroundResource(R.drawable.ic_radio_check_image);
+                    holder.selection.setVisibility(View.VISIBLE);
+                    holder.selection.setBackgroundResource(R.drawable.ic_radio_check_image);
                     btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
                     btn_question.setEnabled(true);
                 } else {
-                    holder.seleciton.setVisibility(View.GONE);
+                    holder.selection.setVisibility(View.GONE);
                 }
             }else{
-                holder.seleciton.setVisibility(View.GONE);
+                holder.selection.setVisibility(View.GONE);
             }
         }
     }
