@@ -41,7 +41,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
     public boolean detecting1 = false;
     public boolean detecting2 = false;
     public boolean detecting3 = false;
-    public boolean detectFinal = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignRightBottom = findViewById(R.id.img_cornerAlignRightBottom);
         img_cornerAlignLeftTop = findViewById(R.id.img_cornerAlignLeftTop);
         tv_notify = findViewById(R.id.tv_notify);
-        callSetView();
     }
 
 
@@ -64,6 +62,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         super.onResume();
         createCameraSource();
         startCameraSource();
+        callSetView();
     }
 
     private void createCameraSource() {
