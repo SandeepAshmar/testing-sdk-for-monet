@@ -2,13 +2,13 @@ package com.monet.mylibrary.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -59,21 +59,11 @@ public class FaceDetectionScreen extends AppCompatActivity {
     }
 
     private void setFrameGreen() {
-        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
-        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
-        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
-        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
-        tv_notify.setBackgroundColor(Color.parseColor("#226501"));
-        tv_notify.setText("Detected");
+
     }
 
     private void setFrameRed() {
-        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
-        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
-        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
-        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
-        tv_notify.setBackgroundColor(Color.parseColor("#ff3939"));
-        tv_notify.setText("Adjust your face");
+
     }
 
 
@@ -154,20 +144,18 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-            setView();
-            //  detectionResults.getFrameMetadata().getTimestampMillis();
-//            int second = (int) (detectionResults.getFrameMetadata().getTimestampMillis()/1000);
-//
-            Log.d(TAG, "face detected..." + detectionResults + "  =" + face.getContours());
-
+            if (!detecting3) {
+                setView();
+            }
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-            setView();
-            Log.d(TAG, "face detected not  ");
+            if (!detecting3) {
+                setView();
+            }
         }
 
         @Override
@@ -178,10 +166,12 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     private void setView() {
         if (detecting) {
-           if (detecting3){
-
-               Log.d(TAG, "Intent Will be call here ...");
-           }
+            if (detecting3) {
+                handler.removeCallbacks(runnable);
+                mCameraSource.stop();
+                startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
+                finish();
+            }
             runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -192,8 +182,13 @@ public class FaceDetectionScreen extends AppCompatActivity {
                             detectSecond();
                         } else if (detecting3 != true) {
                             detectThird();
-                        }
-                        else {
+                        } else {
+                            img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
+                            img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
+                            img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
+                            img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
+                            tv_notify.setBackgroundColor(Color.parseColor("#192557"));
+                            tv_notify.setText("Adjust your face");
                             detecting1 = false;
                             detecting2 = false;
                             detecting3 = false;
@@ -201,7 +196,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
                     }
                 }
             };
-            handler.postDelayed(runnable,1000);
+            handler.postDelayed(runnable, 1000);
 
         }
     }
@@ -211,7 +206,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "face detected.... third");
+                    // Log.d(TAG, "face detected.... third");
                     detecting1 = true;
                     detecting2 = true;
                     detecting3 = true;
@@ -226,7 +221,13 @@ public class FaceDetectionScreen extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "face detected.... second");
+                    // Log.d(TAG, "face detected.... second");
+                    img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
+                    img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
+                    img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
+                    img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
+                    tv_notify.setBackgroundColor(Color.parseColor("#226501"));
+                    tv_notify.setText("Detected");
                     detecting1 = true;
                     detecting2 = true;
                     detecting3 = false;
@@ -241,7 +242,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "face detected.... first");
+                    //Log.d(TAG, "face detected.... first");
+                    tv_notify.setText("Wait a second");
                     detecting1 = true;
                     detecting2 = false;
                     detecting3 = false;
