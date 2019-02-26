@@ -2,6 +2,7 @@ package com.monet.mylibrary.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,19 +36,12 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private static final int RC_HANDLE_GMS = 9001;
     private ImageView img_cornerAlignRightTop, img_cornerAlignLeftBottom, img_cornerAlignRightBottom, img_cornerAlignLeftTop;
     private TextView tv_notify;
-    private Runnable runnable;
-    private Handler handler;
-    public boolean detecting = false;
-    public boolean detecting1 = false;
-    public boolean detecting2 = false;
-    public boolean detecting3 = false;
-    public int currnetTime, oldTime = 0 ,gap, counter = 0;
+    public short currnetTime, oldTime = 0 , counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_detection_screen);
-        handler = new Handler();
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         img_cornerAlignRightTop = findViewById(R.id.img_cornerAlignRightTop);
@@ -56,13 +50,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignLeftTop = findViewById(R.id.img_cornerAlignLeftTop);
         tv_notify = findViewById(R.id.tv_notify);
 
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                callSetView();
-//            }
-//        };
-//        handler.postDelayed(runnable, 1000);
     }
 
 
@@ -142,21 +129,19 @@ public class FaceDetectionScreen extends AppCompatActivity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            currnetTime = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
-            gap = currnetTime - oldTime;
-            Log.d(TAG, "Face Detections Gap ="+ gap + " counter =" + counter + " currntTime "+ currnetTime);
+            currnetTime = (short) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
+//            Log.d(TAG, "Face Detections Gap ="+ gap + " counter =" + counter + " currntTime "+ currnetTime);
 
-            if (gap == 1) {
+            if ((currnetTime - oldTime) == 1) {
                 counter++;
                 oldTime = currnetTime;
-            } else if (gap > 1) {
+            } else if ((currnetTime - oldTime) > 1) {
                 counter = 0;
                 oldTime = currnetTime;
             } else {
                 oldTime = currnetTime;
             }
             setScreen();
-//            detecting = true;
         }
 
         @Override
@@ -164,7 +149,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.remove(mFaceGraphic);
             counter = 0;
             setScreen();
-//            detecting = false;
         }
 
         @Override
@@ -193,90 +177,15 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
                 tv_notify.setBackgroundColor(Color.parseColor("#226501"));
                 tv_notify.setText("Detected");
-                Toast.makeText(this, "Intent Will be call here ", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Intent will be call here");
+                startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
+                mCameraSource.stop();
+                finish();
                 break;
         }
 
     }
 
-//    private void callSetView() {
-//        if (detecting) {
-//            runnable = new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (detecting) {
-//                        if (!detecting1) {
-//                            detectFirst();
-//                        } else if (!detecting2) {
-//                            detectSecond();
-//                        } else if (!detecting3) {
-//                            detecting3 = true;
-//                        }
-//                        if (detecting3) {
-//                            detectThird();
-//                            handler.removeCallbacks(runnable);
-//                        } else {
-//                            callSetView();
-//                        }
-//                    }else{
-//                        setNotDetectView();
-//                    }
-//                }
-//            };
-//            handler.postDelayed(runnable, 1000);
-//        } else {
-//            setNotDetectView();
-//        }
-//    }
 
-//    private void setNotDetectView() {
-//            img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
-//            img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
-//            img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
-//            img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
-//            tv_notify.setBackgroundColor(Color.parseColor("#192557"));
-//            tv_notify.setText("Adjust your face");
-//            detecting1 = false;
-//            detecting2 = false;
-//            detecting3 = false;
-//            callSetView();
-//    }
-
-//    private void detectThird() {
-//        detecting1 = true;
-//        detecting2 = true;
-//        detecting3 = true;
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
-//                handler.removeCallbacks(runnable);
-//                mCameraSource.stop();
-//                finish();
-//            }
-//        };
-//        handler.postDelayed(runnable, 1000);
-//    }
-
-//    private void detectSecond() {
-//        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
-//        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
-//        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
-//        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
-//        tv_notify.setBackgroundColor(Color.parseColor("#226501"));
-//        tv_notify.setText("Detected");
-//        detecting1 = true;
-//        detecting2 = true;
-//        detecting3 = false;
-//    }
-
-//    private void detectFirst() {
-//        tv_notify.setText("Wait a second");
-//        detecting1 = true;
-//        detecting2 = false;
-//        detecting3 = false;
-//    }
 
     @Override
     public void onBackPressed() {
