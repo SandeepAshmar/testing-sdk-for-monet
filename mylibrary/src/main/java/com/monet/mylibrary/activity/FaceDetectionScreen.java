@@ -159,6 +159,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
+            counter = 0;
+            setScreen();
 //            detecting = false;
         }
 
