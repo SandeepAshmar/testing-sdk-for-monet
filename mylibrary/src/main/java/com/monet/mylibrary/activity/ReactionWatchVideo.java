@@ -3,7 +3,6 @@ package com.monet.mylibrary.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -258,7 +257,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
         pauseVideo();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         edt_dialogcoment = dialog.findViewById(R.id.edt_dialogComment);
         img_dialog = dialog.findViewById(R.id.img_dialog);
 
@@ -330,6 +328,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private void playVideoAgain() {
         videoView.seekTo(videoStopTime);
         videoView.start();
+        setSeekBar();
     }
 
     private void setDialogIcon( int position) {
