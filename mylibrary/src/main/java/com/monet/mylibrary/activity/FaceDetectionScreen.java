@@ -163,31 +163,33 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 mCameraSource.stop();
                 finish();
             }
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    if (detecting) {
-                        if (detecting1 != true) {
-                            detectFirst();
-                        } else if (detecting2 != true) {
-                            detectSecond();
-                        } else if (detecting3 != true) {
-                            detectThird();
-                        } else {
-                            img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
-                            img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
-                            img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
-                            img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
-                            tv_notify.setBackgroundColor(Color.parseColor("#192557"));
-                            tv_notify.setText("Adjust your face");
-                            detecting1 = false;
-                            detecting2 = false;
-                            detecting3 = false;
+            if(!detecting3){
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (detecting) {
+                            if (detecting1 != true) {
+                                detectFirst();
+                            } else if (detecting2 != true) {
+                                detectSecond();
+                            } else if (detecting3 != true) {
+                                detectThird();
+                            } else {
+                                img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
+                                img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
+                                img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
+                                img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
+                                tv_notify.setBackgroundColor(Color.parseColor("#192557"));
+                                tv_notify.setText("Adjust your face");
+                                detecting1 = false;
+                                detecting2 = false;
+                                detecting3 = false;
+                            }
                         }
                     }
-                }
-            };
-            handler.postDelayed(runnable, 1000);
+                };
+                handler.postDelayed(runnable, 1000);
+            }
 
         }
     }
@@ -243,6 +245,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
     }
 }
