@@ -148,6 +148,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 oldTime = currnetTime;
             } else if (currnetTime - oldTime > 1) {
                 counter = 0;
+                oldTime = currnetTime;
             } else {
 
             }
