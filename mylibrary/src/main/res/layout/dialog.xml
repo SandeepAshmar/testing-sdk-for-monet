@@ -50,7 +50,7 @@
             android:ems="10"
             android:gravity="top|left"
             android:imeOptions="actionDone"
-            android:inputType="text"
+            android:inputType="textImeMultiLine"
             android:lines="3"
             android:longClickable="false"
             android:minHeight="85dp"

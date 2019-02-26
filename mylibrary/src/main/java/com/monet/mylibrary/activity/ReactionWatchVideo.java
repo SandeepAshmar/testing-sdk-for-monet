@@ -261,7 +261,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.80);
         dialog.getWindow().setLayout(width, height);
         edt_dialogcoment = dialog.findViewById(R.id.edt_dialogComment);
         img_dialog = dialog.findViewById(R.id.img_dialog);
