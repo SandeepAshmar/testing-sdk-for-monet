@@ -33,7 +33,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
+import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
+import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
+import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
+import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
 
@@ -200,28 +206,33 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void setScreen() {
-        int count = Integer.valueOf(SdkPreferences.getCmpLength(this));
-        int i = SdkPreferences.getCmpLengthCount(this);
+        int count = Integer.valueOf(getCmpLength(this));
+        int i = getCmpLengthCount(this);
 
         if (count == 1) {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
-                    SdkPreferences.setQuestionType(this, "pre");
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setQuestionType(this, "pre");
+                    try {
+                        stagingJson.put("2", "1");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
-                    SdkPreferences.setQuestionType(this, "post");
+                    setQuestionType(this, "post");
                     try {
                         stagingJson.put("3", "1");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     try {
                         stagingJson.put("4", "1");
                     } catch (JSONException e) {
@@ -230,7 +241,7 @@ public class LandingPage extends AppCompatActivity {
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     try {
                         stagingJson.put("5", "1");
                     } catch (JSONException e) {
@@ -240,8 +251,8 @@ public class LandingPage extends AppCompatActivity {
                     finish();
                 }
             } else {
-                int flag = SdkPreferences.getCmpLengthCountFlag(this);
-                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
+                int flag = getCmpLengthCountFlag(this);
+                setCmpLengthCountFlag(this, flag + 1);
                 try {
                     stagingJson.put("6", "1");
                 } catch (JSONException e) {
@@ -253,27 +264,27 @@ public class LandingPage extends AppCompatActivity {
         } else {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
-                    SdkPreferences.setQuestionType(this, "pre");
+                    setQuestionType(this, "pre");
                     try {
                         stagingJson.put("2", "1");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
-                    SdkPreferences.setQuestionType(this, "post");
+                    setQuestionType(this, "post");
                     try {
                         stagingJson.put("3", "1");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     try {
                         stagingJson.put("4", "1");
                     } catch (JSONException e) {
@@ -282,7 +293,7 @@ public class LandingPage extends AppCompatActivity {
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
+                    setCmpLengthCount(this, i + 1);
                     try {
                         stagingJson.put("5", "1");
                     } catch (JSONException e) {
@@ -292,8 +303,8 @@ public class LandingPage extends AppCompatActivity {
                     finish();
                 }
             } else {
-                int flag = SdkPreferences.getCmpLengthCountFlag(this);
-                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
+                int flag = getCmpLengthCountFlag(this);
+                setCmpLengthCountFlag(this, flag + 1);
                 try {
                     stagingJson.put("6", "1");
                 } catch (JSONException e) {

@@ -52,16 +52,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="?android:attr/progressBarStyleHorizontal"
-            android:progressTint="@color/colorRed"/>
+            android:progressTint="@color/colorRed"
+            android:progressBackgroundTint="@color/colorGray"
+            android:layout_alignParentBottom="true"/>
 
         <TextView
             android:id="@+id/tv_timeVideoReaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@id/pb_reaction"
             android:layout_alignParentEnd="true"
+            android:layout_marginBottom="4dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
             android:textColor="@color/colorWhite"
             android:text="00:00"/>
 
