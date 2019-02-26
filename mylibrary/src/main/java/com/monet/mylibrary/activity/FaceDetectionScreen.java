@@ -54,6 +54,14 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignRightBottom = findViewById(R.id.img_cornerAlignRightBottom);
         img_cornerAlignLeftTop = findViewById(R.id.img_cornerAlignLeftTop);
         tv_notify = findViewById(R.id.tv_notify);
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                callSetView();
+            }
+        };
+        handler.postDelayed(runnable, 1000);
     }
 
 
@@ -62,7 +70,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
         super.onResume();
         createCameraSource();
         startCameraSource();
-        callSetView();
     }
 
     private void createCameraSource() {
