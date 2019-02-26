@@ -144,6 +144,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mFaceGraphic.updateFace(face);
             currnetTime = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
             gap = currnetTime - oldTime;
+            Log.d(TAG, "Face Detections Gap ="+ gap + " counter =" + counter);
+
             if (gap == 1) {
                 counter = +1;
                 oldTime = currnetTime;
