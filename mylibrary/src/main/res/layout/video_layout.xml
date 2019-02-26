@@ -8,7 +8,7 @@
 
     <VideoView
         android:id="@+id/videoView"
-        android:layout_width="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,12 +17,12 @@
 
     <SeekBar
         android:id="@+id/seekBarVideo"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:progressBackgroundTint="@color/colorGray"
+        android:progressBackgroundTint="@color/colorYellow"
+        android:thumbTint="@color/colorRed"
         android:progressTint="@color/colorRed"
-        android:thumb="null"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
         app:layout_constraintEnd_toEndOf="@+id/videoView"
         app:layout_constraintStart_toStartOf="@+id/videoView"
@@ -44,4 +44,15 @@
         app:layout_constraintStart_toStartOf="@+id/videoView"
         app:layout_constraintTop_toTopOf="@+id/videoView"
         app:layout_constraintVertical_bias="0.989" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/half_black"
+        app:layout_constraintBottom_toBottomOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="@+id/videoView"
+        app:layout_constraintStart_toStartOf="@+id/videoView"
+        app:layout_constraintTop_toTopOf="@+id/videoView"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
