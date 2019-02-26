@@ -7,89 +7,6 @@
     android:background="@drawable/bg_color"
     tools:context=".activity.ReactionScreen">
 
-
-
-   <!-- <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/btn_exit_layout">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <FrameLayout
-                android:id="@+id/reaction_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </RelativeLayout>
-
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/btn_exit_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <Button
-            android:id="@+id/btn_reactionExit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_exit"
-            android:text="exit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <Button
-            android:id="@+id/btn_reactionProceed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_pro_activate"
-            android:text="proceed"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btn_nextLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/btn_reactionNext"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/btn_pro_activate"
-            android:text="Next"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>-->
     <include
         android:id="@+id/include2"
         layout="@layout/toolbar_layout"
@@ -128,6 +45,7 @@
         android:layout_height="wrap_content"
         android:elevation="5dp"
         android:text="Next"
+        android:visibility="gone"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="@+id/circleIndicatorReaction"
         app:layout_constraintEnd_toEndOf="parent"

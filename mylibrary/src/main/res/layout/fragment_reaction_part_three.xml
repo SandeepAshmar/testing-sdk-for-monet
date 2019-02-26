@@ -12,40 +12,44 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="Give your reaction comment in the input\nbox"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.14999998" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginTop="43dp"
+        android:elevation="1dp"
         android:src="@drawable/ic_like"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.1"
-        android:elevation="1dp"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="175dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="24dp"
         android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.22">
+        app:layout_constraintVertical_bias="0.0">
 
 
         <View
