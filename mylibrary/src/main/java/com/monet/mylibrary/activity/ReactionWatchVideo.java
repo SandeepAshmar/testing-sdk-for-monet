@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -109,7 +108,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 @Override
                 public void run() {
                     short time = (short) ((videoView.getDuration() - videoView.getCurrentPosition()) / 1000);
-                    Log.d("TAG", "run: time" + time);
+                    tv_timeVideoView.setText(""+time);
                     setSeekBar();
                 }
             };

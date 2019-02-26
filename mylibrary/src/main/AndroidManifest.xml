@@ -17,6 +17,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ReactionScreen"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ReactionWatchVideo"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.ThankyouPage"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PlayVideoAndRecordScreen"/>
