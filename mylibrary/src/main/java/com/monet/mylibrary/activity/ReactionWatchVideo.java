@@ -276,12 +276,12 @@ public class ReactionWatchVideo extends AppCompatActivity {
                     } else {
                         coment = edt_dialogcoment.getText().toString();
                         dialog.dismiss();
-                        playVideoAgain();
                         try {
                             setReactionJson();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        playVideoAgain();
                     }
                     return true;
                 }
@@ -328,7 +328,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
     }
 
     private void playVideoAgain() {
-        videoView.resume();
+        videoView.seekTo(videoStopTime);
+        videoView.start();
     }
 
     private void setDialogIcon( int position) {
@@ -388,7 +389,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
     private void setReactionJson() throws JSONException {
 
-        videoStopTime = (videoView.getCurrentPosition() / 1000) % 60;
+        videoStopTime = videoView.getCurrentPosition();
 
         if (dialog_name.equalsIgnoreCase("Love")) {
             jsonObject = new JSONObject();
