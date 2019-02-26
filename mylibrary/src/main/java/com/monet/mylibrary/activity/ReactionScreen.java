@@ -28,10 +28,9 @@ public class ReactionScreen extends AppCompatActivity {
         tv_next = findViewById(R.id.textView8);
         circleIndicator = findViewById(R.id.circleIndicatorReaction);
 
-        circleIndicator.setViewPager(viewPager);
-
         reactionImageSliderAdapter = new ReactionImageSliderAdapter(getSupportFragmentManager());
         viewPager.setAdapter(reactionImageSliderAdapter);
+        circleIndicator.setViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
