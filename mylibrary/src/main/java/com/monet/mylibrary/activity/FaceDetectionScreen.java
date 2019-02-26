@@ -147,7 +147,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
             Log.d(TAG, "Face Detections Gap ="+ gap + " counter =" + counter + " currntTime "+ currnetTime);
 
             if (gap == 1) {
-                counter = counter++;
+                counter++;
                 oldTime = currnetTime;
             } else if (gap > 1) {
                 counter = 0;
