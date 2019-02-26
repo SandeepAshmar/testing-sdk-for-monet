@@ -22,7 +22,7 @@
         android:clickable="false"
         android:progressBackgroundTint="@color/colorGray"
         android:progressTint="@color/colorRed"
-        android:thumb="null"
+        android:thumbTint="@color/colorTransparent"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
         app:layout_constraintEnd_toEndOf="@+id/videoView"
         app:layout_constraintStart_toStartOf="@+id/videoView"
