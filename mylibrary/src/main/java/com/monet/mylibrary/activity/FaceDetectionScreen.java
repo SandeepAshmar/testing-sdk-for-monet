@@ -150,7 +150,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 counter = 0;
                 oldTime = currnetTime;
             } else {
-
+                oldTime = currnetTime;
             }
             setScreen();
 //            detecting = true;
