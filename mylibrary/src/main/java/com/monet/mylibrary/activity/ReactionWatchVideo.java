@@ -256,7 +256,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         pauseVideo();
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
@@ -435,7 +434,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             jsonObject.put("coment", coment);
             jsonArray7.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray7);
-        } else if (dialog_name.equalsIgnoreCase("engaging")) {
+        } else if (dialog_name.equalsIgnoreCase("Engaging")) {
             jsonObject = new JSONObject();
             jsonObject.put("time", videoStopTime);
             jsonObject.put("coment", coment);
