@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -32,7 +32,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private ImageView img_toolbarBack;
     private RecyclerView recyclerView;
     private VideoView videoView;
-    private SeekBar seekBarVideo;
+    private ProgressBar progressBarVide;
     private TextView tv_timeVideoView;
     private Handler handler;
     private Runnable runnable;
@@ -47,10 +47,10 @@ public class ReactionWatchVideo extends AppCompatActivity {
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
         img_toolbarBack.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.recyclerViewReaction);
-        videoView = findViewById(R.id.videoView);
-        seekBarVideo = findViewById(R.id.seekBarVideo);
-        tv_timeVideoView = findViewById(R.id.tv_timeVideoView);
-        seekBarVideo.setEnabled(false);
+        videoView = findViewById(R.id.vv_reaction);
+        progressBarVide = findViewById(R.id.pb_reaction);
+        tv_timeVideoView = findViewById(R.id.tv_timeVideoReaction);
+        progressBarVide.setEnabled(false);
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
@@ -96,14 +96,14 @@ public class ReactionWatchVideo extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 videoView.start();
-                seekBarVideo.setMax(videoView.getDuration());
+                progressBarVide.setMax(videoView.getDuration());
                 setSeekBar();
             }
         });
     }
 
     private void setSeekBar() {
-        seekBarVideo.setProgress(videoView.getCurrentPosition());
+        progressBarVide.setProgress(videoView.getCurrentPosition());
         if (videoView.isPlaying()) {
             runnable = new Runnable() {
                 @Override
