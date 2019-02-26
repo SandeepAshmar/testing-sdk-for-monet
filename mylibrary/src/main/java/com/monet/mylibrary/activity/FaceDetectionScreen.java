@@ -41,7 +41,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
     public boolean detecting1 = false;
     public boolean detecting2 = false;
     public boolean detecting3 = false;
-    private int temp = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +54,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignRightBottom = findViewById(R.id.img_cornerAlignRightBottom);
         img_cornerAlignLeftTop = findViewById(R.id.img_cornerAlignLeftTop);
         tv_notify = findViewById(R.id.tv_notify);
-
-    }
-
-    private void setFrameGreen() {
-
-    }
-
-    private void setFrameRed() {
 
     }
 
@@ -144,18 +135,18 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-            if (!detecting3) {
+//            if (!detecting3) {
                 setView();
-            }
+//            }
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-            if (!detecting3) {
+//            if (!detecting3) {
                 setView();
-            }
+//            }
         }
 
         @Override
@@ -206,7 +197,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    // Log.d(TAG, "face detected.... third");
                     detecting1 = true;
                     detecting2 = true;
                     detecting3 = true;
@@ -221,7 +211,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    // Log.d(TAG, "face detected.... second");
                     img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
                     img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
                     img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
