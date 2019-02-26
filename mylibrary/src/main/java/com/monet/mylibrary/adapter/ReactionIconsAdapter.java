@@ -39,7 +39,7 @@ public class ReactionIconsAdapter extends RecyclerView.Adapter<ReactionIconsAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         holder.textView.setText(iconList.get(position));
 
@@ -70,6 +70,15 @@ public class ReactionIconsAdapter extends RecyclerView.Adapter<ReactionIconsAdap
         if (iconList.get(position).equals("Boring")) {
             holder.imageView.setImageResource(R.drawable.ic_boring);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (iClickListener != null) {
+                    iClickListener.onItemClick(v, position);
+                }
+            }
+        });
     }
 
     @Override
