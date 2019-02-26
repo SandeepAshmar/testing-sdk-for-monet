@@ -16,7 +16,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:elevation="6dp"
-        android:backgroundTint="@color/colorTransparent"
+        android:background="@color/colorTransparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
