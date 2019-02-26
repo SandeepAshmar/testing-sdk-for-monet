@@ -41,7 +41,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
     public boolean detecting1 = false;
     public boolean detecting2 = false;
     public boolean detecting3 = false;
-    public int currnetTime, oldTime, counter = 0;
+    public int currnetTime, oldTime = 0 ,gap, counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +143,11 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             currnetTime = (int) (detectionResults.getFrameMetadata().getTimestampMillis() / 1000);
-            if (currnetTime - oldTime == 1) {
+            gap = currnetTime - oldTime;
+            if (gap == 1) {
                 counter = +1;
                 oldTime = currnetTime;
-            } else if (currnetTime - oldTime > 1) {
+            } else if (gap > 1) {
                 counter = 0;
                 oldTime = currnetTime;
             } else {
