@@ -135,18 +135,18 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-//            if (!detecting3) {
+            if (!detecting3) {
                 setView();
-//            }
+            }
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-//            if (!detecting3) {
+            if (!detecting3) {
                 setView();
-//            }
+            }
         }
 
         @Override
@@ -158,9 +158,9 @@ public class FaceDetectionScreen extends AppCompatActivity {
     private void setView() {
         if (detecting) {
             if (detecting3) {
+                startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
                 handler.removeCallbacks(runnable);
                 mCameraSource.stop();
-                startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
                 finish();
             }
             runnable = new Runnable() {
@@ -231,7 +231,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    //Log.d(TAG, "face detected.... first");
                     tv_notify.setText("Wait a second");
                     detecting1 = true;
                     detecting2 = false;
