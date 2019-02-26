@@ -158,7 +158,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     private void setScreen() {
         switch (counter) {
-            case 1:
+            case 0:
                 img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
                 img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
                 img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
@@ -166,16 +166,18 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 tv_notify.setBackgroundColor(Color.parseColor("#192557"));
                 tv_notify.setText("Adjust your face");
                 break;
-            case 2:
+            case 1:
                 tv_notify.setText("Wait a second");
                 break;
-            case 3:
+            case 2:
                 img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
                 img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
                 img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
                 img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
                 tv_notify.setBackgroundColor(Color.parseColor("#226501"));
                 tv_notify.setText("Detected");
+                break;
+            case 3:
                 startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
                 mCameraSource.stop();
                 finish();
