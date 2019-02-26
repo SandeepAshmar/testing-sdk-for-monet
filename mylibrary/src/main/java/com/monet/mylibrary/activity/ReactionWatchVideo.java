@@ -258,6 +258,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         edt_dialogcoment = dialog.findViewById(R.id.edt_dialogComment);
         img_dialog = dialog.findViewById(R.id.img_dialog);

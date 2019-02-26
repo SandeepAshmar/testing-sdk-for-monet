@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:layout_margin="10dp"
-    android:background="@color/colorTransparent"
     android:orientation="vertical">
 
 
@@ -50,14 +49,13 @@
             android:background="@drawable/comment_box"
             android:ems="10"
             android:gravity="top|left"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionSend"
             android:inputType="textMultiLine"
             android:lines="3"
             android:longClickable="false"
             android:minHeight="85dp"
             android:padding="5dp"
             android:singleLine="false"
-            android:text="Name"
             android:textColor="@color/colorBlack" />
 
         <TextView
