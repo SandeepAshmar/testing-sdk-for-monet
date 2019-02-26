@@ -76,8 +76,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         }
 
         mCameraSource = new CameraSource.Builder(context, detector)
-//                .setRequestedPreviewSize(640, 480)
-                .setRequestedPreviewSize(840, 680)
+                .setRequestedPreviewSize(640, 480)
                 .setFacing(CameraSource.CAMERA_FACING_FRONT)
                 .setRequestedFps(30.0f)
                 .build();
@@ -147,7 +146,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
-            counter = 0;
+            counter = 1;
             setScreen();
         }
 
@@ -177,15 +176,13 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
                 tv_notify.setBackgroundColor(Color.parseColor("#226501"));
                 tv_notify.setText("Detected");
-                startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
                 mCameraSource.stop();
+                startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
                 finish();
                 break;
         }
 
     }
-
-
 
     @Override
     public void onBackPressed() {
