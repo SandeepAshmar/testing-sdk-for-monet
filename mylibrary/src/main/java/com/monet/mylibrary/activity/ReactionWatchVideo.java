@@ -136,18 +136,19 @@ public class ReactionWatchVideo extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<VideoPojo> call, Response<VideoPojo> response) {
                         progressDialog(ReactionWatchVideo.this, "Please wait...", false);
-                        if(response.body().getCode().equals("200")){
+                        if (response.body().getCode().equals("200")) {
                             for (int i = 0; i < response.body().getResponse().size(); i++) {
-                                if(response.body().getResponse().get(i).getQuality().equals("medium")){
+                                if (response.body().getResponse().get(i).getQuality().equals("medium")) {
                                     playVideo(response.body().getResponse().get(i).getUrl());
                                     break;
-                                }if(i == response.body().getResponse().size()){
+                                }
+                                if (i == response.body().getResponse().size()) {
                                     playVideo(response.body().getResponse().get(0).getUrl());
                                     break;
                                 }
                             }
-                        }else{
-                            Toast.makeText(ReactionWatchVideo.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ReactionWatchVideo.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -233,7 +234,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         }
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-        reactionIconsAdapter = new ReactionIconsAdapter(this, iClickListener ,iconNameList);
+        reactionIconsAdapter = new ReactionIconsAdapter(this, iClickListener, iconNameList);
         recyclerView.setAdapter(reactionIconsAdapter);
     }
 
@@ -259,6 +260,9 @@ public class ReactionWatchVideo extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
+        dialog.getWindow().setLayout(width, height);
         edt_dialogcoment = dialog.findViewById(R.id.edt_dialogComment);
         img_dialog = dialog.findViewById(R.id.img_dialog);
 
@@ -333,7 +337,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         setSeekBar();
     }
 
-    private void setDialogIcon( int position) {
+    private void setDialogIcon(int position) {
 
         if (iconNameList.get(position).equalsIgnoreCase("like")) {
             img_dialog.setImageResource(R.drawable.ic_like);
