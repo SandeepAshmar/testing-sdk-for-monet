@@ -41,6 +41,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
     public boolean detecting1 = false;
     public boolean detecting2 = false;
     public boolean detecting3 = false;
+    public boolean detectFinal = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class FaceDetectionScreen extends AppCompatActivity {
         img_cornerAlignRightBottom = findViewById(R.id.img_cornerAlignRightBottom);
         img_cornerAlignLeftTop = findViewById(R.id.img_cornerAlignLeftTop);
         tv_notify = findViewById(R.id.tv_notify);
-
+        callSetView();
     }
 
 
@@ -135,18 +136,12 @@ public class FaceDetectionScreen extends AppCompatActivity {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
             detecting = true;
-            if (!detecting3) {
-                setView();
-            }
         }
 
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
             detecting = false;
-            if (!detecting3) {
-                setView();
-            }
         }
 
         @Override
@@ -155,92 +150,82 @@ public class FaceDetectionScreen extends AppCompatActivity {
         }
     }
 
-    private void setView() {
+    private void callSetView() {
         if (detecting) {
-            if (detecting3) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (detecting) {
+                        if (!detecting1) {
+                            detectFirst();
+                        } else if (!detecting2) {
+                            detectSecond();
+                        } else if (!detecting3) {
+                            detecting3 = true;
+                        }
+                        if (detecting3) {
+                            detectThird();
+                            handler.removeCallbacks(runnable);
+                        } else {
+                            callSetView();
+                        }
+                    }else{
+                        setNotDetectView();
+                    }
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        } else {
+            setNotDetectView();
+        }
+    }
+
+    private void setNotDetectView() {
+            img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
+            img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
+            img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
+            img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
+            tv_notify.setBackgroundColor(Color.parseColor("#192557"));
+            tv_notify.setText("Adjust your face");
+            detecting1 = false;
+            detecting2 = false;
+            detecting3 = false;
+            callSetView();
+    }
+
+    private void detectThird() {
+        detecting1 = true;
+        detecting2 = true;
+        detecting3 = true;
+        runnable = new Runnable() {
+            @Override
+            public void run() {
                 startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
                 handler.removeCallbacks(runnable);
                 mCameraSource.stop();
                 finish();
             }
-            if(!detecting3){
-                runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (detecting) {
-                            if (detecting1 != true) {
-                                detectFirst();
-                            } else if (detecting2 != true) {
-                                detectSecond();
-                            } else if (detecting3 != true) {
-                                detectThird();
-                            } else {
-                                img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom);
-                                img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top);
-                                img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom);
-                                img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top);
-                                tv_notify.setBackgroundColor(Color.parseColor("#192557"));
-                                tv_notify.setText("Adjust your face");
-                                detecting1 = false;
-                                detecting2 = false;
-                                detecting3 = false;
-                            }
-                        }
-                    }
-                };
-                handler.postDelayed(runnable, 1000);
-            }
-
-        }
-    }
-
-    private void detectThird() {
-        if (detecting) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    detecting1 = true;
-                    detecting2 = true;
-                    detecting3 = true;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        }
+        };
+        handler.postDelayed(runnable, 1000);
     }
 
     private void detectSecond() {
-        if (detecting) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
-                    img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
-                    img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
-                    img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
-                    tv_notify.setBackgroundColor(Color.parseColor("#226501"));
-                    tv_notify.setText("Detected");
-                    detecting1 = true;
-                    detecting2 = true;
-                    detecting3 = false;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        }
+        img_cornerAlignRightBottom.setImageResource(R.drawable.ic_corner_align_right_bottom_green);
+        img_cornerAlignRightTop.setImageResource(R.drawable.ic_corner_align_right_top_green);
+        img_cornerAlignLeftBottom.setImageResource(R.drawable.ic_corner_align_left_bottom_green);
+        img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
+        tv_notify.setBackgroundColor(Color.parseColor("#226501"));
+        tv_notify.setText("Detected");
+        detecting1 = true;
+        detecting2 = true;
+        detecting3 = false;
     }
 
     private void detectFirst() {
-        if (detecting) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    tv_notify.setText("Wait a second");
-                    detecting1 = true;
-                    detecting2 = false;
-                    detecting3 = false;
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        }
+        tv_notify.setText("Wait a second");
+        detecting1 = true;
+        detecting2 = false;
+        detecting3 = false;
     }
 
     @Override
