@@ -176,8 +176,8 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 img_cornerAlignLeftTop.setImageResource(R.drawable.ic_corner_align_left_top_green);
                 tv_notify.setBackgroundColor(Color.parseColor("#226501"));
                 tv_notify.setText("Detected");
-                mCameraSource.stop();
                 startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
+                mCameraSource.stop();
                 finish();
                 break;
         }
