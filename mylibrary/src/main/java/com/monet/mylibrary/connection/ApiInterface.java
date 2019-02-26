@@ -8,6 +8,7 @@ import com.monet.mylibrary.model.reaction.ReactionPost;
 import com.monet.mylibrary.model.reaction.ReactionResponse;
 import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.model.survay.SurvayPost;
+import com.monet.mylibrary.model.video.VideoPojo;
 
 import org.json.JSONObject;
 
@@ -46,4 +47,8 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("savereaction")
     Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body ReactionPost reactionPost);
+
+    @Headers("Content-Type: application/json")
+    @GET("videoUrlToMp4")
+    Call<VideoPojo> getMp4VideoUrl(@Query("video_url") String video_url);
 }
