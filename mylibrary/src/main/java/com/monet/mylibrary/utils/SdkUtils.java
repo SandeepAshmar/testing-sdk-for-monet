@@ -35,6 +35,60 @@ public class SdkUtils {
         d.show();
     }
 
+    public static String convertVideoTime(long millis) {
+        String videoTime, hourString, minutesString, secoundsString;
+        long secoundsInMilli = 1000;
+        long minutesInMilli = secoundsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+
+        long hours = millis / hoursInMilli;
+        millis = millis % hoursInMilli;
+
+        long minutes = millis / minutesInMilli;
+        millis = millis % minutesInMilli;
+
+        long secounds = millis / secoundsInMilli;
+
+        if (hours == 0) {
+            if (minutes >= 0 && minutes <= 9) {
+                minutesString = "0" + minutes;
+            } else {
+                minutesString = String.valueOf(minutes);
+            }
+
+            if (secounds >= 0 && secounds <= 9) {
+                secoundsString = "0" + secounds;
+            } else {
+                secoundsString = String.valueOf(secounds);
+            }
+
+            videoTime = minutesString + ":" + secoundsString;
+        } else {
+
+            if (hours >= 0 && hours <= 9) {
+                hourString = "0" + hours;
+            } else {
+                hourString = String.valueOf(hours);
+            }
+
+            if (minutes >= 0 && minutes <= 9) {
+                minutesString = "0" + minutes;
+            } else {
+                minutesString = String.valueOf(minutes);
+            }
+
+            if (secounds >= 0 && secounds <= 9) {
+                secoundsString = "0" + secounds;
+            } else {
+                secoundsString = String.valueOf(secounds);
+            }
+
+            videoTime = hourString + ":" + minutesString + ":" + secoundsString;
+        }
+
+        return videoTime;
+    }
+
     public static void progressDialog(Context context, String message, boolean show){
         if(show){
             pd = new ProgressDialog(context);

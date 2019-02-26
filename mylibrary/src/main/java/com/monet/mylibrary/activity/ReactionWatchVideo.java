@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.utils.SdkPreferences.getVideoUrl;
+import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
 
 
@@ -54,7 +54,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
-        getVideoUrlFromLink(getVideoUrl(this));
+        getVideoUrlFromLink("https://www.youtube.com/watch?v=n7-QjBAmlSM");
+//        getVideoUrlFromLink(getVideoUrl(this));
 
     }
 
@@ -107,8 +108,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    short time = (short) ((videoView.getDuration() - videoView.getCurrentPosition()) / 1000);
-                    tv_timeVideoView.setText(""+time);
+                    tv_timeVideoView.setText(convertVideoTime((videoView.getDuration() - videoView.getCurrentPosition())));
                     setSeekBar();
                 }
             };
