@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class ImageSliderAdapter extends FragmentStatePagerAdapter {
+public class EmotionImageSliderAdapter extends FragmentStatePagerAdapter {
 
-    public ImageSliderAdapter(@NonNull FragmentManager fm) {
+    public EmotionImageSliderAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
