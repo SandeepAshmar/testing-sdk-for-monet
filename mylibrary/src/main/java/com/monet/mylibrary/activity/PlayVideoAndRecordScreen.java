@@ -239,6 +239,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
+
         }
         this.doubleBackToExitPressedOnce = true;
         new Handler().postDelayed(new Runnable() {
