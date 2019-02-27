@@ -239,6 +239,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
+
         }
         this.doubleBackToExitPressedOnce = true;
         new Handler().postDelayed(new Runnable() {
@@ -346,6 +347,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private boolean prepareEncoders() {
+
         int width = 320;
         int height = 240;
         return rtmpCamera1.prepareVideo(width, height, Integer.parseInt("30"),
