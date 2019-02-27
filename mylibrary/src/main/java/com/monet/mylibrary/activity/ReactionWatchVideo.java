@@ -52,7 +52,6 @@ import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.getUserId;
-import static com.monet.mylibrary.utils.SdkPreferences.getVideoUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
@@ -133,7 +132,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
-        getVideoUrlFromLink(getVideoUrl(this));
+        playVideo("https://r2---sn-ci5gup-qxar.googlevideo.com/videoplayback?lmt=1520252625302191&key=yt6&itag=43&beids=9466588&fvip=2&signature=515C5DF01F6D560FBD21731CA96008ED20448116.81EC927CA9C6905BCF03B8A23A3FB9A983E0F319&ratebypass=yes&c=WEB&clen=2063291&source=youtube&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&expire=1551272822&dur=0.000&initcwndbps=266250&ei=Fjd2XND5IIiqowOZ4YHIDA&requiressl=yes&ip=182.73.8.45&mv=m&mt=1551251151&ms=au%2Conr&mn=sn-ci5gup-qxar%2Csn-cvh7kney&gir=yes&mm=31%2C26&pl=23&id=o-ABi71PpoD84EtFJ3lWAHLwiKDW1mFWAvg0-mB4ikICPf&mime=video%2Fwebm&ipbits=0");
+//        getVideoUrlFromLink(getVideoUrl(this));
 
     }
 
