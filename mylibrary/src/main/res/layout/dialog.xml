@@ -37,36 +37,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edt_dialogComment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="46dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/comment_box"
-            android:ems="10"
-            android:gravity="top|left"
-            android:imeOptions="actionDone"
-            android:inputType="textImeMultiLine"
-            android:lines="3"
-            android:longClickable="false"
-            android:minHeight="85dp"
-            android:padding="5dp"
-            android:singleLine="false"
-            android:textColor="@color/colorBlack" />
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
 
         <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_dialogTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:text="Why did you like ?"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:textColor="@color/colorStartColor"/>
+
+        <EditText
+            android:id="@+id/edt_dialogcoment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="16dp"
+            android:inputType="textMultiLine"
+            android:hint="Type your answer here"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/btn_dialogSubmit"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Press enter to send"
-            android:layout_gravity="end"/>
+            android:background="@drawable/btn_pro_activate"
+            android:text="Send"
+            android:elevation="6dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
     </LinearLayout>
 
     </androidx.cardview.widget.CardView>
