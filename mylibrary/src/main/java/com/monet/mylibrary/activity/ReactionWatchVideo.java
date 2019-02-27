@@ -234,7 +234,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             iconNameList.add("Boring");
         }
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         reactionIconsAdapter = new ReactionIconsAdapter(this, iClickListener, iconNameList);
         recyclerView.setAdapter(reactionIconsAdapter);
     }
