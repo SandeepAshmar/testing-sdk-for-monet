@@ -84,9 +84,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, this);
         rtmpCamera1.startPreview();
-        if (!rtmpCamera1.isStreaming()) {
-            rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
-        }
+        playVideo();
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -119,8 +117,11 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 });
     }
 
-    private void playVideo(String url) {
-        Uri uri = Uri.parse(url);
+    private void playVideo() {
+        if (!rtmpCamera1.isStreaming()) {
+            rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
+        }
+        Uri uri = Uri.parse(video_Url);
         videoViewEmotion.setVideoURI(uri);
         videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -188,12 +189,14 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             }catch (Exception e){
                 Log.d("TAG", "Exception found in face detection"+e.getMessage());
             }
+        }else{
+            Toast.makeText(this, "Error preparing stream, this device can not do this....", Toast.LENGTH_SHORT).show();
         }
     }
 
     private boolean prepareEncoders(){
-        short width = 320;
-        short height = 240;
+        int width = 320;
+        int height = 240;
 
         return rtmpCamera1.prepareVideo(width, height, 30, 153600,
                 false, CameraHelper.getCameraOrientation(this));
@@ -205,27 +208,53 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     @Override
     public void onConnectionSuccessRtmp() {
-        playVideo(video_Url);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "onConnectionSuccessRtmp", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onConnectionFailedRtmp(String s) {
         rtmpCamera1.stopStream();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "onConnectionFailedRtmp", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onDisconnectRtmp() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "onDisconnectRtmp", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onAuthErrorRtmp() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "onAuthErrorRtmp", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onAuthSuccessRtmp() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "onAuthSuccessRtmp", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setScreen() {
