@@ -21,6 +21,8 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
+
 public class EmotionScreen extends AppCompatActivity {
 
     private ViewPager imageSliderViewPager;
@@ -137,6 +139,19 @@ public class EmotionScreen extends AppCompatActivity {
           //  Toast.makeText(this, "Permission granted onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        sendStagingData(this);
+        finish();
+        super.onBackPressed();
     }
 
 }

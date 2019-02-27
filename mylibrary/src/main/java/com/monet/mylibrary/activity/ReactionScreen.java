@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
+
 public class ReactionScreen extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -61,6 +63,19 @@ public class ReactionScreen extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        sendStagingData(this);
+        finish();
+        super.onBackPressed();
     }
 
 }

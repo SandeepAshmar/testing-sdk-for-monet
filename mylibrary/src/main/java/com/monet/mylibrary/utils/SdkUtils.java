@@ -6,14 +6,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.connection.ApiInterface;
+import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.model.StagingPojo;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 
 
 public class SdkUtils {
 
     public static AlertDialog d;
-    public static ProgressDialog pd ;
+    public static ProgressDialog pd;
 
     public static boolean isConnectionAvailable(Context ctx) {
         ConnectivityManager mManager = (ConnectivityManager) ctx
@@ -89,14 +99,42 @@ public class SdkUtils {
         return videoTime;
     }
 
-    public static void progressDialog(Context context, String message, boolean show){
-        if(show){
+    public static void progressDialog(Context context, String message, boolean show) {
+        if (show) {
             pd = new ProgressDialog(context);
             pd.setMessage(message);
             pd.setCancelable(false);
             pd.show();
-        }else{
+        } else {
             pd.dismiss();
         }
+    }
+
+    public static void sendStagingData(final Context context) {
+        String cmp_id = SdkPreferences.getCmpId(context);
+        String token = SdkPreferences.getApiToken(context);
+
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<StagingPojo> pojoCall = apiInterface.sendStagingData(token, cmp_id, stagingJson);
+
+        pojoCall.enqueue(new Callback<StagingPojo>() {
+            @Override
+            public void onResponse(Call<StagingPojo> call, Response<StagingPojo> response) {
+                if (response.body() == null) {
+                    Toast.makeText(context, "Api not hit", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (response.body().getCode().equalsIgnoreCase("200")) {
+                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StagingPojo> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

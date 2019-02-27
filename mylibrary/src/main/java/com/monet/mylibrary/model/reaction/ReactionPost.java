@@ -13,7 +13,7 @@ public class ReactionPost {
     @SerializedName("user_id")
     String user_id;
 
-    @SerializedName("camp_id")
+    @SerializedName("cmp_id")
     String camp_id;
 
     public ReactionPost(String reactions, String cf_id, String user_id, String camp_id) {

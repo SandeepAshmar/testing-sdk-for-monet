@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -26,6 +24,8 @@ import com.monet.mylibrary.visionCamera.GraphicOverlay;
 import java.io.IOException;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class FaceDetectionScreen extends AppCompatActivity {
 
@@ -187,7 +187,15 @@ public class FaceDetectionScreen extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
     public void onBackPressed() {
+        sendStagingData(this);
+        finish();
         super.onBackPressed();
     }
 }

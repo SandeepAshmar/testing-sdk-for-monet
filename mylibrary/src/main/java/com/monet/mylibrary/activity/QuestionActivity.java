@@ -67,6 +67,7 @@ import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -614,12 +615,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if (questionNo == -1) {
             clearValues();
+            sendStagingData(this);
             finish();
         } else {
             btn_question.setBackgroundResource(R.drawable.btn_disabled);
             btn_question.setEnabled(false);
             setQuestion();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        sendStagingData(this);
+        return super.onSupportNavigateUp();
     }
 
     @SuppressLint("NewApi")

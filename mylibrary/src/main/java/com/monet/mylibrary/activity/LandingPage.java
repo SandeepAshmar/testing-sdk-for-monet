@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.listner.OnClearFromRecentService;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.question.SdkPojo;
@@ -43,6 +42,7 @@ import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class LandingPage extends AppCompatActivity {
 
@@ -58,7 +58,6 @@ public class LandingPage extends AppCompatActivity {
     private static String cmp_Id, user_Id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
-    private OnClearFromRecentService onClearFromRecentService;
     private static Activity landingActivity;
 
     @Override
@@ -73,9 +72,6 @@ public class LandingPage extends AppCompatActivity {
         tv_landCam = findViewById(R.id.tv_nameCurrentShows);
         tv_vid_landTime = findViewById(R.id.tv_videoTimeCurrentShows);
         btn_currentShows = findViewById(R.id.btn_currentShows);
-        onClearFromRecentService = new OnClearFromRecentService();
-        startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
-
         try {
             stagingJson.put("1", "1");
             stagingJson.put("2", "0");
@@ -333,8 +329,14 @@ public class LandingPage extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
     public void onBackPressed() {
-        onClearFromRecentService.onTaskRemoved(new Intent(landingActivity, OnClearFromRecentService.class));
+        sendStagingData(landingActivity);
         finish();
         super.onBackPressed();
     }

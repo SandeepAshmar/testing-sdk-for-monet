@@ -3,7 +3,6 @@ package com.monet.mylibrary.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,18 +12,19 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.listner.OnClearFromRecentService;
 import com.monet.mylibrary.model.getCampignFlow.GetCampFlowPojo;
 import com.monet.mylibrary.utils.SdkPreferences;
 
 import org.json.JSONException;
 
+import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
 import static com.monet.mylibrary.activity.LandingPage.stagingJson;
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 
 public class ThankyouPage extends AppCompatActivity {
@@ -37,7 +37,6 @@ public class ThankyouPage extends AppCompatActivity {
     private int setMaxValue = 0;
     private DonutProgress donutProgress;
     private String token;
-    private OnClearFromRecentService onClearFromRecentService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,6 @@ public class ThankyouPage extends AppCompatActivity {
         tv_proceedText = findViewById(R.id.tv_proceedText);
         btn_cam_proceed = findViewById(R.id.btn_cam_proceed);
 
-        onClearFromRecentService = new OnClearFromRecentService();
         setDetails();
 
         btn_cam_proceed.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +65,7 @@ public class ThankyouPage extends AppCompatActivity {
                     setMinValue = 0;
                     pStatus = 0;
 
-                    onClearFromRecentService.stopSelf();
+                    sendStagingData(ThankyouPage.this);
                     finish();
                 } else {
                     setScreen();
@@ -235,5 +233,18 @@ public class ThankyouPage extends AppCompatActivity {
                 Toast.makeText(ThankyouPage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        sendStagingData(this);
+        finish();
+        super.onBackPressed();
     }
 }
