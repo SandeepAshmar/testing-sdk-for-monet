@@ -1,21 +1,13 @@
 package com.monet.mylibrary.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.hardware.Camera;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -23,505 +15,92 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.video.VideoPojo;
-import com.monet.mylibrary.utils.SdkConstant;
-import com.monet.mylibrary.utils.SdkPreferences;
-import com.pedro.encoder.input.video.Camera1ApiManager;
-import com.pedro.encoder.input.video.CameraHelper;
-import com.pedro.encoder.input.video.CameraOpenException;
-import com.pedro.rtplibrary.rtmp.RtmpCamera1;
 
-import net.ossrs.rtmp.ConnectCheckerRtmp;
-
-import org.json.JSONException;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlayVideoAndRecordScreen extends AppCompatActivity implements ConnectCheckerRtmp {
-    private ImageView img_toolbarBack;
+import static com.monet.mylibrary.utils.SdkPreferences.getVideoUrl;
+import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
+
+public class PlayVideoAndRecordScreen extends AppCompatActivity  {
+
+    private ImageView img_toolbarBack,img_detect;
     private VideoView videoViewEmotion;
-    private SurfaceView surfaceViewEmotion;
-    private RtmpCamera1 rtmpCamera1;
-    private ImageView img_detect;
-    private boolean count = true, detecting = false;
-    //    private boolean connectionStatus;
-    boolean faceDetect = false;
-    boolean doubleBackToExitPressedOnce = false;
-    private Handler handler1;
-    private String bitrate = "150";
-    private Runnable runnable1;
-    private int flag = 0;
-    private int detectedTime = 0;
-    String video_url = "";
-    //    RelativeLayout videoView;
     private ProgressBar pb_emotion;
-    private Handler handler = new Handler();
-    private Runnable runnable;
-    private boolean flagForInternet = false;
+    private TextView tv_videoTimeEmotion;
+    private SurfaceView surfaceViewEmotion;
+    private String video_Url;
+    private ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         setContentView(R.layout.activity_play_video_and_record_screen);
+
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
         videoViewEmotion = findViewById(R.id.videoViewEmotion);
-        img_toolbarBack.setVisibility(View.GONE);
-
-        apiInterface.getMp4VideoUrl("https://www.youtube.com/watch?v=tgQbLEckNIo&t=840s").enqueue(new Callback<VideoPojo>() {
-            @Override
-            public void onResponse(Call<VideoPojo> call, Response<VideoPojo> response) {
-                video_url =  response.body().getResponse().get(0).getUrl();
-            }
-
-            @Override
-            public void onFailure(Call<VideoPojo> call, Throwable t) {
-                Toast.makeText(PlayVideoAndRecordScreen.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        video = findViewById(R.id.video);
+        pb_emotion = findViewById(R.id.pb_emotion);
+        tv_videoTimeEmotion = findViewById(R.id.tv_videoTimeEmotion);
         surfaceViewEmotion = findViewById(R.id.surfaceViewEmotion);
         img_detect = findViewById(R.id.img_detect);
-//        videoView = findViewById(R.id.videoView);
-        pb_emotion = findViewById(R.id.pb_emotion);
-//        img_detect = findViewById(R.id.img_detect);
-//
-        handler1 = new Handler();
-//
-//        video_url = SdkPreferences.getVideoUrl(this);
-//
-        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, this);
-        rtmpCamera1.startPreview();
-        playVideo();
-//
-//        if (video_url.contains("vimeo")) {
-//            video_url = video_url.replace("https://vimeo.com/", "");
-////            getVimeoMPFour();
-//        } else {
-//
-//        }
-        img_detect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                surfaceViewEmotion.setVisibility(View.VISIBLE);
-//                videoView.setVisibility(View.VISIBLE);   old Code
-                img_detect.setVisibility(View.GONE);
-                hideView();
-            }
-        });
+
+        img_toolbarBack.setVisibility(View.GONE);
+
+        apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        getVideoUrlFromLink(getVideoUrl(this));
+
     }
 
-//    private void getVimeoMPFour() {
-////        ApiInterface apiInterface = BaseUrl.getVimeoClient().create(ApiInterface.class);
-//        Call<VimeoPojo> pojoCall = apiInterface.getVideoDetails(video_url);
-//
-//        pojoCall.enqueue(new Callback<VimeoPojo>() {
-//            @Override
-//            public void onResponse(Call<VimeoPojo> call, Response<VimeoPojo> response) {
-//                if (response.body() != null) {
-//                    int size = response.body().getVimeoReq().getVimeoFiles().getProgressives().size();
-//                    int i = 0;
-//                    for (; i < size; i++) {
-//                        if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("480")) {
-//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-//                            break;
-//                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("540")) {
-//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-//                            break;
-//                        } else if (response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getQuality().contains("720")) {
-//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(i).getUrl();
-//                            break;
-//                        } else if (i == size - 1) {
-//                            video_url = response.body().getVimeoReq().getVimeoFiles().getProgressives().get(0).getUrl();
-//                        }
-//                    }
-//                    playVideo();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<VimeoPojo> call, Throwable t) {
-//                Toast.makeText(PlayVideoAndRecordScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
-    private void playVideo() {
-
-        if (!rtmpCamera1.isStreaming()) {
-            rtmpCamera1.setAuthorization(SdkConstant.RTMP_USERNAME, SdkConstant.RTMP_PASSWORD);
-        }
-        Uri uri = Uri.parse(video_url);
-        videoViewEmotion.setVideoURI(uri);
-        videoViewEmotion.start();
-        recordingStart();
-
-        videoViewEmotion.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
-                alertDialogBuilder.setMessage("Are you sure, You wanted to make decision");
-                alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+    private void getVideoUrlFromLink(String url) {
+        progressDialog(this, "Please wait...", true);
+        apiInterface.getMp4VideoUrl(url)
+                .enqueue(new Callback<VideoPojo>() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(PlayVideoAndRecordScreen.this, "Button Clicked...", Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<VideoPojo> call, Response<VideoPojo> response) {
+                        progressDialog(PlayVideoAndRecordScreen.this, "Please wait...", false);
+                        if (response.body().getCode().equals("200")) {
+                            for (int i = 0; i < response.body().getResponse().size(); i++) {
+                                if (response.body().getResponse().get(i).getQuality().equals("medium")) {
+                                    playVideo(response.body().getResponse().get(i).getUrl());
+                                    break;
+                                }
+                                if (i == response.body().getResponse().size()) {
+                                    playVideo(response.body().getResponse().get(0).getUrl());
+                                    break;
+                                }
+                            }
+                        } else {
+                            Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }).show();
-                pb_emotion.setVisibility(View.GONE);
-                return true;
-            }
-        });
+
+                    @Override
+                    public void onFailure(Call<VideoPojo> call, Throwable t) {
+                        progressDialog(PlayVideoAndRecordScreen.this, "Please wait...", false);
+                    }
+                });
+    }
+
+    private void playVideo(String url) {
+
+        Uri uri = Uri.parse(url);
+        videoViewEmotion.setVideoURI(uri);
         videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                setProgressBar();
-            }
-        });
-        videoViewEmotion.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                Toast.makeText(PlayVideoAndRecordScreen.this, "video Finish", Toast.LENGTH_SHORT).show();
-                pb_emotion.setVisibility(View.GONE);
+            public void onPrepared(MediaPlayer mp) {
+                videoViewEmotion.start();
             }
         });
 
         videoViewEmotion.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                rtmpCamera1.stopStream();
-                rtmpCamera1.disableFaceDetection();
-                Toast.makeText(PlayVideoAndRecordScreen.this, "Video Finish", Toast.LENGTH_SHORT).show();
-              //  setScreen();
+            public void onCompletion(MediaPlayer mp) {
+
             }
         });
     }
 
-    @SuppressLint("NewApi")
-    private void setProgressBar() {
 
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                if (!networkIsAvailable()) {
-                    pb_emotion.setVisibility(View.VISIBLE);
-                    if (flagForInternet == false) {
-                        Toast.makeText(PlayVideoAndRecordScreen.this, "Your internet connection is Interrupted", Toast.LENGTH_SHORT).show();
-                    }
-                    flagForInternet = true;
-                } else {
-                    if (videoViewEmotion.isPlaying()) {
-                        pb_emotion.setVisibility(View.GONE);
-                        flagForInternet = false;
-                    } else {
-
-                    }
-                }
-                handler.postDelayed(runnable, 1000);
-            }
-        };
-        runnable.run();
-
-    }
-
-    private boolean networkIsAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-
-        }
-        this.doubleBackToExitPressedOnce = true;
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 0);
-    }
-
-    @Override
-    public void onConnectionSuccessRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "RTMP Connected...", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    @Override
-    public void onConnectionFailedRtmp(String s) {
-        runOnUiThread(new Runnable() {
-            @SuppressLint("LongLogTag")
-            @Override
-            public void run() {
-                rtmpCamera1.stopStream();
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PlayVideoAndRecordScreen.this);
-                builder.setMessage("Your internet connection is slow, Please try again");
-                builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        //  startActivity(new Intent(PlayVideoAndRecordScreen.this, FaceDetectInstructions.class));
-                        Toast.makeText(PlayVideoAndRecordScreen.this, "RTMP Connection Failed. Handle this.", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-                builder.show();
-            }
-        });
-
-    }
-
-    @Override
-    public void onDisconnectRtmp() {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "RTMP Disconnected...", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onAuthErrorRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "RTMP Auth Error...", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onAuthSuccessRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "RTMP Auth Success...", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void recordingStart() {
-
-        if (rtmpCamera1.isRecording() || prepareEncoders()) {
-            String rtmpUrl = SdkConstant.RTMP_URL + SdkPreferences.getCfId(this);
-            rtmpCamera1.startStream(rtmpUrl);
-            if (flag == 0) {
-                try {
-                    rtmpCamera1.switchCamera();
-                } catch (final CameraOpenException e) {
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                flag++;
-            }
-            try {
-                rtmpCamera1.enableFaceDetection(new Camera1ApiManager.FaceDetectorCallback() {
-                    @Override
-                    public void onGetFaces(Camera.Face[] faces) {
-                        changeImage(faces.length);
-                    }
-                });
-            } catch (Exception e) {
-                Log.d("MainActivity", "Exception found in face detection..." + e.getMessage());
-            }
-
-        } else {
-            Toast.makeText(this, "Error preparing stream, This device can not do it...", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean prepareEncoders() {
-
-        int width = 320;
-        int height = 240;
-        return rtmpCamera1.prepareVideo(width, height, Integer.parseInt("30"),
-                Integer.parseInt(bitrate) * 1024,  // bitrate
-                false, CameraHelper.getCameraOrientation(this));
-    }
-
-    private void changeImage(int i) {
-        faceDetect = true;
-        if (i == 0) {
-            img_detect.setImageResource(R.drawable.ic_red_back);
-            count = true;
-            detecting = true;
-            notDetectDialog();
-        } else {
-            img_detect.setImageResource(R.drawable.ic_green_back);
-            if (count) {
-                countPercentage();
-                detecting = false;
-            }
-        }
-    }
-
-    private void notDetectDialog() {
-        if (detecting) {
-            runnable1 = new Runnable() {
-                @Override
-                public void run() {
-                    if (detecting) {
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PlayVideoAndRecordScreen.this);
-                        builder.setMessage("It seems you are not in front of the camera from last 5 seconds, Please align yourself and play video again.");
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
-                    }
-                }
-            };
-            handler.postDelayed(runnable1, 5000);
-        } else {
-            handler1.removeCallbacks(runnable1);
-        }
-    }
-
-    private void countPercentage() {
-        count = false;
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                detectedTime = detectedTime + 1;
-                count = true;
-            }
-        };
-        handler.postDelayed(runnable, 1000);
-    }
-
-    private void hideView() {
-
-        surfaceViewEmotion.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                surfaceViewEmotion.setVisibility(View.INVISIBLE);
-                img_detect.setVisibility(View.VISIBLE);
-
-            }
-        }, 3000);
-    }
-
-//    private void setScreen() {
-//        int count = Integer.valueOf(SdkPreferences.getCmpLength(this));
-//        int i = SdkPreferences.getCmpLengthCount(this);
-//
-//        if (count == 1) {
-//            if (arrayList.size() > i) {
-//                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
-//                    SdkPreferences.setQuestionType(this, "pre");
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    startActivity(new Intent(this, QuestionActivity.class));
-//                    finish();
-//                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
-//                    SdkPreferences.setQuestionType(this, "post");
-//                    try {
-//                        stagingJson.put("3", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    startActivity(new Intent(this, QuestionActivity.class));
-//                    finish();
-//                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("4", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    startActivity(new Intent(this, EmotionScreen.class));
-//                    finish();
-//                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("5", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    startActivity(new Intent(this, ReactionScreen.class));
-//                    finish();
-//                }
-//            } else {
-//                int flag = SdkPreferences.getCmpLengthCountFlag(this);
-//                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-//                try {
-//                    stagingJson.put("6", "1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                startActivity(new Intent(this, ThankyouPage.class));
-//                finish();
-//            }
-//        } else {
-//            if (arrayList.size() > i) {
-//                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
-//                    SdkPreferences.setQuestionType(this, "pre");
-//                    try {
-//                        stagingJson.put("2", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    startActivity(new Intent(this, QuestionActivity.class));
-//                    finish();
-//                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
-//                    SdkPreferences.setQuestionType(this, "post");
-//                    try {
-//                        stagingJson.put("3", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    startActivity(new Intent(this, QuestionActivity.class));
-//                    finish();
-//                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("4", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    startActivity(new Intent(this, EmotionScreen.class));
-//                    finish();
-//                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
-//                    SdkPreferences.setCmpLengthCount(this, i + 1);
-//                    try {
-//                        stagingJson.put("5", "1");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    startActivity(new Intent(this, ReactionScreen.class));
-//                    finish();
-//                }
-//            } else {
-//                int flag = SdkPreferences.getCmpLengthCountFlag(this);
-//                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-//                try {
-//                    stagingJson.put("6", "1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                startActivity(new Intent(this, ThankyouPage.class));
-//                finish();
-//            }
-//        }
-//    }
 }
