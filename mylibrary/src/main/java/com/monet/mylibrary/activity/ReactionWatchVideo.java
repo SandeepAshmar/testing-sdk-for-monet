@@ -11,9 +11,8 @@ import android.os.Handler;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -76,7 +75,9 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private ReactionIconsAdapter reactionIconsAdapter;
     private Dialog dialog;
     private EditText edt_dialogcoment;
+    private TextView tv_dialogTitle;
     private ImageView img_dialog;
+    private Button btn_dialogSubmit;
     private String dialog_name, coment, token, cf_id, user_id, cmp_id;
     private int videoStopTime = 0;
     boolean intrupt = false;
@@ -258,6 +259,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         pauseVideo();
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
@@ -265,31 +267,30 @@ public class ReactionWatchVideo extends AppCompatActivity {
         dialog.getWindow().setLayout(width, height);
         edt_dialogcoment = dialog.findViewById(R.id.edt_dialogComment);
         img_dialog = dialog.findViewById(R.id.img_dialog);
+        tv_dialogTitle = dialog.findViewById(R.id.tv_dialogTitle);
+        btn_dialogSubmit = dialog.findViewById(R.id.btn_dialogSubmit);
 
         edt_dialogcoment.setFilters(new InputFilter[]{filter});
 
-        setDialogHint(edt_dialogcoment);
+        setDialogHint();
         dialog.show();
 
-        edt_dialogcoment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        btn_dialogSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (edt_dialogcoment.getText().toString().isEmpty()) {
-                        Toast.makeText(ReactionWatchVideo.this, "Please enter your review", Toast.LENGTH_SHORT).show();
-                    } else {
-                        coment = edt_dialogcoment.getText().toString();
-                        dialog.dismiss();
-                        try {
-                            setReactionJson();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        playVideoAgain();
+            public void onClick(View v) {
+                if (edt_dialogcoment.getText().toString().isEmpty()) {
+                    Toast.makeText(ReactionWatchVideo.this, "Please enter your review", Toast.LENGTH_SHORT).show();
+                } else {
+                    coment = edt_dialogcoment.getText().toString();
+                    dialog.dismiss();
+                    try {
+                        setReactionJson();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    return true;
+                    videoStopTime = videoView.getCurrentPosition();
+                    playVideoAgain();
                 }
-                return false;
             }
         });
     }
@@ -368,26 +369,25 @@ public class ReactionWatchVideo extends AppCompatActivity {
         }
     }
 
-    private void setDialogHint(EditText editText) {
-
+    private void setDialogHint() {
         if (dialog_name.equalsIgnoreCase("like")) {
-            editText.setHint("You like this part.... Why?");
+            tv_dialogTitle.setText("You like this part.... Why?");
         } else if (dialog_name.equalsIgnoreCase("love")) {
-            editText.setHint("You love this part.... Why?");
+            tv_dialogTitle.setText("You love this part.... Why?");
         } else if (dialog_name.equalsIgnoreCase("Want")) {
-            editText.setHint("You want this product..... Why?");
+            tv_dialogTitle.setText("You want this product..... Why?");
         } else if (dialog_name.equalsIgnoreCase("memorable")) {
-            editText.setHint("This part was memorable to you.... Why?");
+            tv_dialogTitle.setText("This part was memorable to you.... Why?");
         } else if (dialog_name.equalsIgnoreCase("dislike")) {
-            editText.setHint("You did not like this part.... Why?");
+            tv_dialogTitle.setText("You did not like this part.... Why?");
         } else if (dialog_name.equalsIgnoreCase("accurate")) {
-            editText.setHint("This part helps you make a decision about whether or not you might like this product.... Why?");
+            tv_dialogTitle.setText("This part helps you make a decision about whether or not you might like this product.... Why?");
         } else if (dialog_name.equalsIgnoreCase("misleading")) {
-            editText.setHint("This part is misleading... Why?");
+            tv_dialogTitle.setText("This part is misleading... Why?");
         } else if (dialog_name.equalsIgnoreCase("engaging")) {
-            editText.setHint("This part specially captures your attention.... Why?");
+            tv_dialogTitle.setText("This part specially captures your attention.... Why?");
         } else if (dialog_name.equalsIgnoreCase("boring")) {
-            editText.setHint("This part is not interesting.... Why?");
+            tv_dialogTitle.setText("This part is not interesting.... Why?");
         }
 
     }
@@ -585,7 +585,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (intrupt) {
-            videoView.resume();
+            playVideoAgain();
             intrupt = false;
         }
     }
@@ -593,6 +593,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        videoStopTime = videoView.getCurrentPosition();
         videoView.pause();
         intrupt = true;
     }

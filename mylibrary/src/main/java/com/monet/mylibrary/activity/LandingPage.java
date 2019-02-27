@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.listner.OnClearFromRecentService;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.question.SdkPojo;
@@ -57,6 +58,8 @@ public class LandingPage extends AppCompatActivity {
     private static String cmp_Id, user_Id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
+    private OnClearFromRecentService onClearFromRecentService;
+    private static Activity landingActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,19 @@ public class LandingPage extends AppCompatActivity {
         tv_landCam = findViewById(R.id.tv_nameCurrentShows);
         tv_vid_landTime = findViewById(R.id.tv_videoTimeCurrentShows);
         btn_currentShows = findViewById(R.id.btn_currentShows);
+        onClearFromRecentService = new OnClearFromRecentService();
+        startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
 
+        try {
+            stagingJson.put("1", "1");
+            stagingJson.put("2", "0");
+            stagingJson.put("3", "0");
+            stagingJson.put("4", "0");
+            stagingJson.put("5", "0");
+            stagingJson.put("6", "0");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         arrayList.clear();
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +113,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public static void startCampaign(Activity activity, String cmpId, String userId) {
+        landingActivity = activity;
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
         preQuestions.clear();
@@ -314,5 +330,12 @@ public class LandingPage extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        onClearFromRecentService.onTaskRemoved(new Intent(landingActivity, OnClearFromRecentService.class));
+        finish();
+        super.onBackPressed();
     }
 }

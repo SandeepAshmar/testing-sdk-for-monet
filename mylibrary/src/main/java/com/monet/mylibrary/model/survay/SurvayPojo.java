@@ -4,8 +4,6 @@ public class SurvayPojo {
 
     private String message;
 
-    private String status;
-
     private String code;
 
     public String getMessage ()
@@ -16,16 +14,6 @@ public class SurvayPojo {
     public void setMessage (String message)
     {
         this.message = message;
-    }
-
-    public String getStatus ()
-    {
-        return status;
-    }
-
-    public void setStatus (String status)
-    {
-        this.status = status;
     }
 
     public String getCode ()
@@ -41,6 +29,6 @@ public class SurvayPojo {
     @Override
     public String toString()
     {
-        return "ClassPojo [message = "+message+", status = "+status+", code = "+code+"]";
+        return "ClassPojo [message = "+message+", code = "+code+"]";
     }
 }
