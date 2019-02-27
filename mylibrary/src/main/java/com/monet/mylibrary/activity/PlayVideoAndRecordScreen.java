@@ -1,52 +1,87 @@
 package com.monet.mylibrary.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.hardware.Camera;
+import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.monet.mylibrary.R;
+import com.monet.mylibrary.connection.ApiInterface;
+import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.model.video.VideoPojo;
 import com.monet.mylibrary.utils.SdkConstant;
 import com.monet.mylibrary.utils.SdkPreferences;
+import com.pedro.encoder.input.video.Camera1ApiManager;
+import com.pedro.encoder.input.video.CameraHelper;
+import com.pedro.encoder.input.video.CameraOpenException;
 import com.pedro.rtplibrary.rtmp.RtmpCamera1;
 
 import net.ossrs.rtmp.ConnectCheckerRtmp;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.json.JSONException;
 
-//public class PlayVideoAndRecordScreen extends AppCompatActivity implements ConnectCheckerRtmp {
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PlayVideoAndRecordScreen extends AppCompatActivity implements ConnectCheckerRtmp {
     private ImageView img_toolbarBack;
     private VideoView videoViewEmotion;
     private SurfaceView surfaceViewEmotion;
     private RtmpCamera1 rtmpCamera1;
     private ImageView img_detect;
-//    private boolean count = true, detecting = false;
-//    private boolean connectionStatus;
-//    boolean faceDetect = false;
-//    boolean doubleBackToExitPressedOnce = false;
-//    private Handler handler1;
-//    private String bitrate = "150";
-//    private Runnable runnable1;
-//    private int flag = 0;
-//    private int detectedTime = 0;
+    private boolean count = true, detecting = false;
+    //    private boolean connectionStatus;
+    boolean faceDetect = false;
+    boolean doubleBackToExitPressedOnce = false;
+    private Handler handler1;
+    private String bitrate = "150";
+    private Runnable runnable1;
+    private int flag = 0;
+    private int detectedTime = 0;
     String video_url = "";
-//    RelativeLayout videoView;
+    //    RelativeLayout videoView;
     private ProgressBar pb_emotion;
-//    private Handler handler = new Handler();
-//    private Runnable runnable;
-//    private boolean flagForInternet = false;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    private boolean flagForInternet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         setContentView(R.layout.activity_play_video_and_record_screen);
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
         videoViewEmotion = findViewById(R.id.videoViewEmotion);
         img_toolbarBack.setVisibility(View.GONE);
+
+        apiInterface.getMp4VideoUrl("https://www.youtube.com/watch?v=tgQbLEckNIo&t=840s").enqueue(new Callback<VideoPojo>() {
+            @Override
+            public void onResponse(Call<VideoPojo> call, Response<VideoPojo> response) {
+                video_url =  response.body().getResponse().get(0).getUrl();
+            }
+
+            @Override
+            public void onFailure(Call<VideoPojo> call, Throwable t) {
+                Toast.makeText(PlayVideoAndRecordScreen.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 //        video = findViewById(R.id.video);
         surfaceViewEmotion = findViewById(R.id.surfaceViewEmotion);
@@ -55,9 +90,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         pb_emotion = findViewById(R.id.pb_emotion);
 //        img_detect = findViewById(R.id.img_detect);
 //
-//        handler1 = new Handler();
+        handler1 = new Handler();
 //
-        video_url = SdkPreferences.getVideoUrl(this);
+//        video_url = SdkPreferences.getVideoUrl(this);
 //
         rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, this);
         rtmpCamera1.startPreview();
@@ -114,17 +149,17 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 //        });
 //    }
 
-        private void playVideo() {
+    private void playVideo() {
 
         if (!rtmpCamera1.isStreaming()) {
             rtmpCamera1.setAuthorization(SdkConstant.RTMP_USERNAME, SdkConstant.RTMP_PASSWORD);
         }
         Uri uri = Uri.parse(video_url);
-        video.setVideoURI(uri);
-        video.start();
+        videoViewEmotion.setVideoURI(uri);
+        videoViewEmotion.start();
         recordingStart();
 
-        video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        videoViewEmotion.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
@@ -139,13 +174,13 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 return true;
             }
         });
-        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 setProgressBar();
             }
         });
-        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        videoViewEmotion.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 Toast.makeText(PlayVideoAndRecordScreen.this, "video Finish", Toast.LENGTH_SHORT).show();
@@ -153,17 +188,18 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             }
         });
 
-        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        videoViewEmotion.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 rtmpCamera1.stopStream();
                 rtmpCamera1.disableFaceDetection();
-                setScreen();
+                Toast.makeText(PlayVideoAndRecordScreen.this, "Video Finish", Toast.LENGTH_SHORT).show();
+              //  setScreen();
             }
         });
     }
 
-    // @SuppressLint("NewApi")
+    @SuppressLint("NewApi")
     private void setProgressBar() {
 
         runnable = new Runnable() {
@@ -177,14 +213,13 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                     }
                     flagForInternet = true;
                 } else {
-                    if (video.isPlaying()) {
+                    if (videoViewEmotion.isPlaying()) {
                         pb_emotion.setVisibility(View.GONE);
                         flagForInternet = false;
                     } else {
 
                     }
                 }
-
                 handler.postDelayed(runnable, 1000);
             }
         };
@@ -297,7 +332,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 rtmpCamera1.enableFaceDetection(new Camera1ApiManager.FaceDetectorCallback() {
                     @Override
                     public void onGetFaces(Camera.Face[] faces) {
-
                         changeImage(faces.length);
                     }
                 });
@@ -381,7 +415,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             }
         }, 3000);
     }
-//
+
 //    private void setScreen() {
 //        int count = Integer.valueOf(SdkPreferences.getCmpLength(this));
 //        int i = SdkPreferences.getCmpLengthCount(this);
