@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class ThankyouPage extends AppCompatActivity {
 
     private Button btn_cam_proceed;
     private TextView progress_text, tv_cam_first, tv_proceedText;
+    private ImageView img_landCheck, img_toolbarBack;
     private Handler handler = new Handler();
     private int pStatus = 0;
     private int setMinValue = 0;
@@ -48,6 +50,10 @@ public class ThankyouPage extends AppCompatActivity {
         tv_cam_first = findViewById(R.id.tv_cam_first);
         tv_proceedText = findViewById(R.id.tv_proceedText);
         btn_cam_proceed = findViewById(R.id.btn_cam_proceed);
+        img_landCheck = findViewById(R.id.img_landCheck);
+        img_toolbarBack = findViewById(R.id.img_toolbarBack);
+
+        img_toolbarBack.setVisibility(View.GONE);
 
         setDetails();
 
@@ -114,6 +120,8 @@ public class ThankyouPage extends AppCompatActivity {
 
         if (setMinValue == setMaxValue) {
             tv_cam_first.setText(R.string.complete_congrats);
+            progress_text.setVisibility(View.GONE);
+            img_landCheck.setVisibility(View.VISIBLE);
             tv_proceedText.setText(R.string.proceed_forth);
             tv_proceedText.setTextSize(16);
             tv_cam_first.setTextSize(16);
