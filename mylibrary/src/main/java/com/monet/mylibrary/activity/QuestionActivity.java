@@ -822,7 +822,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     if (response.body().getCode().equals("200")) {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        if (type.equalsIgnoreCase("pre")) {
+                        if (quesType.equalsIgnoreCase("pre")) {
                             try {
                                 stagingJson.put("2", "2");
                             } catch (JSONException e) {
