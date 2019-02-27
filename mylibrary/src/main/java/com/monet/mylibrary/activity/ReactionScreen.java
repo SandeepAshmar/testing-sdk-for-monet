@@ -8,10 +8,13 @@ import android.widget.TextView;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ReactionImageSliderAdapter;
 
+import org.json.JSONException;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class ReactionScreen extends AppCompatActivity {
@@ -33,6 +36,12 @@ public class ReactionScreen extends AppCompatActivity {
         reactionImageSliderAdapter = new ReactionImageSliderAdapter(getSupportFragmentManager());
         viewPager.setAdapter(reactionImageSliderAdapter);
         circleIndicator.setViewPager(viewPager);
+
+        try {
+            stagingJson.put("5", "2");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
