@@ -84,6 +84,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, this);
         rtmpCamera1.startPreview();
+        if (!rtmpCamera1.isStreaming()) {
+            rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
+        }
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -117,10 +120,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private void playVideo(String url) {
-
-        if (!rtmpCamera1.isStreaming()) {
-            rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
-        }
         Uri uri = Uri.parse(url);
         videoViewEmotion.setVideoURI(uri);
         videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
