@@ -27,14 +27,14 @@
     <string name="reaction_fourText_one">A dialog box will appear when\nyou click on a reaction button</string>
     <string name="reaction_fourText_two">Type the reason of your\nreaction, and press <b>Enter</b>\nto continue watching</string>
 
-    <string name="complete_first">You have completed the \nfirst part of the campaign</string>
-    <string name="complete_secound">You have completed the \nsecound part of the campaign</string>
-    <string name="complete_third">You have completed the \nthird part of the campaign</string>
-    <string name="complete_fourth">You have completed the \nforth part of the campaign</string>
+    <string name="complete_first">You have completed the first part of the campaign</string>
+    <string name="complete_secound">You have completed the secound part of the campaign</string>
+    <string name="complete_third">You have completed the third part of the campaign</string>
+    <string name="complete_fourth">You have completed the forth part of the campaign</string>
     <string name="complete_congrats">Congratulations! you have completed the campaign</string>
-    <string name="proceed_first">Please procees to complete \nthe second part.</string>
-    <string name="proceed_secound">Please procees to complete \nthe third part.</string>
-    <string name="proceed_third">Please procees to complete \nthe forth part.</string>
+    <string name="proceed_first">Please procees to complete the second part.</string>
+    <string name="proceed_secound">Please procees to complete the third part.</string>
+    <string name="proceed_third">Please procees to complete the forth part.</string>
     <string name="proceed_forth">Thank you for your participation!</string>
 
     <!-- TODO: Remove or change this placeholder text -->

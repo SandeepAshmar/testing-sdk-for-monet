@@ -1,89 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
     tools:context=".activity.ThankyouPage">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_above="@id/btn_thnk">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_above="@id/btn_thnk">-->
 
-            <TextView
-                android:id="@+id/tv_cam_first"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/complete_first"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:singleLine="false"
-                android:textColor="@color/colorBlack"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_cam_first"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/complete_first"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center"-->
+                <!--android:singleLine="false"-->
+                <!--android:textColor="@color/colorBlack"/>-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_gravity="center">-->
 
-                <com.github.lzyzsd.circleprogress.DonutProgress
-                    android:id="@+id/donut_progress_lodging"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="left|top"
-                    android:layout_marginLeft="30dp"
-                    app:donut_finished_color="@color/colorPrimaryDark"
-                    android:rotation="270"
-                    app:donut_finished_stroke_width="5dp"
-                    app:donut_unfinished_color="@color/colorGray"
-                    app:donut_unfinished_stroke_width="5dp"
-                    android:layout_centerInParent="true"/>
+                <!--<com.github.lzyzsd.circleprogress.DonutProgress-->
+                    <!--android:id="@+id/donut_progress_lodging"-->
+                    <!--android:layout_width="150dp"-->
+                    <!--android:layout_height="150dp"-->
+                    <!--android:layout_gravity="left|top"-->
+                    <!--android:layout_marginLeft="30dp"-->
+                    <!--app:donut_finished_color="@color/colorPrimaryDark"-->
+                    <!--android:rotation="270"-->
+                    <!--app:donut_finished_stroke_width="5dp"-->
+                    <!--app:donut_unfinished_color="@color/colorGray"-->
+                    <!--app:donut_unfinished_stroke_width="5dp"-->
+                    <!--android:layout_centerInParent="true"/>-->
 
-                <TextView
-                    android:id="@+id/progress_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/progress_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textSize="20sp"/>-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
 
 
-            <TextView
-                android:id="@+id/tv_proceedText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/proceed_first"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:singleLine="false"
-                android:textColor="@color/colorBlack"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_proceedText"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:text="@string/proceed_first"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center"-->
+                <!--android:singleLine="false"-->
+                <!--android:textColor="@color/colorBlack"/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/btn_thnk"
-            android:layout_width="match_parent"
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/btn_thnk"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_cam_proceed"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:layout_marginLeft="24dp"-->
+                <!--android:layout_marginRight="24dp"-->
+                <!--android:background="@drawable/btn_pro_activate"-->
+                <!--android:text="proceed"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:textColor="@color/colorWhite"/>-->
+
+        <!--</RelativeLayout>-->
+
+    <include
+        android:id="@+id/include5"
+        layout="@layout/toolbar_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include5"
+        app:layout_constraintVertical_bias="0.18">
+
+        <com.github.lzyzsd.circleprogress.DonutProgress
+            android:id="@+id/donut_progress_lodging"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="30dp"
+            android:rotation="270"
+            app:donut_finished_color="@color/colorGreen"
+            app:donut_finished_stroke_width="8dp"
+            app:donut_unfinished_color="@color/colorGray"
+            app:donut_unfinished_stroke_width="8dp" />
+
+        <TextView
+            android:id="@+id/progress_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/btn_cam_proceed"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_pro_activate"
-                android:text="proceed"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"/>
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <Button
+        android:id="@+id/btn_cam_proceed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="proceed"
+        android:textColor="@color/colorWhite"
+        android:textAllCaps="false"
+        android:background="@drawable/btn_pro_activate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_cam_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/complete_first"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginRight="64dp"
+        android:layout_marginLeft="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_proceedText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.218" />
+
+    <TextView
+        android:id="@+id/tv_proceedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/proceed_first"
+        android:gravity="center"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_cam_proceed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.924" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
