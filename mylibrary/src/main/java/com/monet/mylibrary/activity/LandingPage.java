@@ -59,6 +59,7 @@ public class LandingPage extends AppCompatActivity {
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
     private OnClearFromRecentService onClearFromRecentService;
+    private static Activity landingActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public static void startCampaign(Activity activity, String cmpId, String userId) {
+        landingActivity = activity;
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
         preQuestions.clear();
@@ -332,7 +334,7 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        onClearFromRecentService.onTaskRemoved(new Intent(LandingPage.this, OnClearFromRecentService.class));
+        onClearFromRecentService.onTaskRemoved(new Intent(landingActivity, OnClearFromRecentService.class));
         finish();
         super.onBackPressed();
     }
