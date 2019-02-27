@@ -287,6 +287,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     @Override
     public void onDisconnectRtmp() {
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
