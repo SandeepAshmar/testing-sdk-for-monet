@@ -115,7 +115,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
         progressBarVideo = findViewById(R.id.pb_reaction);
         tv_timeVideoView = findViewById(R.id.tv_timeVideoReaction);
         pb_recactionVideo = findViewById(R.id.pb_recactionVideo);
-        progressBarVideo.setEnabled(false);
         dialog = new Dialog(ReactionWatchVideo.this);
 
         setReactionIcons();
@@ -176,7 +175,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             public void onPrepared(MediaPlayer mp) {
                 videoView.start();
                 progressBarVideo.setMax(videoView.getDuration());
-                setSeekBar();
+                setProgressBar();
             }
         });
 
@@ -195,7 +194,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         });
     }
 
-    private void setSeekBar() {
+    private void setProgressBar() {
         progressBarVideo.setProgress(videoView.getCurrentPosition());
         if (videoView.isPlaying()) {
             pb_recactionVideo.setVisibility(View.GONE);
@@ -203,7 +202,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 @Override
                 public void run() {
                     tv_timeVideoView.setText(convertVideoTime((videoView.getDuration() - videoView.getCurrentPosition())));
-                    setSeekBar();
+                    setProgressBar();
                 }
             };
             handler.postDelayed(runnable, 1000);
@@ -349,7 +348,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private void playVideoAgain() {
         videoView.seekTo(videoStopTime);
         videoView.start();
-        setSeekBar();
+        setProgressBar();
     }
 
     private void setDialogIcon(int position) {

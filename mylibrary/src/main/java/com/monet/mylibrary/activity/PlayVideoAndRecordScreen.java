@@ -3,6 +3,7 @@ package com.monet.mylibrary.activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.video.VideoPojo;
+import com.pedro.rtplibrary.rtmp.RtmpCamera1;
+
+import net.ossrs.rtmp.ConnectCheckerRtmp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
@@ -22,17 +26,21 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.utils.SdkPreferences.getVideoUrl;
+import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
 
-public class PlayVideoAndRecordScreen extends AppCompatActivity  {
+public class PlayVideoAndRecordScreen extends AppCompatActivity implements ConnectCheckerRtmp {
 
     private ImageView img_toolbarBack,img_detect;
     private VideoView videoViewEmotion;
-    private ProgressBar pb_emotion;
+    private ProgressBar pb_emotion, pb_emotionRound;
     private TextView tv_videoTimeEmotion;
     private SurfaceView surfaceViewEmotion;
     private String video_Url;
     private ApiInterface apiInterface;
+    private RtmpCamera1 rtmpCamera1;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity  {
         tv_videoTimeEmotion = findViewById(R.id.tv_videoTimeEmotion);
         surfaceViewEmotion = findViewById(R.id.surfaceViewEmotion);
         img_detect = findViewById(R.id.img_detect);
+        pb_emotionRound = findViewById(R.id.pb_emotionRound);
 
+        handler = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
@@ -91,6 +101,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity  {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 videoViewEmotion.start();
+                pb_emotion.setMax(videoViewEmotion.getDuration());
+                setProgressBar();
             }
         });
 
@@ -102,5 +114,50 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity  {
         });
     }
 
+    private void setProgressBar() {
+        pb_emotion.setProgress(videoViewEmotion.getCurrentPosition());
+        if (videoViewEmotion.isPlaying()) {
+            pb_emotionRound.setVisibility(View.GONE);
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    tv_videoTimeEmotion.setText(convertVideoTime((videoViewEmotion.getDuration() - videoViewEmotion.getCurrentPosition())));
+                    setProgressBar();
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }else{
+            if(!convertVideoTime(videoViewEmotion.getCurrentPosition()).equalsIgnoreCase("00:00")){
+                pb_emotionRound.setVisibility(View.VISIBLE);
+            }else{
+                pb_emotionRound.setVisibility(View.GONE);
+            }
+        }
+    }
 
+
+    @Override
+    public void onConnectionSuccessRtmp() {
+        
+    }
+
+    @Override
+    public void onConnectionFailedRtmp(String s) {
+
+    }
+
+    @Override
+    public void onDisconnectRtmp() {
+
+    }
+
+    @Override
+    public void onAuthErrorRtmp() {
+
+    }
+
+    @Override
+    public void onAuthSuccessRtmp() {
+
+    }
 }
