@@ -53,7 +53,7 @@
             android:textColor="@color/colorStartColor"/>
 
         <EditText
-            android:id="@+id/edt_dialogcoment"
+            android:id="@+id/edt_dialogComment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="14dp"
