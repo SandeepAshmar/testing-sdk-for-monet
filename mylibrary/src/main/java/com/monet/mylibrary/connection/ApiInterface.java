@@ -38,7 +38,7 @@ public interface ApiInterface {
     /*get camp flow*/
     @Headers("Content-Type: application/json")
     @POST("feedbackStage")
-    Call<StagingPojo> sendStagingData(@Header("Authorization") String token, @Query("campaignId") String cmp_id, @Query("jsonData") JSONObject jsonData);
+    Call<StagingPojo> sendStagingData(@Header("Authorization") String token, @Query("cmp_id") String cmp_id, @Query("jsonData") JSONObject jsonData);
 
     @Headers("Content-Type: application/json")
     @POST("getCampaign")

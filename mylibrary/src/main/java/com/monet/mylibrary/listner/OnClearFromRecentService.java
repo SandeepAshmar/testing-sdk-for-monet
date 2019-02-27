@@ -3,6 +3,7 @@ package com.monet.mylibrary.listner;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.monet.mylibrary.connection.ApiInterface;
@@ -44,6 +45,7 @@ public class OnClearFromRecentService extends Service {
         String token = "Bearer " + SdkPreferences.getApiToken(this);
 
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Log.d("TAG", "callApi: staging data "+stagingJson);
         Call<StagingPojo> pojoCall = apiInterface.sendStagingData(token, cmp_id, stagingJson);
 
         pojoCall.enqueue(new Callback<StagingPojo>() {
