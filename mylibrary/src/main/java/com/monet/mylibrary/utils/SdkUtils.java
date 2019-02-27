@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.monet.mylibrary.R;
@@ -121,12 +122,12 @@ public class SdkUtils {
             @Override
             public void onResponse(Call<StagingPojo> call, Response<StagingPojo> response) {
                 if (response.body() == null) {
-                    Toast.makeText(context, "Api not hit", Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "onResponse: "+response.raw().message());
                 } else {
                     if (response.body().getCode().equalsIgnoreCase("200")) {
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "onResponse: "+response.body().getMessage());
                     } else {
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "onResponse: "+response.body().getMessage());
                     }
                 }
             }
