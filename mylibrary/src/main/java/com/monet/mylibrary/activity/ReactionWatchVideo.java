@@ -65,7 +65,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private ImageView img_toolbarBack;
     private RecyclerView recyclerView;
     private VideoView videoView;
-    private ProgressBar progressBarVideo;
+    private ProgressBar progressBarVideo, pb_recactionVideo;
     private TextView tv_timeVideoView;
     private Handler handler;
     private Runnable runnable;
@@ -114,6 +114,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         videoView = findViewById(R.id.vv_reaction);
         progressBarVideo = findViewById(R.id.pb_reaction);
         tv_timeVideoView = findViewById(R.id.tv_timeVideoReaction);
+        pb_recactionVideo = findViewById(R.id.pb_recactionVideo);
         progressBarVideo.setEnabled(false);
         dialog = new Dialog(ReactionWatchVideo.this);
 
@@ -123,6 +124,12 @@ public class ReactionWatchVideo extends AppCompatActivity {
         cf_id = getCfId(this);
         user_id = getUserId(this);
         cmp_id = getCmpId(this);
+
+        try {
+            stagingJson.put("5", "4");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
@@ -191,6 +198,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private void setSeekBar() {
         progressBarVideo.setProgress(videoView.getCurrentPosition());
         if (videoView.isPlaying()) {
+            pb_recactionVideo.setVisibility(View.GONE);
             runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -199,6 +207,12 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 }
             };
             handler.postDelayed(runnable, 1000);
+        }else{
+            if(!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")){
+                pb_recactionVideo.setVisibility(View.VISIBLE);
+            }else{
+                pb_recactionVideo.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -234,7 +248,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             iconNameList.add("Boring");
         }
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         reactionIconsAdapter = new ReactionIconsAdapter(this, iClickListener, iconNameList);
         recyclerView.setAdapter(reactionIconsAdapter);
     }

@@ -822,6 +822,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     if (response.body().getCode().equals("200")) {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        if (quesType.equalsIgnoreCase("pre")) {
+                            try {
+                                stagingJson.put("2", "2");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                stagingJson.put("3", "2");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         clearValues();
                         setScreen();
                     } else {

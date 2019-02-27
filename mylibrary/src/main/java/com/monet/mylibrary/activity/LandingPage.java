@@ -95,6 +95,11 @@ public class LandingPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (land_chack.isChecked()) {
+                    try {
+                        stagingJson.put("1", "2");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     setScreen();
                 } else {
                     Toast.makeText(LandingPage.this, "Please check terms and conditions", Toast.LENGTH_SHORT).show();
@@ -336,6 +341,11 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        try {
+            stagingJson.put("1", "3");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         sendStagingData(landingActivity);
         finish();
         super.onBackPressed();

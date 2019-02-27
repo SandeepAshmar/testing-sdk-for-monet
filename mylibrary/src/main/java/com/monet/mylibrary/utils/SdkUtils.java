@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
@@ -121,19 +121,19 @@ public class SdkUtils {
             @Override
             public void onResponse(Call<StagingPojo> call, Response<StagingPojo> response) {
                 if (response.body() == null) {
-                    Toast.makeText(context, "Api not hit", Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "staging error: "+response.raw().message());
                 } else {
                     if (response.body().getCode().equalsIgnoreCase("200")) {
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "staging success: "+response.body().getMessage());
                     } else {
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "staging caode no match: "+response.body().getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<StagingPojo> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "staging through: "+ t.getMessage());
             }
         });
     }

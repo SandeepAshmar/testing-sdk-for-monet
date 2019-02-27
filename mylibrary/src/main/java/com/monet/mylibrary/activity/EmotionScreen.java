@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.EmotionImageSliderAdapter;
+
+import org.json.JSONException;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class EmotionScreen extends AppCompatActivity {
@@ -45,6 +49,11 @@ public class EmotionScreen extends AppCompatActivity {
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
 
+        try {
+            stagingJson.put("4", "2");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         imageSliderViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
