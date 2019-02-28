@@ -179,7 +179,6 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 break;
             case 3:
                 startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
-                mCameraSource.stop();
                 finish();
                 break;
         }

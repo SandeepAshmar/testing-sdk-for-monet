@@ -482,6 +482,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
+                radioTypeAdapter.notifyDataSetChanged();
             } else if (postQuestions.get(questionNo).getQuestion_type().equals("2")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
@@ -492,6 +493,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(getApplicationContext(), checkBoxClickListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(checkBoxTypeAdapter);
+                checkBoxTypeAdapter.notifyDataSetChanged();
             } else if (postQuestions.get(questionNo).getQuestion_type().equals("3")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.VISIBLE);
@@ -520,6 +522,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioTypeAdapter = new RadioTypeAdapter(getApplicationContext(), postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
+                radioTypeAdapter.notifyDataSetChanged();
             }else if(postQuestions.get(questionNo).getQuestion_type().equals("6")){
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.GONE);
@@ -542,6 +545,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), imageQClickListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
+                singleImageSelectionAdapter.notifyDataSetChanged();
             }else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
@@ -553,6 +557,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 multipleImageSelectionAdapter = new MultipleImageSelectionAdapter(getApplicationContext(), multiImageSelectionListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(multipleImageSelectionAdapter);
+                multipleImageSelectionAdapter.notifyDataSetChanged();
             }
 
         }
