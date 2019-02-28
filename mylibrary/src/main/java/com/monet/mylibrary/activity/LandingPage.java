@@ -353,5 +353,6 @@ public class LandingPage extends AppCompatActivity {
         }
         sendStagingData(landingActivity);
         finish();
+        super.onBackPressed();
     }
 }
