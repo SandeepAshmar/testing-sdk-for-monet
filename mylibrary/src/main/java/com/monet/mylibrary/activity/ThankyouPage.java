@@ -75,6 +75,7 @@ public class ThankyouPage extends AppCompatActivity {
                     finish();
                 } else {
                     setScreen();
+                    finish();
                 }
             }
         });

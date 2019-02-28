@@ -171,6 +171,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 rtmpCamera1.disableFaceDetection();
                 if (detectedTime >= minVisionTime) {
                     setScreen();
+                    finish();
                 } else {
                     if (faceDetect) {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
@@ -189,6 +190,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                         builder1.show();
                     } else {
                         setScreen();
+                        finish();
                     }
 
                 }

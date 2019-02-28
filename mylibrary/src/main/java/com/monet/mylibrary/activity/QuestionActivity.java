@@ -842,6 +842,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         }
                         clearValues();
                         setScreen();
+                        finish();
                     } else {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }

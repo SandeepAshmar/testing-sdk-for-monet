@@ -101,6 +101,7 @@ public class LandingPage extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     setScreen();
+                    finish();
                 } else {
                     Toast.makeText(LandingPage.this, "Please check terms and conditions", Toast.LENGTH_SHORT).show();
                 }

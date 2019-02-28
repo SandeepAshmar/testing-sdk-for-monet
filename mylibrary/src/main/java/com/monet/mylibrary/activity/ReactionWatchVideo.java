@@ -311,6 +311,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private void submitReactionPart() {
         if (reactionMainObject.length() == 0) {
             setScreen();
+            finish();
         } else {
             progressDialog(this, "Please wait...", true);
             ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
@@ -326,6 +327,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
                     } else {
                         if (response.body().getCode().equals("200")) {
                             setScreen();
+                            finish();
                         } else {
                             Toast.makeText(ReactionWatchVideo.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
