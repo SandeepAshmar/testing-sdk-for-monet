@@ -115,7 +115,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                                 }
                             }
                             rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
-                            rtmpCamera1.startPreview();
                             playVideo();
                         } else {
                             Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -141,8 +140,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 recordingStart();
                 videoViewEmotion.start();
                 pb_emotion.setMax(videoViewEmotion.getDuration());
-                minVisionTime = (videoViewEmotion.getDuration() * 70) / 100;
-                minVisionTime = (int) TimeUnit.MILLISECONDS.toSeconds(minVisionTime);
+                minVisionTime = (int) TimeUnit.MILLISECONDS.toSeconds((videoViewEmotion.getDuration() * 70) / 100);
                 setProgressBar();
             }
         });
@@ -227,6 +225,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             rtmpCamera1.startStream(rtmpUrl);
             if (flag == 0) {
                 try {
+                    rtmpCamera1.startPreview();
                     rtmpCamera1.switchCamera();
                 } catch (final CameraOpenException e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

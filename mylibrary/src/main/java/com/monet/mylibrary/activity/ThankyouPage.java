@@ -55,6 +55,12 @@ public class ThankyouPage extends AppCompatActivity {
 
         img_toolbarBack.setVisibility(View.GONE);
 
+        try {
+            stagingJson.put("6", "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         setDetails();
 
         btn_cam_proceed.setOnClickListener(new View.OnClickListener() {

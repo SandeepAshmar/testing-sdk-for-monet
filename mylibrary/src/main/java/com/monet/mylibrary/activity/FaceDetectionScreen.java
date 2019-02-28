@@ -178,7 +178,9 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 tv_notify.setText("Detected");
                 break;
             case 3:
-                startActivity(new Intent(FaceDetectionScreen.this,PlayVideoAndRecordScreen.class));
+                mPreview.stop();
+                mPreview.release();
+                startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
                 finish();
                 break;
         }
