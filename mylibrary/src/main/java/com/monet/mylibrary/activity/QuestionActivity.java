@@ -480,9 +480,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "1";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-                radioTypeAdapter.notifyDataSetChanged();
             } else if (postQuestions.get(questionNo).getQuestion_type().equals("2")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
@@ -491,9 +491,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "2";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(getApplicationContext(), checkBoxClickListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(checkBoxTypeAdapter);
-                checkBoxTypeAdapter.notifyDataSetChanged();
             } else if (postQuestions.get(questionNo).getQuestion_type().equals("3")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.VISIBLE);
@@ -503,7 +503,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "3";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(postQuestions.get(questionNo).getRadio_type());
-//                seekBar_rate.setMax(radioType);
             } else if (postQuestions.get(questionNo).getQuestion_type().equals("4")) {
                 rv_question.setVisibility(View.GONE);
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
@@ -520,9 +519,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "5";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 radioTypeAdapter = new RadioTypeAdapter(getApplicationContext(), postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-                radioTypeAdapter.notifyDataSetChanged();
             }else if(postQuestions.get(questionNo).getQuestion_type().equals("6")){
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.GONE);
@@ -545,7 +544,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), imageQClickListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
-                singleImageSelectionAdapter.notifyDataSetChanged();
             }else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
@@ -557,7 +555,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 multipleImageSelectionAdapter = new MultipleImageSelectionAdapter(getApplicationContext(), multiImageSelectionListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(multipleImageSelectionAdapter);
-                multipleImageSelectionAdapter.notifyDataSetChanged();
             }
 
         }
