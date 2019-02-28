@@ -34,6 +34,8 @@ import net.ossrs.rtmp.ConnectCheckerRtmp;
 
 import org.json.JSONException;
 
+import java.util.concurrent.TimeUnit;
+
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -136,11 +138,12 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                recordingStart();
                 videoViewEmotion.start();
                 pb_emotion.setMax(videoViewEmotion.getDuration());
                 minVisionTime = (videoViewEmotion.getDuration() * 70) / 100;
+                minVisionTime = (int) TimeUnit.MILLISECONDS.toSeconds(minVisionTime);
                 setProgressBar();
-                recordingStart();
             }
         });
 
