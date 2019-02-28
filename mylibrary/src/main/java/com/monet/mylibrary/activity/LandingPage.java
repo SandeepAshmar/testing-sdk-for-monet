@@ -114,10 +114,6 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public void checkEmotionScreen(Activity activity) {
-        activity.startActivity(new Intent(activity, EmotionScreen.class));
-    }
-
     public void startCampaign(Activity activity, String cmpId, String userId) {
         landingActivity = activity;
         activity.startActivity(new Intent(activity, LandingPage.class));
