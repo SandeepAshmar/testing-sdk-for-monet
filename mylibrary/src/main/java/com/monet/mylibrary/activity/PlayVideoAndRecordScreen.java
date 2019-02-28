@@ -82,9 +82,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         getVideoUrlFromLink(getVideoUrl(this));
-
-        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
-        rtmpCamera1.startPreview();
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -119,6 +116,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private void playVideo() {
+        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
+        rtmpCamera1.startPreview();
         if (!rtmpCamera1.isStreaming()) {
             rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
         }
@@ -172,6 +171,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         if (rtmpCamera1.isRecording() || prepareEncoders()) {
             String rtmpUrl = RTMP_URL + getCfId(this);
+            Log.d("TAG", "recordingStart: rtmpurl "+rtmpUrl);
             rtmpCamera1.startStream(rtmpUrl);
             if (flag == 0) {
                 try {
