@@ -110,11 +110,11 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public static void checkEmotionScreen(Activity activity) {
+    public void checkEmotionScreen(Activity activity) {
         activity.startActivity(new Intent(activity, EmotionScreen.class));
     }
 
-    public static void startCampaign(Activity activity, String cmpId, String userId) {
+    public void startCampaign(Activity activity, String cmpId, String userId) {
         landingActivity = activity;
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
@@ -126,7 +126,7 @@ public class LandingPage extends AppCompatActivity {
         getCmpFlow(activity);
     }
 
-    private static void getCmpFlow(final Activity activity) {
+    private void getCmpFlow(final Activity activity) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
@@ -136,18 +136,17 @@ public class LandingPage extends AppCompatActivity {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
-                    landingActivity.finish();
+                    onBackPressed();
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence().size() == 0) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
-                            landingActivity.finish();
                         } else {
                             saveDetails(activity, response);
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                        landingActivity.finish();
+                        onBackPressed();
                     }
                 }
             }
@@ -156,13 +155,13 @@ public class LandingPage extends AppCompatActivity {
             public void onFailure(Call<SdkPojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
-                landingActivity.finish();
+                onBackPressed();
             }
         });
 
     }
 
-    private static void saveDetails(Activity activity, Response<SdkPojo> response) {
+    private void saveDetails(Activity activity, Response<SdkPojo> response) {
         SdkPreferences.setCmpId(activity, cmp_Id);
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
@@ -182,7 +181,7 @@ public class LandingPage extends AppCompatActivity {
         getCampDetails(activity, apiToken, cmp_Id);
     }
 
-    private static void getCampDetails(final Activity activity, String token, final String cmpId) {
+    private void getCampDetails(final Activity activity, String token, final String cmpId) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
