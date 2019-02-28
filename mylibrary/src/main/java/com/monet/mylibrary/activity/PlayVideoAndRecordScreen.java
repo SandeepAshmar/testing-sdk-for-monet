@@ -102,12 +102,13 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                                     break;
                                 }
                             }
+                            rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
+                            rtmpCamera1.startPreview();
                             playVideo();
                         } else {
                             Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<VideoPojo> call, Throwable t) {
                         progressDialog(PlayVideoAndRecordScreen.this, "Please wait...", false);
@@ -116,8 +117,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private void playVideo() {
-        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
-        rtmpCamera1.startPreview();
         if (!rtmpCamera1.isStreaming()) {
             rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
         }
@@ -167,8 +166,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private void recordingStart() {
-
-
         if (rtmpCamera1.isRecording() || prepareEncoders()) {
             String rtmpUrl = RTMP_URL + getCfId(this);
             Log.d("TAG", "recordingStart: rtmpurl "+rtmpUrl);
@@ -230,8 +227,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 Toast.makeText(PlayVideoAndRecordScreen.this, "onConnectionFailedRtmp", Toast.LENGTH_SHORT).show();
             }
         });
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Internet connection is slow.");
     }
 
     @Override
