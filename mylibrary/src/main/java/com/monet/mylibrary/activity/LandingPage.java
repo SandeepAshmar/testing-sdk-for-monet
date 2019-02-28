@@ -136,6 +136,7 @@ public class LandingPage extends AppCompatActivity {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
+                    landingActivity.finish();
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence().size() == 0) {
@@ -146,6 +147,7 @@ public class LandingPage extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                        landingActivity.finish();
                     }
                 }
             }
@@ -154,6 +156,7 @@ public class LandingPage extends AppCompatActivity {
             public void onFailure(Call<SdkPojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                landingActivity.finish();
             }
         });
 
