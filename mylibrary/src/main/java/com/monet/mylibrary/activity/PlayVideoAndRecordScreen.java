@@ -81,10 +81,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         getVideoUrlFromLink(getVideoUrl(this));
-
-        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, this);
-        rtmpCamera1.startPreview();
-        playVideo();
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -105,6 +101,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                                     break;
                                 }
                             }
+                            rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
+                            rtmpCamera1.startPreview();
+                            playVideo();
                         } else {
                             Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
