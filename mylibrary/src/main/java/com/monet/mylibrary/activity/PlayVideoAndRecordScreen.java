@@ -1,11 +1,17 @@
 package com.monet.mylibrary.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -59,10 +65,13 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private String video_Url;
     private ApiInterface apiInterface;
     private RtmpCamera1 rtmpCamera1;
+    private Runnable runnable1;
     private Handler handler;
+    private Handler handler1;
     private Runnable runnable;
-    private short flag = 0;
-    private String bitrate = "150";
+    private short flag = 0, bitrate = 150;
+    private int detectedTime = 0, minVisionTime = 0;
+    private boolean count = true, detecting = false, faceDetect = false, doubleBackToExitPressedOnce = false, connectionStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +87,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         pb_emotionRound = findViewById(R.id.pb_emotionRound);
 
         handler = new Handler();
+        handler1 = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
@@ -109,6 +119,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                             Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<VideoPojo> call, Throwable t) {
                         progressDialog(PlayVideoAndRecordScreen.this, "Please wait...", false);
@@ -127,19 +138,57 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             public void onPrepared(MediaPlayer mp) {
                 videoViewEmotion.start();
                 pb_emotion.setMax(videoViewEmotion.getDuration());
+                minVisionTime = (videoViewEmotion.getDuration() * 70) / 100;
                 setProgressBar();
                 recordingStart();
+            }
+        });
+
+        videoViewEmotion.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "There is something went wrong please try again", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(PlayVideoAndRecordScreen.this, LandingPage.class));
+                finish();
+                return false;
             }
         });
 
         videoViewEmotion.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                detecting = false;
+                try {
+                    stagingJson.put("4", "5");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 rtmpCamera1.stopStream();
-                rtmpCamera1.disableFaceDetection();
-                rtmpCamera1.stopRecord();
                 rtmpCamera1.stopPreview();
-                setScreen();
+                rtmpCamera1.disableFaceDetection();
+                if (detectedTime >= minVisionTime) {
+                    setScreen();
+                } else {
+                    if (faceDetect) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
+                        builder1.setCancelable(false);
+                        builder1.setMessage("Sorry you were not in the frame");
+                        builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                detectedTime = 0;
+                                playVideo();
+                                startActivity(new Intent(PlayVideoAndRecordScreen.this, PlayVideoAndRecordScreen.class));
+                                finish();
+                            }
+                        });
+                        builder1.show();
+                    } else {
+                        setScreen();
+                    }
+
+                }
             }
         });
     }
@@ -166,9 +215,10 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private void recordingStart() {
+        checkNetworkType();
         if (rtmpCamera1.isRecording() || prepareEncoders()) {
             String rtmpUrl = RTMP_URL + getCfId(this);
-            Log.d("TAG", "recordingStart: rtmpurl "+rtmpUrl);
+            Log.d("TAG", "recordingStart: rtmpurl " + rtmpUrl);
             rtmpCamera1.startStream(rtmpUrl);
             if (flag == 0) {
                 try {
@@ -182,8 +232,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 rtmpCamera1.enableFaceDetection(new Camera1ApiManager.FaceDetectorCallback() {
                     @Override
                     public void onGetFaces(Camera.Face[] faces) {
-
-//                        checkNetworkType();
                         changeImage(faces.length);
                     }
                 });
@@ -196,15 +244,135 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         }
     }
 
+    private void checkNetworkType() {
+
+        connectionStatus = isConnectedFast(getApplicationContext());
+        if (!connectionStatus) {
+            bitrate = 150;
+            Log.d("Connection Status", "POOR CONNECTION");
+
+        } else {
+            Log.d("Connection Status", "GOOD CONNECTION");
+            bitrate = 200;
+
+        }
+
+    }
+
+    private boolean isConnectedFast(Context context) {
+        NetworkInfo info = getNetworkInfo(context);
+        return (info != null && info.isConnected() && isConnectionFast(info.getType(), info.getSubtype()));
+    }
+
+    private NetworkInfo getNetworkInfo(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo();
+    }
+
+    private boolean isConnectionFast(int type, int subType) {
+        if (type == ConnectivityManager.TYPE_WIFI) {
+            return true;
+
+        } else if (type == ConnectivityManager.TYPE_MOBILE) {
+
+            switch (subType) {
+                case TelephonyManager.NETWORK_TYPE_1xRTT:
+                    return false; // ~ 50-100 kbps
+                case TelephonyManager.NETWORK_TYPE_CDMA:
+                    return false; // ~ 14-64 kbps
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                    return false; // ~ 50-100 kbps
+                case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                    return true; // ~ 400-1000 kbps
+                case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                    return true; // ~ 600-1400 kbps
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                    return false; // ~ 100 kbps
+                case TelephonyManager.NETWORK_TYPE_HSDPA:
+                    return true; // ~ 2-14 Mbps
+                case TelephonyManager.NETWORK_TYPE_HSPA:
+                    return true; // ~ 700-1700 kbps
+                case TelephonyManager.NETWORK_TYPE_HSUPA:
+                    return true; // ~ 1-23 Mbps
+                case TelephonyManager.NETWORK_TYPE_UMTS:
+                    return true; // ~ 400-7000 kbps
+
+                // Above API level 7, make sure to set android:targetSdkVersion to appropriate level to use these
+
+                case TelephonyManager.NETWORK_TYPE_EHRPD: // API level 11
+                    return true; // ~ 1-2 Mbps
+                case TelephonyManager.NETWORK_TYPE_EVDO_B: // API level 9
+                    return true; // ~ 5 Mbps
+                case TelephonyManager.NETWORK_TYPE_HSPAP: // API level 13
+                    return true; // ~ 10-20 Mbps
+                case TelephonyManager.NETWORK_TYPE_IDEN: // API level 8
+                    return false; // ~25 kbps
+                case TelephonyManager.NETWORK_TYPE_LTE: // API level 11
+                    return true; // ~ 10+ Mbps
+                // Unknown
+                case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                default:
+                    return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     private boolean prepareEncoders() {
-        int width = 320;
-        int height = 240;
-        return rtmpCamera1.prepareVideo(width, height, Integer.parseInt("30"),
-                Integer.parseInt(bitrate) * 1024,  // bitrate
-                false, CameraHelper.getCameraOrientation(this));
+        return rtmpCamera1.prepareVideo(320, 240, 30,
+                bitrate * 1024, false, CameraHelper.getCameraOrientation(this));
     }
 
     private void changeImage(int length) {
+        faceDetect = true;
+        if (length == 0) {
+            img_detect.setImageResource(R.drawable.ic_red_back);
+            count = true;
+            detecting = true;
+            notDetectDialog();
+        } else {
+            img_detect.setImageResource(R.drawable.ic_green_back);
+            if (count) {
+                countPercentage();
+                detecting = false;
+            }
+        }
+    }
+
+    private void notDetectDialog() {
+        if (detecting) {
+            runnable1 = new Runnable() {
+                @Override
+                public void run() {
+                    if(detecting){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
+                        builder.setMessage("It seems you are not in front of the camera from last 5 seconds, Please align yourself and play video again.");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                }
+            };
+            handler.postDelayed(runnable1, 5000);
+        } else {
+            handler1.removeCallbacks(runnable1);
+        }
+    }
+
+    private void countPercentage() {
+        count = false;
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                detectedTime = detectedTime + 1;
+                count = true;
+            }
+        };
+        handler.postDelayed(runnable, 1000);
     }
 
     @Override
@@ -224,7 +392,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(PlayVideoAndRecordScreen.this, "onConnectionFailedRtmp", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlayVideoAndRecordScreen.this, "There is something went wrong please try again", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(PlayVideoAndRecordScreen.this, LandingPage.class));
+                finish();
             }
         });
     }
@@ -368,5 +538,21 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 0);
     }
 }
