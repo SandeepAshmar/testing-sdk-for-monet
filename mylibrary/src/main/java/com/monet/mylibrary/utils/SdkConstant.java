@@ -2,7 +2,7 @@ package com.monet.mylibrary.utils;
 
 public class SdkConstant {
 
-    public static final String RTMP_URL = "rtmp://54.149.48.63/Monet_Android/";
+    public static final String RTMP_URL = "rtmp://dev.monetrewards.com/Monet/";
     public static final String RTMP_USERNAME = "admin";
     public static final String RTMP_PASSWORD = "password";
 
