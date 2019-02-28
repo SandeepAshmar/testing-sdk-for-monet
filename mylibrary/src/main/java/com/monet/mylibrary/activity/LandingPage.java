@@ -59,6 +59,7 @@ public class LandingPage extends AppCompatActivity {
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
     private static Activity landingActivity;
+    private boolean serverError = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +95,22 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (land_chack.isChecked()) {
-                    try {
-                        stagingJson.put("1", "2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if (!serverError) {
+                    if (land_chack.isChecked()) {
+                        try {
+                            stagingJson.put("1", "2");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        setScreen();
+                        finish();
+                    } else {
+                        Toast.makeText(LandingPage.this, "Please check terms and conditions", Toast.LENGTH_SHORT).show();
                     }
-                    setScreen();
-                    finish();
                 } else {
-                    Toast.makeText(LandingPage.this, "Please check terms and conditions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LandingPage.this, "There is something error, Please try again", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-
             }
         });
     }
@@ -136,7 +141,7 @@ public class LandingPage extends AppCompatActivity {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                    serverError = true;
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence().size() == 0) {
@@ -146,7 +151,7 @@ public class LandingPage extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        serverError = true;
                     }
                 }
             }
@@ -155,7 +160,7 @@ public class LandingPage extends AppCompatActivity {
             public void onFailure(Call<SdkPojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                serverError = true;
             }
         });
 
@@ -191,6 +196,7 @@ public class LandingPage extends AppCompatActivity {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+                    serverError = true;
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getResponse().size() <= 1) {
@@ -214,6 +220,7 @@ public class LandingPage extends AppCompatActivity {
 
                     } else {
                         Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        serverError = true;
                     }
                 }
             }
@@ -222,6 +229,7 @@ public class LandingPage extends AppCompatActivity {
             public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                serverError = true;
             }
         });
     }
