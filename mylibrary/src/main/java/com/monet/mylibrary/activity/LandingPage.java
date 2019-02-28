@@ -94,7 +94,7 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (arrayList.size() == 0) {
+                if (arrayList.size() != 0) {
                     if (land_chack.isChecked()) {
                         try {
                             stagingJson.put("1", "2");
