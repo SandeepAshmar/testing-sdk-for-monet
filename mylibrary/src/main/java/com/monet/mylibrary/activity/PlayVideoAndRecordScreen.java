@@ -28,7 +28,6 @@ import net.ossrs.rtmp.ConnectCheckerRtmp;
 
 import org.json.JSONException;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -220,8 +219,14 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     public void onConnectionFailedRtmp(String s) {
         rtmpCamera1.stopStream();
         videoViewEmotion.stopPlayback();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Internet connection is slow.");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PlayVideoAndRecordScreen.this, "onConnectionFailedRtmp", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Internet connection is slow.");
     }
 
     @Override
