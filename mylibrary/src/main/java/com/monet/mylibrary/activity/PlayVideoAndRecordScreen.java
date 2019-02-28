@@ -62,6 +62,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private Handler handler;
     private Runnable runnable;
     private short flag = 0;
+    private String bitrate = "150";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         getVideoUrlFromLink(getVideoUrl(this));
+
+        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
+        rtmpCamera1.startPreview();
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -101,8 +105,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                                     break;
                                 }
                             }
-                            rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
-                            rtmpCamera1.startPreview();
                             playVideo();
                         } else {
                             Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -165,39 +167,44 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         }
     }
 
-    private void recordingStart(){
-        if(rtmpCamera1.isRecording() || prepareEncoders()){
-            String rtmpUrl = RTMP_URL+getCfId(this);
+    private void recordingStart() {
+
+
+        if (rtmpCamera1.isRecording() || prepareEncoders()) {
+            String rtmpUrl = RTMP_URL + getCfId(this);
             rtmpCamera1.startStream(rtmpUrl);
-            if(flag == 0){
-                try{
+            if (flag == 0) {
+                try {
                     rtmpCamera1.switchCamera();
-                }catch (CameraOpenException e){
-                    Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (final CameraOpenException e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 flag++;
             }
-
-            try{
+            try {
                 rtmpCamera1.enableFaceDetection(new Camera1ApiManager.FaceDetectorCallback() {
                     @Override
                     public void onGetFaces(Camera.Face[] faces) {
+
+//                        checkNetworkType();
                         changeImage(faces.length);
                     }
                 });
-            }catch (Exception e){
-                Log.d("TAG", "Exception found in face detection"+e.getMessage());
+            } catch (Exception e) {
+                Log.d("MainActivity", "Exception found in face detection..." + e.getMessage());
             }
-        }else{
-            Toast.makeText(this, "Error preparing stream, this device can not do this....", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(this, "Error preparing stream, This device can not do it...", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean prepareEncoders(){
-
-        return rtmpCamera1.prepareVideo(320, 240, 30, 153600,
+    private boolean prepareEncoders() {
+        int width = 320;
+        int height = 240;
+        return rtmpCamera1.prepareVideo(width, height, Integer.parseInt("30"),
+                Integer.parseInt(bitrate) * 1024,  // bitrate
                 false, CameraHelper.getCameraOrientation(this));
-
     }
 
     private void changeImage(int length) {
