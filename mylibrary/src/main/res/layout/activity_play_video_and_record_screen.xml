@@ -66,11 +66,47 @@
 
         </RelativeLayout>
 
-        <SurfaceView
-            android:id="@+id/surfaceViewEmotion"
+        <RelativeLayout
+            android:id="@+id/rl_rtmpCameraView"
             android:layout_width="120dp"
             android:layout_height="150dp"
-            android:layout_gravity="right" />
+            android:layout_gravity="right">
+
+            <SurfaceView
+                android:id="@+id/surfaceViewEmotion"
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:visibility="visible"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_notDetecting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/half_black"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_red_back"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Not Detecting"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="36dp"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -78,74 +114,13 @@
         android:id="@+id/img_detect"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
         android:src="@drawable/ic_rtmp_camera_preview"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.899" />
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rl_videoView"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintBottom_toTopOf="@id/rl_surfaceView"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/include3"-->
-    <!--app:layout_constraintVertical_bias="0.0">-->
-
-    <!--<VideoView-->
-    <!--android:id="@+id/video"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_marginTop="0dp"-->
-    <!--android:layout_marginBottom="0dp"-->
-    <!--android:foregroundGravity="fill"-->
-    <!--android:visibility="visible" />-->
-
-    <!--<ProgressBar-->
-    <!--android:id="@+id/progressbar"-->
-    <!--style="?android:attr/progressBarStyleHorizontal"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignBottom="@id/video"-->
-    <!--android:layout_marginBottom="4dp"-->
-    <!--android:indeterminateTint="@color/colorGray"-->
-    <!--android:progressBackgroundTint="@color/colorRed" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_above="@id/progressbar"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_marginRight="4dp"-->
-    <!--android:layout_marginBottom="4dp"-->
-    <!--android:text="00:00"-->
-    <!--android:textColor="@color/colorWhite" />-->
-
-    <!--</RelativeLayout>-->
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rl_surfaceView"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="1.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/rl_videoView"-->
-    <!--app:layout_constraintVertical_bias="0.34">-->
-
-
-    <!--</RelativeLayout>-->
-
+        app:layout_constraintVertical_bias="0.926" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

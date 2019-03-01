@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -61,6 +62,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     private ImageView img_toolbarBack, img_detect;
     private VideoView videoViewEmotion;
+    private RelativeLayout rl_notDetecting, rl_rtmpCameraView;
     private ProgressBar pb_emotion, pb_emotionRound;
     private TextView tv_videoTimeEmotion;
     private SurfaceView surfaceViewEmotion;
@@ -73,7 +75,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private Runnable runnable;
     private short flag = 0, bitrate = 150;
     private int detectedTime = 0, minVisionTime = 0;
-    private boolean count = true, detecting = false, faceDetect = false, doubleBackToExitPressedOnce = false, connectionStatus;
+    private boolean count = true, detecting = false,
+            faceDetect = false, doubleBackToExitPressedOnce = false, connectionStatus , chnageViewValue = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +90,19 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         surfaceViewEmotion = findViewById(R.id.surfaceViewEmotion);
         img_detect = findViewById(R.id.img_detect);
         pb_emotionRound = findViewById(R.id.pb_emotionRound);
+        rl_notDetecting = findViewById(R.id.rl_notDetecting);
+        rl_rtmpCameraView = findViewById(R.id.rl_rtmpCameraView);
 
         handler = new Handler();
         handler1 = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
+
+        img_detect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeView();
+            }
+        });
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         getVideoUrlFromLink(getVideoUrl(this));
@@ -331,17 +343,32 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private void changeImage(int length) {
         faceDetect = true;
         if (length == 0) {
-            img_detect.setImageResource(R.drawable.ic_red_back);
+            img_detect.setVisibility(View.VISIBLE);
             count = true;
+            chnageViewValue = false;
             detecting = true;
             notDetectDialog();
         } else {
-            img_detect.setImageResource(R.drawable.ic_green_back);
+            img_detect.setVisibility(View.GONE);
             if (count) {
                 countPercentage();
                 detecting = false;
             }
+            if(chnageViewValue){
+                changeView();
+            }
         }
+    }
+
+    private void changeView(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                chnageViewValue = false;
+                rl_rtmpCameraView.setVisibility(View.GONE);
+                img_detect.setVisibility(View.VISIBLE);
+            }
+        }, 3000);
     }
 
     private void notDetectDialog() {
@@ -350,14 +377,9 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 @Override
                 public void run() {
                     if(detecting){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
-                        builder.setMessage("It seems you are not in front of the camera from last 5 seconds, Please align yourself and play video again.");
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+                        img_detect.setVisibility(View.GONE);
+                        rl_rtmpCameraView.setVisibility(View.VISIBLE);
+                        rl_notDetecting.setVisibility(View.VISIBLE);
                     }
                 }
             };
