@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
@@ -199,8 +199,7 @@ public class LandingPage extends AppCompatActivity {
 
                         for (int i = 0; i < response.body().getResponse().size(); i++) {
                             Glide.with(activity).load(response.body().getResponse().get(i).getC_thumb_url())
-                                    .skipMemoryCache(true)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                                     .into(img_currentShows);
                             setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
                             break;
