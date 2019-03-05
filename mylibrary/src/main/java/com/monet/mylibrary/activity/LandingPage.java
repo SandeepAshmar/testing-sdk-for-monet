@@ -199,7 +199,8 @@ public class LandingPage extends AppCompatActivity {
 
                         for (int i = 0; i < response.body().getResponse().size(); i++) {
                             Glide.with(activity).load(response.body().getResponse().get(i).getC_thumb_url())
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
                                     .into(img_currentShows);
                             setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
                             break;
