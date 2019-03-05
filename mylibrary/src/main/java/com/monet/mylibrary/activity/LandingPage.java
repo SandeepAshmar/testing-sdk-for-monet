@@ -196,11 +196,13 @@ public class LandingPage extends AppCompatActivity {
                             tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
                         }
 
-                        if (response.body().getResponse().get(0).getC_thumb_url() != null) {
-                            Glide.with(activity).load(response.body().getResponse().get(0).getC_thumb_url())
+                        for (int i = 0; i < response.body().getResponse().size(); i++) {
+                            Glide.with(activity).load(response.body().getResponse().get(i).getC_thumb_url())
                                     .into(img_currentShows);
-                            setThumbUrl(activity, response.body().getResponse().get(0).getC_thumb_url());
+                            setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
+                            break;
                         }
+
                         tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
                         setCmpName(activity, response.body().getResponse().get(0).getCmp_name());
                         tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());

@@ -75,8 +75,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private Runnable runnable;
     private short flag = 0, bitrate = 150;
     private int detectedTime = 0, minVisionTime = 0;
-    private boolean count = true, detecting = false,
-            faceDetect = false, doubleBackToExitPressedOnce = false, connectionStatus , chnageViewValue = false;
+    private boolean count = true, detecting = false, faceDetect = false, doubleBackToExitPressedOnce = false, connectionStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,13 +95,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         handler = new Handler();
         handler1 = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
-
-        img_detect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeView();
-            }
-        });
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         getVideoUrlFromLink(getVideoUrl(this));
@@ -345,7 +337,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         if (length == 0) {
             img_detect.setVisibility(View.VISIBLE);
             count = true;
-            chnageViewValue = false;
             detecting = true;
             notDetectDialog();
         } else {
@@ -354,9 +345,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 countPercentage();
                 detecting = false;
             }
-            if(chnageViewValue){
-                changeView();
-            }
         }
     }
 
@@ -364,7 +352,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                chnageViewValue = false;
                 rl_rtmpCameraView.setVisibility(View.GONE);
                 img_detect.setVisibility(View.VISIBLE);
             }
