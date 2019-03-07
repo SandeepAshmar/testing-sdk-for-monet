@@ -47,14 +47,32 @@ public class GridFragment extends Fragment {
 
             if (survayType.equalsIgnoreCase("pre")) {
                 if (savedQuesAndAnswers.getGridQuesIds().contains(preQuestions.get(questionNo).getQuestion_id())) {
-                    savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
-                    if (savedQuesAndAnswers.getSelectedIntSize() ==
-                            preQuestions.get(questionNo).getOptions().size()) {
-                        tv_nextGrid.setVisibility(View.VISIBLE);
-                        btn_question.setEnabled(true);
-                    } else {
-                        tv_nextGrid.setVisibility(View.GONE);
-                        btn_question.setEnabled(false);
+                    if(savedQuesAndAnswers.getGridOptionIds().contains(preQuestions.get(questionNo)
+                            .getOptions().get(optionPosition).getOption_id())) {
+                        if (savedQuesAndAnswers.getSelectedIntSize() ==
+                                preQuestions.get(questionNo).getOptions().size()) {
+                            tv_nextGrid.setVisibility(View.VISIBLE);
+                            btn_question.setEnabled(true);
+                        } else {
+                            savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                            tv_nextGrid.setVisibility(View.GONE);
+                            btn_question.setEnabled(false);
+                        }
+                    }else{
+                        if (savedQuesAndAnswers.getSelectedIntSize() ==
+                                preQuestions.get(questionNo).getOptions().size()) {
+                            tv_nextGrid.setVisibility(View.VISIBLE);
+                            btn_question.setEnabled(true);
+                        }else if ((preQuestions.get(questionNo).getOptions().size()
+                                - savedQuesAndAnswers.getSelectedIntSize() == 1)){
+                            savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                            tv_nextGrid.setVisibility(View.VISIBLE);
+                            btn_question.setEnabled(true);
+                        } else {
+                            savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                            tv_nextGrid.setVisibility(View.GONE);
+                            btn_question.setEnabled(false);
+                        }
                     }
                 } else {
                     savedQuesAndAnswers.setSelectedIntSize(1);
@@ -62,14 +80,32 @@ public class GridFragment extends Fragment {
                 }
             } else {
                 if (savedQuesAndAnswers.getGridQuesIds().contains(postQuestions.get(questionNo).getQuestion_id())) {
-                    savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
-                    if (savedQuesAndAnswers.getSelectedIntSize() ==
-                            postQuestions.get(questionNo).getOptions().size()) {
-                        tv_nextGrid.setVisibility(View.VISIBLE);
-                        btn_question.setEnabled(true);
-                    } else {
-                        tv_nextGrid.setVisibility(View.GONE);
-                        btn_question.setEnabled(false);
+                    if(savedQuesAndAnswers.getGridOptionIds().contains(postQuestions.get(questionNo)
+                            .getOptions().get(optionPosition).getOption_id())) {
+                        if (savedQuesAndAnswers.getSelectedIntSize() ==
+                                postQuestions.get(questionNo).getOptions().size()) {
+                            tv_nextGrid.setVisibility(View.VISIBLE);
+                            btn_question.setEnabled(true);
+                        } else {
+                            savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                            tv_nextGrid.setVisibility(View.GONE);
+                            btn_question.setEnabled(false);
+                        }
+                    }else{
+                        if (savedQuesAndAnswers.getSelectedIntSize() ==
+                                postQuestions.get(questionNo).getOptions().size()) {
+                            tv_nextGrid.setVisibility(View.VISIBLE);
+                            btn_question.setEnabled(true);
+                        }else if ((postQuestions.get(questionNo).getOptions().size()
+                                - savedQuesAndAnswers.getSelectedIntSize() == 1)){
+                            savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                            tv_nextGrid.setVisibility(View.VISIBLE);
+                            btn_question.setEnabled(true);
+                        } else {
+                            savedQuesAndAnswers.setSelectedIntSize((savedQuesAndAnswers.getSelectedIntSize() + 1));
+                            tv_nextGrid.setVisibility(View.GONE);
+                            btn_question.setEnabled(false);
+                        }
                     }
                 } else {
                     savedQuesAndAnswers.setSelectedIntSize(1);

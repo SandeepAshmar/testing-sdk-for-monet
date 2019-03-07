@@ -871,6 +871,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         savedQuesAndAnswers.getGridQuesIds().clear();
         savedQuesAndAnswers.getRadioAnsIds().clear();
         savedQuesAndAnswers.getRadioQuesIds().clear();
+        savedQuesAndAnswers.getMultiImageOid().clear();
+        savedQuesAndAnswers.getMultiImageQid().clear();
+        savedQuesAndAnswers.getSingleImageOid().clear();
+        savedQuesAndAnswers.getSingleImageQId().clear();
         questionNo = 0;
         questionSize = 0;
 
