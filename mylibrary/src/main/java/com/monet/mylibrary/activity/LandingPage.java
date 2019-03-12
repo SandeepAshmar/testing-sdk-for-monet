@@ -48,16 +48,15 @@ import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class LandingPage extends AppCompatActivity {
 
-    private static final String TAG = "MonetAndroidSdk";
     private ImageView img_toolbarBack;
-    private static ImageView img_currentShows;
-    private static TextView tv_land_watch, tv_landCam, tv_vid_landTime;
-    private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
-    public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
-    private static Button btn_landProceed, btn_currentShows;
-    private static CheckBox land_chack;
-    private static String cmp_Id, user_Id, apiToken;
+    private ImageView img_currentShows;
+    private TextView tv_land_watch, tv_landCam, tv_vid_landTime;
+    private ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
+    private static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
+    private static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
+    private Button btn_landProceed, btn_currentShows;
+    private CheckBox land_chack;
+    private String cmp_Id, user_Id, apiToken;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
     private static Activity landingActivity;
