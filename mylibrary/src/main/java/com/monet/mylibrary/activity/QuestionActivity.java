@@ -166,7 +166,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    private ImageQClickListner imageQClickListner = new ImageQClickListner() {
+    private ImageQClickListner singleImageSelectionListner = new ImageQClickListner() {
         @Override
         public void onItemClick(String quesId, String optionId) {
             btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
@@ -454,7 +454,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "7";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), imageQClickListner, preQuestions.get(questionNo).getOptions());
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), singleImageSelectionListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
             }else if (preQuestions.get(questionNo).getQuestion_type().equals("8")) {
                 rv_question.setVisibility(View.VISIBLE);
@@ -542,7 +542,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "7";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), imageQClickListner, postQuestions.get(questionNo).getOptions());
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), singleImageSelectionListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
             }else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
                 rv_question.setVisibility(View.VISIBLE);
