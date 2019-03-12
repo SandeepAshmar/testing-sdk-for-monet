@@ -132,7 +132,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
-        if(getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("youtube")){
+        if(getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("vimeo")){
             getVideoUrlFromLink(getVideoUrl(this));
         }else{
             playVideo("https://dev.monetrewards.com/"+getVideoUrl(this));

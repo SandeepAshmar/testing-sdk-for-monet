@@ -97,7 +97,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         img_toolbarBack.setVisibility(View.GONE);
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        if(getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("youtube")){
+        if(getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("vimeo")){
             getVideoUrlFromLink(getVideoUrl(this));
         }else{
             video_Url = "https://dev.monetrewards.com/"+getVideoUrl(this);
