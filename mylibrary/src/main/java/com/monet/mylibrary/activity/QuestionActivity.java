@@ -245,7 +245,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         dataPostJson1 = new JSONObject();
         quesJson = new JSONObject();
         quesJsonGrid = new JSONObject();
-        jsonArray= new JSONArray();
+        jsonArray = new JSONArray();
 
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
 
@@ -271,7 +271,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                tv_edtCount.setText(s.length()+"/500");
+                tv_edtCount.setText(s.length() + "/500");
 
                 if (s.length() > 0) {
                     btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
@@ -333,8 +333,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
-
-        setQuestion();
     }
 
     @Override
@@ -344,9 +342,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             setPreviousQuestion();
         } else if (i == R.id.btn_question) {
 
-            if(btn_question.getText().toString().equalsIgnoreCase("Proceed")){
+            if (btn_question.getText().toString().equalsIgnoreCase("Proceed")) {
                 btn_question.setBackgroundResource(R.drawable.btn_disabled);
                 btn_question.setEnabled(false);
+                setQuestion();
             }
 
             if (qCardVisible) {
@@ -354,12 +353,35 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
                 btn_question.setText("Next");
+                if (quesType.equalsIgnoreCase("Pre")) {
+                    try {
+                        stagingJson.put("2", "2");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        stagingJson.put("3", "2");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             } else {
+                if (quesType.equalsIgnoreCase("Pre")) {
+                    try {
+                        stagingJson.put("2", "4");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        stagingJson.put("3", "4");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 nextQuestion();
             }
-        }else if(i == R.id.tv_nextGrid){
-            tv_nextGrid.setVisibility(View.GONE);
-            btn_question.performClick();
         }
     }
 
@@ -414,6 +436,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "3";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
+                if (seekBar_rate.getProgress() > 0) {
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
+                }
 //                seekBar_rate.setMax(radioType);
             } else if (preQuestions.get(questionNo).getQuestion_type().equals("4")) {
                 rv_question.setVisibility(View.GONE);
@@ -423,7 +449,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "4";
-            }else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
+                if (edt_questionType.getText().length() >= 1) {
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
+                }
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -434,7 +464,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 radioTypeAdapter = new RadioTypeAdapter(getApplicationContext(), preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-            }else if(preQuestions.get(questionNo).getQuestion_type().equals("6")){
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("6")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -445,7 +475,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
-            }else if (preQuestions.get(questionNo).getQuestion_type().equals("7")) {
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("7")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -456,7 +486,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), singleImageSelectionListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
-            }else if (preQuestions.get(questionNo).getQuestion_type().equals("8")) {
+            } else if (preQuestions.get(questionNo).getQuestion_type().equals("8")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -503,6 +533,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionType = "3";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
                 radioType = Integer.parseInt(postQuestions.get(questionNo).getRadio_type());
+                if(seekBar_rate.getProgress() > 0){
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
+                }
             } else if (postQuestions.get(questionNo).getQuestion_type().equals("4")) {
                 rv_question.setVisibility(View.GONE);
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
@@ -511,7 +545,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "4";
-            }else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
+                if (edt_questionType.getText().length() >= 1) {
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
+                }
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -522,7 +560,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 radioTypeAdapter = new RadioTypeAdapter(getApplicationContext(), postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-            }else if(postQuestions.get(questionNo).getQuestion_type().equals("6")){
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("6")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -533,7 +571,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
-            }else if (postQuestions.get(questionNo).getQuestion_type().equals("7")) {
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("7")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -544,7 +582,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), singleImageSelectionListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
-            }else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
+            } else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
@@ -573,31 +611,31 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             setQuestion();
         } else {
             questionNo = (questionNo - 1);
-            if(quesType.equalsIgnoreCase("Pre")){
+            if (quesType.equalsIgnoreCase("Pre")) {
                 changeView();
-            }else{
+            } else {
                 submitAnswer();
             }
         }
     }
 
-    private void changeView(){
+    private void changeView() {
         setContentView(R.layout.item_pre_complete);
         ImageView img_preComThumb = findViewById(R.id.img_preComThumb);
         TextView tv_time = findViewById(R.id.textView6);
         Button firstText = findViewById(R.id.button);
         TextView videoName = findViewById(R.id.textView5);
         Button proceed = findViewById(R.id.button2);
-        ImageView backTollbar =  findViewById(R.id.img_toolbarBack);
+        ImageView backTollbar = findViewById(R.id.img_toolbarBack);
         backTollbar.setVisibility(View.GONE);
 
-        if(getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")){
+        if (getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")) {
             img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
-        }else{
+        } else {
             Glide.with(QuestionActivity.this).load(getThumbUrl(this)).into(img_preComThumb);
         }
 
-        tv_time.setText(getVideoTime(QuestionActivity.this)+" Mins");
+        tv_time.setText(getVideoTime(QuestionActivity.this) + " Mins");
         String test = getCmpName(QuestionActivity.this);
         test = String.valueOf(test.charAt(0));
         firstText.setText(test);
@@ -672,7 +710,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tv_dialogLimit.setText(s.length()+"/150");
+                tv_dialogLimit.setText(s.length() + "/150");
             }
 
             @Override
@@ -739,12 +777,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("type", "5");
             }
             //6 no question json set on another screen
-            else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")){
+            else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
-            }else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
+            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -786,12 +824,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("text", typeFiveReason);
                 dataPostJson1.put("type", "5");
             }//6 no question json set on another screen
-            else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")){
+            else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
-            }else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")){
+            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);

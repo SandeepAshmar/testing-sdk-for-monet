@@ -1,5 +1,6 @@
 package com.monet.mylibrary.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
 public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapter.ViewHolder> {
@@ -106,6 +108,7 @@ public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapte
         }
     }
 
+    @SuppressLint("NewApi")
     public void changeColor(ViewHolder holder, SdkOptions question_options) {
 
         if (savedQuesAndAnswers == null || savedQuesAndAnswers.getCheckAnsId().size() == 0) {
@@ -115,6 +118,8 @@ public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapte
                 if (savedQuesAndAnswers.getCheckAnsId().contains(question_options.getOption_id())) {
                     holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
                     holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
                 } else {
                     holder.rd_view.setBackground(null);
                     holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));

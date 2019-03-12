@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
 public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<MultipleImageSelectionAdapter.ViewHolder> {
@@ -75,6 +76,8 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
                 if (savedQuesAndAnswers.getMultiImageOid().contains(question_options.getOption_id())) {
                     holder.selection.setVisibility(View.VISIBLE);
                     holder.selection.setBackgroundResource(R.drawable.ic_checkbox_image);
+                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+                    btn_question.setEnabled(true);
                 } else {
                     holder.selection.setVisibility(View.GONE);
                 }
