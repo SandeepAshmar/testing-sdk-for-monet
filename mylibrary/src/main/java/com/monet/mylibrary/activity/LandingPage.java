@@ -115,14 +115,9 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public void startCampaign(Activity activity, String cmpId, String userId, String imageUrl) {
+    public void startCampaign(Activity activity, String cmpId, String userId) {
         landingActivity = activity;
         activity.startActivity(new Intent(activity, LandingPage.class));
-        Glide.with(activity).load(imageUrl)
-                .signature(new ObjectKey(String.valueOf(System.currentTimeMillis())))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(img_currentShows);
-        setThumbUrl(activity, imageUrl);
         detailsResponses.clear();
         preQuestions.clear();
         postQuestions.clear();
@@ -202,6 +197,16 @@ public class LandingPage extends AppCompatActivity {
                         } else {
                             tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
                         }
+
+                        for (int i = 0; i < response.body().getResponse().size(); i++) {
+                            Glide.with(activity).load(response.body().getResponse().get(i).getC_thumb_url())
+                                    .signature(new ObjectKey(String.valueOf(System.currentTimeMillis())))
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(img_currentShows);
+                            setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
+                            break;
+                        }
+
                         tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
                         setCmpName(activity, response.body().getResponse().get(0).getCmp_name());
                         tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
