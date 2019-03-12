@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
 import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.dataPostJson1;
