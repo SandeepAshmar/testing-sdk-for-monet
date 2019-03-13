@@ -1,8 +1,6 @@
 package com.monet.mylibrary.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
@@ -97,10 +95,10 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         img_toolbarBack.setVisibility(View.GONE);
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        if(getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("vimeo")){
+        if (getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("vimeo")) {
             getVideoUrlFromLink(getVideoUrl(this));
-        }else{
-            video_Url = "https://dev.monetrewards.com/"+getVideoUrl(this);
+        } else {
+            video_Url = "https://dev.monetrewards.com/" + getVideoUrl(this);
             rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
             playVideo();
         }
@@ -177,31 +175,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 rtmpCamera1.stopStream();
                 rtmpCamera1.stopPreview();
                 rtmpCamera1.disableFaceDetection();
-                if (detectedTime >= minVisionTime) {
-                    setScreen();
-                    finish();
-                } else {
-                    if (faceDetect) {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(PlayVideoAndRecordScreen.this);
-                        builder1.setCancelable(false);
-                        builder1.setMessage("Sorry you were not in the frame");
-                        builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                detectedTime = 0;
-                                playVideo();
-                                startActivity(new Intent(PlayVideoAndRecordScreen.this, PlayVideoAndRecordScreen.class));
-                                finish();
-                            }
-                        });
-                        builder1.show();
-                    } else {
-                        setScreen();
-                        finish();
-                    }
-
-                }
+                setScreen();
+                finish();
             }
         });
     }
@@ -354,7 +329,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         }
     }
 
-    private void changeView(){
+    private void changeView() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -369,7 +344,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             runnable1 = new Runnable() {
                 @Override
                 public void run() {
-                    if(detecting){
+                    if (detecting) {
                         img_detect.setVisibility(View.GONE);
                         rl_rtmpCameraView.setVisibility(View.VISIBLE);
                         rl_notDetecting.setVisibility(View.VISIBLE);
