@@ -20,6 +20,15 @@ android {
 
         }
     }
+
+    buildTypes {
+        release {
+            buildConfigField 'String', 'hostAPI', '"https://dev.monetrewards.com/MonetSDK/api/"'
+        }
+        debug {
+            buildConfigField 'String', 'hostAPI', '"https://dev.monetrewards.com/MonetSDK/api/"'
+        }
+    }
 }
 
 dependencies {
