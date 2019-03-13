@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.model.question.SdkOptions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,7 +48,7 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
         final SdkOptions question_options = sdkOptions.get(position);
 
         if (question_options.getOption_value() != null) {
-            Glide.with(ctx).load(question_options.getOption_value())
+            Picasso.get().load(question_options.getOption_value())
                     .into(holder.thumb);
         } else {
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);

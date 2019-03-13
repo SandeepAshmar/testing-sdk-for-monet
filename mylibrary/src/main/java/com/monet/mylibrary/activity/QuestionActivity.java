@@ -18,7 +18,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.GridSliderAdapter;
@@ -34,6 +33,7 @@ import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.model.survay.SurvayPost;
 import com.monet.mylibrary.utils.AnswerSavedClass;
 import com.monet.mylibrary.utils.SdkPreferences;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -632,7 +632,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")) {
             img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         } else {
-            Glide.with(QuestionActivity.this).load(getThumbUrl(this)).into(img_preComThumb);
+            Picasso.get().load(getThumbUrl(this)).into(img_preComThumb);
         }
 
         tv_time.setText(getVideoTime(QuestionActivity.this) + " Mins");
