@@ -54,7 +54,7 @@ public class LandingPage extends AppCompatActivity {
     public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
     private static Button btn_landProceed, btn_currentShows;
     private static CheckBox land_chack;
-    private static String cmp_Id, user_Id, apiToken;
+    private static String cmp_Id, user_Id, apiToken, client_license;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
     private static Activity landingActivity;
@@ -113,7 +113,7 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public void startCampaign(Activity activity, String cmpId, String userId) {
+    public void startCampaign(Activity activity, String cmpId, String userId, String license) {
         landingActivity = activity;
         activity.startActivity(new Intent(activity, LandingPage.class));
         detailsResponses.clear();
@@ -122,13 +122,27 @@ public class LandingPage extends AppCompatActivity {
         arrayList.clear();
         cmp_Id = cmpId;
         user_Id = userId;
+        client_license = license;
+        getCmpFlow(activity);
+    }
+
+    public void startDemoCampaign(Activity activity, String cmpId) {
+        landingActivity = activity;
+        activity.startActivity(new Intent(activity, LandingPage.class));
+        detailsResponses.clear();
+        preQuestions.clear();
+        postQuestions.clear();
+        arrayList.clear();
+        cmp_Id = cmpId;
+        user_Id = "1";
+        client_license = "123456789@abcde";
         getCmpFlow(activity);
     }
 
     private void getCmpFlow(final Activity activity) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id,client_license);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
