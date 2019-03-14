@@ -89,7 +89,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private boolean qCardVisible = true;
     public static int questionSize;
     public static String quesType = "";
-    private int questionNo = 0, radioType;
+    private int questionNo = 0;
     public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     public static JSONObject dataPostJson1 = new JSONObject();
@@ -241,7 +241,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         rl_grid = findViewById(R.id.rl_grid);
         indicatorGrid = findViewById(R.id.indicatorGrid);
         tv_nextGrid = findViewById(R.id.tv_nextGrid);
-        edt_questionType.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         btn_question.setOnClickListener(this);
         tv_nextGrid.setOnClickListener(this);
@@ -455,12 +454,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "3";
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
-                radioType = Integer.parseInt(preQuestions.get(questionNo).getRadio_type());
                 if (seekBar_rate.getProgress() > 0) {
                     btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
                     btn_question.setEnabled(true);
                 }
-//                seekBar_rate.setMax(radioType);
             } else if (preQuestions.get(questionNo).getQuestion_type().equals("4")) {
                 rv_question.setVisibility(View.GONE);
                 selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
@@ -552,7 +549,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.VISIBLE);
                 questionType = "3";
                 selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
-                radioType = Integer.parseInt(postQuestions.get(questionNo).getRadio_type());
                 if(seekBar_rate.getProgress() > 0){
                     btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
                     btn_question.setEnabled(true);
