@@ -258,7 +258,7 @@
             android:gravity="top|left"
             android:hint="write your answer here"
             android:maxLength="500"
-            android:inputType="text"
+            android:inputType="textImeMultiLine"
             android:padding="10dp"
             android:textColor="@color/colorGray"
             android:textColorHint="@color/colorGray"
