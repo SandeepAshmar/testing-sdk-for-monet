@@ -102,6 +102,15 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
             playVideo();
         }
+
+        img_detect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rl_rtmpCameraView.setVisibility(View.VISIBLE);
+                img_detect.setVisibility(View.GONE);
+                changeView();
+            }
+        });
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -150,6 +159,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 pb_emotion.setMax(videoViewEmotion.getDuration());
                 minVisionTime = (int) TimeUnit.MILLISECONDS.toSeconds((videoViewEmotion.getDuration() * 70) / 100);
                 setProgressBar();
+                changeView();
             }
         });
 
@@ -221,7 +231,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 rtmpCamera1.enableFaceDetection(new Camera1ApiManager.FaceDetectorCallback() {
                     @Override
                     public void onGetFaces(Camera.Face[] faces) {
-                        changeImage(faces.length);
+//                        changeImage(faces.length);
                     }
                 });
             } catch (Exception e) {
@@ -319,7 +329,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             img_detect.setVisibility(View.VISIBLE);
             count = true;
             detecting = true;
-            notDetectDialog();
+//            notDetectDialog();
         } else {
             img_detect.setVisibility(View.GONE);
             if (count) {
