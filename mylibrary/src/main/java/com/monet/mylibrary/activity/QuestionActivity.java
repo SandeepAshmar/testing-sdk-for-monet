@@ -241,6 +241,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         rl_grid = findViewById(R.id.rl_grid);
         indicatorGrid = findViewById(R.id.indicatorGrid);
         tv_nextGrid = findViewById(R.id.tv_nextGrid);
+        edt_questionType.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         btn_question.setOnClickListener(this);
         tv_nextGrid.setOnClickListener(this);
@@ -294,10 +295,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         edt_questionType.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if(actionId == EditorInfo.IME_ACTION_DONE){
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(edt_questionType.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(edt_questionType.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
                 }
                 return false;
             }
