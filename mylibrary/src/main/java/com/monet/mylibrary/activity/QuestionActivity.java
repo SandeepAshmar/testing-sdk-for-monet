@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -241,6 +242,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         rl_grid = findViewById(R.id.rl_grid);
         indicatorGrid = findViewById(R.id.indicatorGrid);
         tv_nextGrid = findViewById(R.id.tv_nextGrid);
+        edt_questionType.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        edt_questionType.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         btn_question.setOnClickListener(this);
         tv_nextGrid.setOnClickListener(this);
