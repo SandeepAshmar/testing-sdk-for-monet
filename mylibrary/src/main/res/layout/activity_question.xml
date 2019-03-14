@@ -257,7 +257,7 @@
             android:background="@drawable/comment_box"
             android:gravity="top|left"
             android:hint="write your answer here"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:maxLength="500"
             android:padding="10dp"
             android:singleLine="false"
