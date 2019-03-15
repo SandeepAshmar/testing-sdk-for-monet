@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.monet.mylibrary.BuildConfig;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
@@ -42,9 +43,6 @@ import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
 import static com.monet.mylibrary.activity.LandingPage.stagingJson;
-import static com.monet.mylibrary.utils.SdkConstant.RTMP_PASSWORD;
-import static com.monet.mylibrary.utils.SdkConstant.RTMP_URL;
-import static com.monet.mylibrary.utils.SdkConstant.RTMP_USERNAME;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
@@ -147,7 +145,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     private void playVideo() {
         if (!rtmpCamera1.isStreaming()) {
-            rtmpCamera1.setAuthorization(RTMP_USERNAME, RTMP_PASSWORD);
+            rtmpCamera1.setAuthorization(BuildConfig.rtmpUserName, BuildConfig.rtmpUserPassword);
         }
         Uri uri = Uri.parse(video_Url);
         videoViewEmotion.setVideoURI(uri);
@@ -215,7 +213,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private void recordingStart() {
         checkNetworkType();
         if (rtmpCamera1.isRecording() || prepareEncoders()) {
-            String rtmpUrl = RTMP_URL + getCfId(this);
+            String rtmpUrl = BuildConfig.rtmpUrl + getCfId(this);
             Log.d("TAG", "recordingStart: rtmpurl " + rtmpUrl);
             rtmpCamera1.startStream(rtmpUrl);
             if (flag == 0) {
