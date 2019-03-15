@@ -104,7 +104,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             @Override
             public void onClick(View v) {
                 surfaceViewEmotion.setVisibility(View.VISIBLE);
-                img_detect.setVisibility(View.GONE);
+                img_detect.setVisibility(View.INVISIBLE);
                 changeView();
             }
         });
@@ -340,7 +340,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                surfaceViewEmotion.setVisibility(View.GONE);
+                surfaceViewEmotion.setVisibility(View.INVISIBLE);
                 img_detect.setVisibility(View.VISIBLE);
             }
         }, 3000);
@@ -352,8 +352,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 @Override
                 public void run() {
                     if (detecting) {
-                        img_detect.setVisibility(View.GONE);
-                        surfaceViewEmotion.setVisibility(View.VISIBLE);
+                        img_detect.setVisibility(View.INVISIBLE);
                         surfaceViewEmotion.setVisibility(View.VISIBLE);
                     }
                 }
