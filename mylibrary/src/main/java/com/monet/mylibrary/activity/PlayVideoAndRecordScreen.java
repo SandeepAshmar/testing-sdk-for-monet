@@ -143,9 +143,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     }
 
     private void playVideo() {
-        if (!rtmpCamera1.isStreaming()) {
-            rtmpCamera1.setAuthorization(BuildConfig.rtmpUserName, BuildConfig.rtmpUserPassword);
-        }
         Uri uri = Uri.parse(video_Url);
         videoViewEmotion.setVideoURI(uri);
         videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
