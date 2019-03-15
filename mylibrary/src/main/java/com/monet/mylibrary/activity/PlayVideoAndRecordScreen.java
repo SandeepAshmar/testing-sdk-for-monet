@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     private ImageView img_toolbarBack, img_detect;
     private VideoView videoViewEmotion;
-//    private RelativeLayout rl_notDetecting, rl_rtmpCameraView;
+    private LinearLayout ll_surfaceView;
     private ProgressBar pb_emotion, pb_emotionRound;
     private TextView tv_videoTimeEmotion;
     private SurfaceView surfaceViewEmotion;
@@ -84,8 +85,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         surfaceViewEmotion = findViewById(R.id.surfaceViewEmotion);
         img_detect = findViewById(R.id.img_detect);
         pb_emotionRound = findViewById(R.id.pb_emotionRound);
-//        rl_notDetecting = findViewById(R.id.rl_notDetecting);
-//        rl_rtmpCameraView = findViewById(R.id.rl_rtmpCameraView);
+        ll_surfaceView = findViewById(R.id.ll_surfaceView);
 
         handler = new Handler();
         handler1 = new Handler();
@@ -103,7 +103,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         img_detect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                surfaceViewEmotion.setVisibility(View.VISIBLE);
+                ll_surfaceView.setVisibility(View.VISIBLE);
                 img_detect.setVisibility(View.INVISIBLE);
                 changeView();
             }
@@ -340,7 +340,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                surfaceViewEmotion.setVisibility(View.INVISIBLE);
+                ll_surfaceView.setVisibility(View.INVISIBLE);
                 img_detect.setVisibility(View.VISIBLE);
             }
         }, 3000);
