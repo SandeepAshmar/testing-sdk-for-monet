@@ -15,7 +15,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -58,7 +57,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     private ImageView img_toolbarBack, img_detect;
     private VideoView videoViewEmotion;
-    private RelativeLayout rl_notDetecting, rl_rtmpCameraView;
+//    private RelativeLayout rl_notDetecting, rl_rtmpCameraView;
     private ProgressBar pb_emotion, pb_emotionRound;
     private TextView tv_videoTimeEmotion;
     private SurfaceView surfaceViewEmotion;
@@ -85,8 +84,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         surfaceViewEmotion = findViewById(R.id.surfaceViewEmotion);
         img_detect = findViewById(R.id.img_detect);
         pb_emotionRound = findViewById(R.id.pb_emotionRound);
-        rl_notDetecting = findViewById(R.id.rl_notDetecting);
-        rl_rtmpCameraView = findViewById(R.id.rl_rtmpCameraView);
+//        rl_notDetecting = findViewById(R.id.rl_notDetecting);
+//        rl_rtmpCameraView = findViewById(R.id.rl_rtmpCameraView);
 
         handler = new Handler();
         handler1 = new Handler();
@@ -104,7 +103,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         img_detect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rl_rtmpCameraView.setVisibility(View.VISIBLE);
+                surfaceViewEmotion.setVisibility(View.VISIBLE);
                 img_detect.setVisibility(View.GONE);
                 changeView();
             }
@@ -341,7 +340,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                rl_rtmpCameraView.setVisibility(View.GONE);
+                surfaceViewEmotion.setVisibility(View.GONE);
                 img_detect.setVisibility(View.VISIBLE);
             }
         }, 3000);
@@ -354,8 +353,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 public void run() {
                     if (detecting) {
                         img_detect.setVisibility(View.GONE);
-                        rl_rtmpCameraView.setVisibility(View.VISIBLE);
-                        rl_notDetecting.setVisibility(View.VISIBLE);
+                        surfaceViewEmotion.setVisibility(View.VISIBLE);
+                        surfaceViewEmotion.setVisibility(View.VISIBLE);
                     }
                 }
             };
