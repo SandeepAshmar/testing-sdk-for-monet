@@ -16,111 +16,195 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <VideoView
+        android:id="@+id/videoViewEmotion"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_height="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include3">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.308" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            android:layout_weight="1.75">
+    <ProgressBar
+        android:id="@+id/pb_emotion"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/colorGray"
+        android:progressTint="@color/colorRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoViewEmotion" />
 
-            <VideoView
-                android:id="@+id/videoViewEmotion"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_centerInParent="true" />
-            <ProgressBar
-                android:id="@+id/pb_emotionRound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
+    <ProgressBar
+        android:id="@+id/pb_emotionRound"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/videoViewEmotion"
+        app:layout_constraintEnd_toEndOf="@+id/videoViewEmotion"
+        app:layout_constraintStart_toStartOf="@+id/videoViewEmotion"
+        app:layout_constraintTop_toTopOf="@+id/videoViewEmotion" />
 
-            <ProgressBar
-                android:id="@+id/pb_emotion"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/videoViewEmotion"
-                android:progressBackgroundTint="@color/colorGray"
-                android:progressTint="@color/colorRed" />
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/videoViewEmotion"
+        app:layout_constraintEnd_toEndOf="@+id/videoViewEmotion"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/videoViewEmotion"
+        app:layout_constraintTop_toTopOf="@+id/videoViewEmotion"
+        app:layout_constraintVertical_bias="1.0" />
 
-            <TextView
-                android:id="@+id/tv_videoTimeEmotion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/pb_emotion"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="00:00"
-                android:textColor="@color/colorWhite" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_rtmpCameraView"
-            android:layout_width="120dp"
-            android:layout_height="150dp"
-            android:layout_gravity="right">
-
-            <SurfaceView
-                android:id="@+id/surfaceViewEmotion"
-                android:layout_width="120dp"
-                android:layout_height="150dp"
-                android:visibility="visible"/>
-
-            <RelativeLayout
-                android:id="@+id/rl_notDetecting"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/half_black"/>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/ic_red_back"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="16dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Not Detecting"
-                    android:gravity="center"
-                    android:textColor="@color/colorWhite"
-                    android:layout_marginTop="36dp"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    <SurfaceView
+        android:id="@+id/surfaceViewEmotion"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pb_emotion"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/img_detect"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_rtmp_camera_preview"
-        android:visibility="gone"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.942"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.926" />
+        app:layout_constraintTop_toBottomOf="@+id/include3"
+        app:layout_constraintVertical_bias="0.95"
+        app:srcCompat="@drawable/ic_rtmp_camera_preview"
+        tools:ignore="VectorDrawableCompat"
+        android:visibility="gone"/>
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/linearLayout"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:orientation="vertical"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.498"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/include3">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:layout_weight="1.75">-->
+
+            <!--<VideoView-->
+                <!--android:id="@+id/videoViewEmotion"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:layout_centerInParent="true" />-->
+            <!--<ProgressBar-->
+                <!--android:id="@+id/pb_emotionRound"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"/>-->
+
+            <!--<ProgressBar-->
+                <!--android:id="@+id/pb_emotion"-->
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBottom="@id/videoViewEmotion"-->
+                <!--android:progressBackgroundTint="@color/colorGray"-->
+                <!--android:progressTint="@color/colorRed" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_videoTimeEmotion"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_above="@id/pb_emotion"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="4dp"-->
+                <!--android:layout_marginBottom="4dp"-->
+                <!--android:text="00:00"-->
+                <!--android:textColor="@color/colorWhite" />-->
+
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_rtmpCameraView"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:layout_gravity="right">-->
+
+            <!--<SurfaceView-->
+                <!--android:id="@+id/surfaceViewEmotion"-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="150dp"-->
+                <!--android:visibility="visible"/>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_notDetecting"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:visibility="gone">-->
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@drawable/half_black"/>-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:background="@drawable/ic_red_back"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginTop="16dp"/>-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Not Detecting"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="@color/colorWhite"-->
+                    <!--android:layout_marginTop="36dp"/>-->
+
+            <!--</RelativeLayout>-->
+
+        <!--</RelativeLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/img_detect"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:src="@drawable/ic_rtmp_camera_preview"-->
+        <!--android:visibility="gone"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.92"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/linearLayout"-->
+        <!--app:layout_constraintVertical_bias="0.926" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
