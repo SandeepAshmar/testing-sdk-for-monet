@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="@+id/videoViewEmotion" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/tv_videoTimeEmotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
