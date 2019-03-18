@@ -153,7 +153,7 @@ public class LandingPage extends AppCompatActivity {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence() == null) {
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
-                            LandingPage.this.finish();
+                            btn_landProceed.performClick();
                         } else {
                             saveDetails(activity, response);
                         }
