@@ -111,7 +111,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
         img_toolbarBack.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.recyclerViewReaction);
-        recyclerView.setClickable(false);
+        recyclerView.setVisibility(View.GONE);
         videoView = findViewById(R.id.vv_reaction);
         progressBarVideo = findViewById(R.id.pb_reaction);
         tv_timeVideoView = findViewById(R.id.tv_timeVideoReaction);
@@ -178,9 +178,9 @@ public class ReactionWatchVideo extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 videoView.start();
-                recyclerView.setClickable(true);
                 progressBarVideo.setMax(videoView.getDuration());
                 setProgressBar();
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
 
