@@ -72,6 +72,7 @@ public class LandingPage extends AppCompatActivity {
         tv_vid_landTime = findViewById(R.id.tv_videoTimeCurrentShows);
         btn_currentShows = findViewById(R.id.btn_currentShows);
         try {
+            stagingJson.put("0", "3");
             stagingJson.put("1", "1");
             stagingJson.put("2", "0");
             stagingJson.put("3", "0");
