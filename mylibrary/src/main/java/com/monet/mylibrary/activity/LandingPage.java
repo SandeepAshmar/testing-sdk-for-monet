@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
+import com.monet.mylibrary.listner.CheckSuccessResponse;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.sdk.PostQuestions;
@@ -58,6 +59,7 @@ public class LandingPage extends AppCompatActivity {
     public static ArrayList<String> arrayList = new ArrayList<String>();
     public static JSONObject stagingJson = new JSONObject();
     private static Activity landingActivity;
+    private CheckSuccessResponse checkSuccessResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,16 +129,16 @@ public class LandingPage extends AppCompatActivity {
         getCmpFlow(activity);
     }
 
-    public void startDemoCampaign(Activity activity, String cmpId) {
-        landingActivity = activity;
+    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license){
         activity.startActivity(new Intent(activity, LandingPage.class));
+        this.checkSuccessResponse = checkSuccessResponse;
         detailsResponses.clear();
         preQuestions.clear();
         postQuestions.clear();
         arrayList.clear();
         cmp_Id = cmpId;
-        user_Id = "1";
-        client_license = "fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd";
+        user_Id = userId;
+        client_license = license;
         getCmpFlow(activity);
     }
 
@@ -150,12 +152,17 @@ public class LandingPage extends AppCompatActivity {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
                     Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
+                    checkSuccessResponse.onSDKResponse(false);
+                    finish();
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence() == null) {
+                            checkSuccessResponse.onSDKResponse(false);
+                            finish();
                             Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
                             btn_landProceed.performClick();
                         } else {
+                            checkSuccessResponse.onSDKResponse(true);
                             saveDetails(activity, response);
                         }
                     } else {
@@ -168,6 +175,8 @@ public class LandingPage extends AppCompatActivity {
             public void onFailure(Call<SdkPojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                checkSuccessResponse.onSDKResponse(false);
+                finish();
             }
         });
 
@@ -178,10 +187,10 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setUserId(activity, user_Id);
         SdkPreferences.setCfId(activity, response.body().getData().getUser_ex_id());
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getToken());
-        if (response.body().getData().getPre().getQuestions() != null) {
+        if (response.body().getData().getPre() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
         }
-        if (response.body().getData().getPost().getQuestions() != null) {
+        if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
         }
         arrayList.addAll(response.body().getData().getSequence());
