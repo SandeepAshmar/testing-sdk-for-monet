@@ -37,6 +37,9 @@ import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.getCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.getThumbUrl;
+import static com.monet.mylibrary.utils.SdkPreferences.getVideoTime;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
@@ -86,6 +89,16 @@ public class LandingPage extends AppCompatActivity {
             e.printStackTrace();
         }
         arrayList.clear();
+
+        Picasso.with(this).load(getThumbUrl(this))
+                .into(img_currentShows);
+        tv_landCam.setText(getCmpName(this));
+        tv_vid_landTime.setText(getVideoTime(this));
+
+        String test = getCmpName(this);
+        test = String.valueOf(test.charAt(0));
+        btn_currentShows.setText(test);
+
 
         img_toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,12 +171,12 @@ public class LandingPage extends AppCompatActivity {
                         if (response.body().getData().getSequence() == null) {
                             checkSuccessResponse.onSDKResponse(false, response.body().getMessage());
                         } else {
-                            checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
                             activity.startActivity(new Intent(activity, LandingPage.class));
+                            checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
                             saveDetails(activity, response);
                         }
                     } else {
-                        Toast.makeText(activity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        checkSuccessResponse.onSDKResponse(false, response.body().getMessage());
                     }
                 }
             }
@@ -195,18 +208,9 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setCamEval(activity, response.body().getData().getReaction_inputs());
         SdkPreferences.setVideoUrl(activity, response.body().getData().getContent_url());
         apiToken = getApiToken(activity);
-
-        Picasso.with(this).load(response.body().getData().getThumb_url())
-                .into(img_currentShows);
         setThumbUrl(activity, response.body().getData().getThumb_url());
-        tv_landCam.setText(response.body().getData().getCmp_name());
         setCmpName(activity, response.body().getData().getCmp_name());
-        tv_vid_landTime.setText(convertVideoTime(Long.parseLong(response.body().getData().getContent_length())));
         setVideoTime(activity, convertVideoTime(Long.parseLong(response.body().getData().getContent_length())));
-        String test = response.body().getData().getCmp_name();
-        test = String.valueOf(test.charAt(0));
-        btn_currentShows.setText(test);
-
 //        getCampDetails(activity, apiToken, cmp_Id);
     }
 
