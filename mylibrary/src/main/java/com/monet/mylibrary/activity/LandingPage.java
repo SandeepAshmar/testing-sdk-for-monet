@@ -130,8 +130,9 @@ public class LandingPage extends AppCompatActivity {
         getCmpFlow(activity);
     }
 
-    public void getSuccessResponse(Activity activity, String cmpId, String userId, String license){
+    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license){
 //        activity.startActivity(new Intent(activity, LandingPage.class));
+        this.checkSuccessResponse = checkSuccessResponse;
         detailsResponses.clear();
         preQuestions.clear();
         postQuestions.clear();
