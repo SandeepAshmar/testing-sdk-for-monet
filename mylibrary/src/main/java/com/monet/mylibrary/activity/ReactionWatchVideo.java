@@ -222,7 +222,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
     private void setReactionIcons() {
 
-        String cmpList = getCamEval(this);
+        ArrayList<String> cmpList = new ArrayList<>();
+        cmpList.add(String.valueOf(getCamEval(this)));
 
         if (cmpList.contains("a") || cmpList.contains("1")) {
             iconNameList.add("Like");

@@ -3,9 +3,9 @@ package com.monet.mylibrary.connection;
 import com.monet.mylibrary.model.StagingPojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.getCampignFlow.GetCampFlowPojo;
-import com.monet.mylibrary.model.question.SdkPojo;
 import com.monet.mylibrary.model.reaction.ReactionPost;
 import com.monet.mylibrary.model.reaction.ReactionResponse;
+import com.monet.mylibrary.model.sdk.SdkPojo;
 import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.model.survay.SurvayPost;
 import com.monet.mylibrary.model.video.VideoPojo;
@@ -28,7 +28,7 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("sdk")
-    Call<SdkPojo> getSdk(@Query("cmp_id") String cam_id, @Query("user_id") String userId, @Query("license") String license);
+    Call<SdkPojo> getSdk(@Header("licence-key") String value , @Query("cmp_id") String cam_id, @Query("user_id") String userId);
 
     /*save survay answer*/
     @Headers("Content-Type: application/json")

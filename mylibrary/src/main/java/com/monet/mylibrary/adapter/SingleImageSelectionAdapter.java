@@ -1,7 +1,6 @@
 package com.monet.mylibrary.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.widget.ImageView;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
-import com.monet.mylibrary.model.question.SdkOptions;
+import com.monet.mylibrary.model.sdk.Options;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,13 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
+
 public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImageSelectionAdapter.ViewHolder> {
 
     private Context ctx;
     private ImageQClickListner imageQClickListner;
-    private ArrayList<SdkOptions> sdkOptions;
+    private ArrayList<Options> sdkOptions;
 
-    public SingleImageSelectionAdapter(Context ctx, ImageQClickListner imageQClickListner, ArrayList<SdkOptions> sdkOptions) {
+    public SingleImageSelectionAdapter(Context ctx, ImageQClickListner imageQClickListner, ArrayList<Options> sdkOptions) {
         this.ctx = ctx;
         this.imageQClickListner = imageQClickListner;
         this.sdkOptions = sdkOptions;
@@ -46,19 +46,19 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
     @Override
     public void onBindViewHolder(@NonNull SingleImageSelectionAdapter.ViewHolder holder, int position) {
 
-        final SdkOptions sdkOption = sdkOptions.get(position);
-        if(sdkOption.getOption_value() != null){
+        final Options sdkOption = sdkOptions.get(position);
+        if (sdkOption.getOption_value() != null) {
             Picasso.get().load(sdkOption.getOption_value())
                     .into(holder.thumb);
-        }else{
+        } else {
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imageQClickListner != null){
-                    imageQClickListner.onItemClick(sdkOption.getQuestion_id(), sdkOption.getOption_id());
+                if (imageQClickListner != null) {
+                    imageQClickListner.onItemClick(sdkOption.getOpt_id());
                 }
                 notifyDataSetChanged();
             }
@@ -83,22 +83,15 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
         }
     }
 
-    public void colorChange(ViewHolder holder, SdkOptions question_options) {
-        if (savedQuesAndAnswers == null || savedQuesAndAnswers.getSingleImageQId().size() == 0 || savedQuesAndAnswers.getSingleImageOid().size() == 0) {
-            Log.e("", "");
+    public void colorChange(ViewHolder holder, Options question_options) {
+        if (savedQuesAndAnswers.getSingleImageOid().contains(question_options.getOpt_id())) {
+            holder.selection.setVisibility(View.VISIBLE);
+            holder.selection.setBackgroundResource(R.drawable.ic_radio_check_image);
+            btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
+            btn_question.setEnabled(true);
         } else {
-            if(savedQuesAndAnswers.getSingleImageQId().contains(question_options.getQuestion_id())){
-                if (savedQuesAndAnswers.getSingleImageOid().contains(question_options.getOption_id())) {
-                    holder.selection.setVisibility(View.VISIBLE);
-                    holder.selection.setBackgroundResource(R.drawable.ic_radio_check_image);
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                } else {
-                    holder.selection.setVisibility(View.GONE);
-                }
-            }else{
-                holder.selection.setVisibility(View.GONE);
-            }
+            holder.selection.setVisibility(View.GONE);
         }
+
     }
 }

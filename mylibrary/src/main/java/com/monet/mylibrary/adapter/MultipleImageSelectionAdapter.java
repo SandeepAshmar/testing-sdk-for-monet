@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.ImageQClickListner;
-import com.monet.mylibrary.model.question.SdkOptions;
+import com.monet.mylibrary.model.sdk.Options;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,17 +16,16 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 
 public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<MultipleImageSelectionAdapter.ViewHolder> {
 
     private Context ctx;
     private ImageQClickListner imageQClickListner;
-    private ArrayList<SdkOptions> sdkOptions;
+    private ArrayList<Options> sdkOptions;
 
     public MultipleImageSelectionAdapter(Context ctx, ImageQClickListner imageQClickListner,
-                                         ArrayList<SdkOptions> sdkOptions) {
+                                         ArrayList<Options> sdkOptions) {
         this.ctx = ctx;
         this.imageQClickListner = imageQClickListner;
         this.sdkOptions = sdkOptions;
@@ -45,7 +44,7 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final SdkOptions question_options = sdkOptions.get(position);
+        final Options question_options = sdkOptions.get(position);
 
         if (question_options.getOption_value() != null) {
             Picasso.get().load(question_options.getOption_value())
@@ -58,7 +57,7 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
             @Override
             public void onClick(View v) {
                 if (imageQClickListner != null) {
-                    imageQClickListner.onItemClick(question_options.getQuestion_id(), question_options.getOption_id());
+                    imageQClickListner.onItemClick(question_options.getOpt_id());
                 }
                 notifyDataSetChanged();
             }
@@ -68,23 +67,15 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
 
     }
 
-    private void changeColor(ViewHolder holder, SdkOptions question_options) {
+    private void changeColor(ViewHolder holder, Options question_options) {
 
-        if (savedQuesAndAnswers != null || savedQuesAndAnswers.getMultiImageQid() != null ||
-                savedQuesAndAnswers.getMultiImageOid() != null) {
-            if (savedQuesAndAnswers.getMultiImageQid().contains(question_options.getQuestion_id())) {
-                if (savedQuesAndAnswers.getMultiImageOid().contains(question_options.getOption_id())) {
-                    holder.selection.setVisibility(View.VISIBLE);
-                    holder.selection.setBackgroundResource(R.drawable.ic_checkbox_image);
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                } else {
-                    holder.selection.setVisibility(View.GONE);
-                }
-            } else {
-                holder.selection.setVisibility(View.GONE);
-            }
+        if (savedQuesAndAnswers.getMultiImageOid().contains(question_options.getOpt_id())) {
+            holder.selection.setVisibility(View.VISIBLE);
+            holder.selection.setBackgroundResource(R.drawable.ic_checkbox_image);
+        } else {
+            holder.selection.setVisibility(View.GONE);
         }
+
     }
 
     @Override

@@ -219,7 +219,7 @@ public class ThankyouPage extends AppCompatActivity {
                         SdkPreferences.setCmpLengthCountFlag(ThankyouPage.this, setMinValue);
                         arrayList.clear();
                         arrayList.addAll(response.body().getResponse().getCmp_sequence());
-                        SdkPreferences.setCamEval(ThankyouPage.this, response.body().getResponse().getCmp_eval());
+//                        SdkPreferences.setCamEval(ThankyouPage.this, response.body().getResponse().getCmp_eval());
 
                         if (arrayList.get(0).equalsIgnoreCase("Pre")) {
                             SdkPreferences.setQuestionType(ThankyouPage.this, "pre");

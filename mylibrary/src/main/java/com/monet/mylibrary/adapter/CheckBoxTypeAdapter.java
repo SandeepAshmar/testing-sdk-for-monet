@@ -1,9 +1,7 @@
 package com.monet.mylibrary.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +10,24 @@ import android.widget.TextView;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.CheckBoxClickListner;
-import com.monet.mylibrary.model.question.SdkOptions;
+import com.monet.mylibrary.model.sdk.Options;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.monet.mylibrary.activity.QuestionActivity.btn_question;
 import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
+
 
 public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapter.ViewHolder> {
 
     private Context ctx;
     private CheckBoxClickListner iClickListener;
-    private ArrayList<SdkOptions> optionsArrayList;
+    private ArrayList<Options> optionsArrayList;
     private String noneId = "";
 
-    public CheckBoxTypeAdapter(Context ctx, CheckBoxClickListner iClickListener, ArrayList<SdkOptions> optionsArrayList) {
+    public CheckBoxTypeAdapter(Context ctx, CheckBoxClickListner iClickListener, ArrayList<Options> optionsArrayList) {
         this.ctx = ctx;
         this.iClickListener = iClickListener;
         this.optionsArrayList = optionsArrayList;
@@ -48,7 +46,7 @@ public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final CheckBoxTypeAdapter.ViewHolder holder, final int position) {
-        final SdkOptions question_options = optionsArrayList.get(position);
+        final Options question_options = optionsArrayList.get(position);
 
         holder.rd_opetionValue.setText(question_options.getOption_value());
 
@@ -57,27 +55,27 @@ public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapte
             @Override
             public void onClick(View v) {
 
-                if(question_options.getOption_value().equalsIgnoreCase("none") || question_options.getOption_value().equalsIgnoreCase("none of the above") ||
-                        question_options.getOption_value().equalsIgnoreCase("none of above") ||  question_options.getOption_value().equalsIgnoreCase("prefer not to answer")){
+                if (question_options.getOption_value().equalsIgnoreCase("none") || question_options.getOption_value().equalsIgnoreCase("none of the above") ||
+                        question_options.getOption_value().equalsIgnoreCase("none of above") || question_options.getOption_value().equalsIgnoreCase("prefer not to answer")) {
 
-                    if(savedQuesAndAnswers.getCheckAnsId().contains(question_options.getOption_id())){
+                    if (savedQuesAndAnswers.getCheckAnsId().contains(question_options.getOpt_id())) {
                         savedQuesAndAnswers.getCheckAnsId().clear();
-                    }else{
+                    } else {
                         savedQuesAndAnswers.getCheckAnsId().clear();
                         if (iClickListener != null) {
-                            iClickListener.onItemCheckBoxClick(v, position, question_options.getQuestion_id(), question_options.getOption_id());
+                            iClickListener.onItemCheckBoxClick(v, position, question_options.getOpt_id());
                         }
-                        noneId = question_options.getOption_id();
+                        noneId = question_options.getOpt_id();
                     }
-                }else{
-                    if(savedQuesAndAnswers.getCheckAnsId().contains(noneId)){
+                } else {
+                    if (savedQuesAndAnswers.getCheckAnsId().contains(noneId)) {
                         savedQuesAndAnswers.getCheckAnsId().clear();
                         if (iClickListener != null) {
-                            iClickListener.onItemCheckBoxClick(v, position, question_options.getQuestion_id(), question_options.getOption_id());
+                            iClickListener.onItemCheckBoxClick(v, position, question_options.getOpt_id());
                         }
-                    }else{
+                    } else {
                         if (iClickListener != null) {
-                            iClickListener.onItemCheckBoxClick(v, position, question_options.getQuestion_id(), question_options.getOption_id());
+                            iClickListener.onItemCheckBoxClick(v, position, question_options.getOpt_id());
                         }
                     }
 
@@ -108,28 +106,16 @@ public class CheckBoxTypeAdapter extends RecyclerView.Adapter<CheckBoxTypeAdapte
         }
     }
 
-    @SuppressLint("NewApi")
-    public void changeColor(ViewHolder holder, SdkOptions question_options) {
+    public void changeColor(ViewHolder holder, Options question_options) {
 
-        if (savedQuesAndAnswers == null || savedQuesAndAnswers.getCheckAnsId().size() == 0) {
-            Log.e("", "");
+        if (savedQuesAndAnswers.getCheckAnsId().contains(question_options.getOpt_id())) {
+            holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
+            holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
         } else {
-            if (savedQuesAndAnswers.getCheckQuesId().contains(question_options.getQuestion_id())) {
-                if (savedQuesAndAnswers.getCheckAnsId().contains(question_options.getOption_id())) {
-                    holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
-                    holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                } else {
-                    holder.rd_view.setBackground(null);
-                    holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
-                }
-            } else {
-                holder.rd_view.setBackground(null);
-                holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
-            }
+            holder.rd_view.setBackground(null);
+            holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
         }
-
     }
+
 
 }

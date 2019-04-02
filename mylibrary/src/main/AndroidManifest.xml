@@ -9,8 +9,6 @@
     <application>
         <activity android:name=".activity.LandingPage"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.QuestionActivity"
-            android:screenOrientation="portrait"/>
         <activity android:name=".activity.FaceDetectionScreen"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.EmotionScreen"

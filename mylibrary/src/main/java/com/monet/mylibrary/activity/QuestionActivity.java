@@ -2,18 +2,13 @@ package com.monet.mylibrary.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -107,58 +102,37 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
-        public void onItemClick(View view, int position, String quesId, String ansId) {
-            selectedQuesId = quesId;
+        public void onItemClick(View view, int position, String ansId) {
             selectedAnsId = ansId;
 
             btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
             btn_question.setEnabled(true);
 
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getRadioQuesIds().size() == 0 || savedQuesAndAnswers.getRadioAnsIds().size() == 0) {
-                savedQuesAndAnswers.setRadioQuesIds(quesId);
+                savedQuesAndAnswers.setRadioQuesIds(selectedQuesId);
                 savedQuesAndAnswers.setRadioAnsIds(ansId);
             } else {
-                if (savedQuesAndAnswers.getRadioQuesIds().contains(quesId)) {
-                    int pos = savedQuesAndAnswers.getRadioQuesIds().indexOf(quesId);
+                if (savedQuesAndAnswers.getRadioQuesIds().contains(selectedQuesId)) {
+                    int pos = savedQuesAndAnswers.getRadioQuesIds().indexOf(selectedQuesId);
                     savedQuesAndAnswers.getRadioAnsIds().set(pos, ansId);
                 } else {
-                    savedQuesAndAnswers.setRadioQuesIds(quesId);
+                    savedQuesAndAnswers.setRadioQuesIds(selectedQuesId);
                     savedQuesAndAnswers.setRadioAnsIds(ansId);
                 }
             }
 
-            if (questionType.equalsIgnoreCase("5")) {
-                if (quesType.equalsIgnoreCase("pre")) {
-                    String yes = preQuestions.get(questionNo).getOptions().get(position).getOption_value();
-                    if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
-                        showDialog();
-                    } else {
-                        typeFiveReason = "";
-                    }
-                } else {
-                    String yes = postQuestions.get(questionNo).getOptions().get(position).getOption_value();
-                    if (yes.equalsIgnoreCase("Yes") || yes.equalsIgnoreCase("Yes ")) {
-                        showDialog();
-                    } else {
-                        typeFiveReason = "";
-                    }
-                }
-
-            }
         }
     };
 
     private CheckBoxClickListner checkBoxClickListner = new CheckBoxClickListner() {
         @Override
-        public void onItemCheckBoxClick(View view, int position, String quesId, String ansId) {
-
-            selectedQuesId = quesId;
+        public void onItemCheckBoxClick(View view, int position, String ansId) {
 
             btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
             btn_question.setEnabled(true);
 
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getCheckQuesId().size() == 0 || savedQuesAndAnswers.getCheckAnsId().size() == 0) {
-                savedQuesAndAnswers.setCheckQuesId(quesId);
+                savedQuesAndAnswers.setCheckQuesId(selectedQuesId);
                 savedQuesAndAnswers.setCheckAnsId(ansId);
             } else {
                 if (savedQuesAndAnswers.getCheckAnsId().contains(ansId)) {
@@ -171,24 +145,23 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    private ImageQClickListner singleImageSelectionListner = new ImageQClickListner() {
+    private ImageQClickListner imageQClickListner = new ImageQClickListner() {
         @Override
-        public void onItemClick(String quesId, String optionId) {
+        public void onItemClick(String optionId) {
             btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
             btn_question.setEnabled(true);
 
-            selectedQuesId = quesId;
             selectedAnsId = optionId;
 
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getSingleImageQId().size() == 0 || savedQuesAndAnswers.getSingleImageOid().size() == 0) {
-                savedQuesAndAnswers.setSingleImageQId(quesId);
+                savedQuesAndAnswers.setSingleImageQId(selectedQuesId);
                 savedQuesAndAnswers.setSingleImageOid(optionId);
             } else {
-                if (savedQuesAndAnswers.getSingleImageQId().contains(quesId)) {
-                    int pos = savedQuesAndAnswers.getSingleImageQId().indexOf(quesId);
+                if (savedQuesAndAnswers.getSingleImageQId().contains(selectedQuesId)) {
+                    int pos = savedQuesAndAnswers.getSingleImageQId().indexOf(selectedQuesId);
                     savedQuesAndAnswers.getSingleImageOid().set(pos, optionId);
                 } else {
-                    savedQuesAndAnswers.setSingleImageQId(quesId);
+                    savedQuesAndAnswers.setSingleImageQId(selectedQuesId);
                     savedQuesAndAnswers.setSingleImageOid(optionId);
                 }
             }
@@ -197,16 +170,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private ImageQClickListner multiImageSelectionListner = new ImageQClickListner() {
         @Override
-        public void onItemClick(String quesId, String optionId) {
+        public void onItemClick(String optionId) {
 
             btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
             btn_question.setEnabled(true);
 
-            selectedQuesId = quesId;
-
             if (savedQuesAndAnswers == null || savedQuesAndAnswers.getMultiImageQid().size() == 0 ||
                     savedQuesAndAnswers.getMultiImageOid().size() == 0) {
-                savedQuesAndAnswers.setMultiImageQid(quesId);
+                savedQuesAndAnswers.setMultiImageQid(selectedQuesId);
                 savedQuesAndAnswers.setMultiImageOid(optionId);
             } else {
                 if (savedQuesAndAnswers.getMultiImageOid().contains(optionId)) {
@@ -242,8 +213,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         rl_grid = findViewById(R.id.rl_grid);
         indicatorGrid = findViewById(R.id.indicatorGrid);
         tv_nextGrid = findViewById(R.id.tv_nextGrid);
-        edt_questionType.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        edt_questionType.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         btn_question.setOnClickListener(this);
         tv_nextGrid.setOnClickListener(this);
@@ -295,19 +264,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        edt_questionType.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(edt_questionType.getWindowToken(),
-                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    return true;
-                }
-                return false;
-            }
-        });
-
         seekBar_rate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int position, boolean fromUser) {
@@ -353,6 +309,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+
+        setQuestion();
     }
 
     @Override
@@ -365,7 +323,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if (btn_question.getText().toString().equalsIgnoreCase("Proceed")) {
                 btn_question.setBackgroundResource(R.drawable.btn_disabled);
                 btn_question.setEnabled(false);
-                setQuestion();
             }
 
             if (qCardVisible) {
@@ -373,37 +330,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
                 btn_question.setText("Next");
-                if (quesType.equalsIgnoreCase("Pre")) {
-                    try {
-                        stagingJson.put("2", "2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        stagingJson.put("3", "2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
             } else {
-                if (quesType.equalsIgnoreCase("Pre")) {
-                    try {
-                        stagingJson.put("2", "4");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        stagingJson.put("3", "4");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
                 nextQuestion();
             }
-        }else if(i == R.id.tv_nextGrid){
-            nextQuestion();
+        } else if (i == R.id.tv_nextGrid) {
+            tv_nextGrid.setVisibility(View.GONE);
+            btn_question.performClick();
         }
     }
 
@@ -425,190 +357,152 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if (quesType.equalsIgnoreCase("Pre")) {
             tv_question.setText(preQuestions.get(questionNo).getQuestion());
-            qusId = preQuestions.get(questionNo).getQuestion_id();
+            qusId = preQuestions.get(questionNo).getQs_id();
 
-            if (preQuestions.get(questionNo).getQuestion_type().equals("1")) {
+            if (preQuestions.get(questionNo).getQuestionType().equals("single")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "1";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                questionType = "single";
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, preQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("2")) {
+            } else if (preQuestions.get(questionNo).getQuestionType().equals("multiple")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "2";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                questionType = "multiple";
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(getApplicationContext(), checkBoxClickListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(checkBoxTypeAdapter);
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("3")) {
+            } else if (preQuestions.get(questionNo).getQuestionType().equals("numeric")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.VISIBLE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "3";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
-                if (seekBar_rate.getProgress() > 0) {
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                }
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("4")) {
+                questionType = "numeric";
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
+            } else if (preQuestions.get(questionNo).getQuestionType().equals("freetext")) {
                 rv_question.setVisibility(View.GONE);
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "4";
-                if (edt_questionType.getText().length() >= 1) {
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                }
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("5")) {
-                rv_question.setVisibility(View.VISIBLE);
-                rate_layout.setVisibility(View.GONE);
-                ll_edtLayout.setVisibility(View.GONE);
-                rl_grid.setVisibility(View.GONE);
-                btn_question.setVisibility(View.VISIBLE);
-                questionType = "5";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
-                rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                radioTypeAdapter = new RadioTypeAdapter(getApplicationContext(), preQuestions.get(questionNo).getOptions(), radioClickListner);
-                rv_question.setAdapter(radioTypeAdapter);
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("6")) {
+                questionType = "freetext";
+            } else if (preQuestions.get(questionNo).getQuestionType().equals("grid")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
                 btn_question.setVisibility(View.GONE);
-                questionType = "6";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                questionType = "grid";
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("7")) {
+            } else if (preQuestions.get(questionNo).getQuestionType().equals("image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "7";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                questionType = "image";
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), singleImageSelectionListner, preQuestions.get(questionNo).getOptions());
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), imageQClickListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
-            } else if (preQuestions.get(questionNo).getQuestion_type().equals("8")) {
+            } else if (preQuestions.get(questionNo).getQuestionType().equals("multiple_image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "8";
-                selectedQuesId = preQuestions.get(questionNo).getQuestion_id();
+                questionType = "multiple_image";
+                selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 multipleImageSelectionAdapter = new MultipleImageSelectionAdapter(getApplicationContext(), multiImageSelectionListner, preQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(multipleImageSelectionAdapter);
             }
         } else {
             tv_question.setText(postQuestions.get(questionNo).getQuestion());
-            qusId = postQuestions.get(questionNo).getQuestion_id();
+            qusId = postQuestions.get(questionNo).getQs_id();
 
-            if (postQuestions.get(questionNo).getQuestion_type().equals("1")) {
+            if (postQuestions.get(questionNo).getQuestionType().equals("single")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "1";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                questionType = "single";
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 radioTypeAdapter = new RadioTypeAdapter(QuestionActivity.this, postQuestions.get(questionNo).getOptions(), radioClickListner);
                 rv_question.setAdapter(radioTypeAdapter);
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("2")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equals("multiple")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "2";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                questionType = "multiple";
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 checkBoxTypeAdapter = new CheckBoxTypeAdapter(getApplicationContext(), checkBoxClickListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(checkBoxTypeAdapter);
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("3")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equals("numeric")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.VISIBLE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "3";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
-                if(seekBar_rate.getProgress() > 0){
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                }
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("4")) {
+                questionType = "numeric";
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
+            } else if (postQuestions.get(questionNo).getQuestionType().equals("freetext")) {
                 rv_question.setVisibility(View.GONE);
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.VISIBLE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "4";
-                if (edt_questionType.getText().length() >= 1) {
-                    btn_question.setBackgroundResource(R.drawable.btn_pro_activate);
-                    btn_question.setEnabled(true);
-                }
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("5")) {
-                rv_question.setVisibility(View.VISIBLE);
-                rate_layout.setVisibility(View.GONE);
-                ll_edtLayout.setVisibility(View.GONE);
-                rl_grid.setVisibility(View.GONE);
-                btn_question.setVisibility(View.VISIBLE);
-                questionType = "5";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
-                rv_question.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                radioTypeAdapter = new RadioTypeAdapter(getApplicationContext(), postQuestions.get(questionNo).getOptions(), radioClickListner);
-                rv_question.setAdapter(radioTypeAdapter);
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("6")) {
+                questionType = "freetext";
+            } else if (postQuestions.get(questionNo).getQuestionType().equals("grid")) {
                 rv_question.setVisibility(View.GONE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
                 btn_question.setVisibility(View.GONE);
-                questionType = "6";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
-                gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
+                questionType = "grid";
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
+                gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("7")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equals("image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "7";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                questionType = "image";
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), singleImageSelectionListner, postQuestions.get(questionNo).getOptions());
+                singleImageSelectionAdapter = new SingleImageSelectionAdapter(getApplicationContext(), imageQClickListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(singleImageSelectionAdapter);
-            } else if (postQuestions.get(questionNo).getQuestion_type().equals("8")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equals("multiple_image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.GONE);
                 btn_question.setVisibility(View.VISIBLE);
-                questionType = "8";
-                selectedQuesId = postQuestions.get(questionNo).getQuestion_id();
+                questionType = "multiple_image";
+                selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 rv_question.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
                 multipleImageSelectionAdapter = new MultipleImageSelectionAdapter(getApplicationContext(), multiImageSelectionListner, postQuestions.get(questionNo).getOptions());
                 rv_question.setAdapter(multipleImageSelectionAdapter);
@@ -651,6 +545,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")) {
             img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         } else {
+
             Picasso.get().load(getThumbUrl(this)).into(img_preComThumb);
         }
 
@@ -764,12 +659,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private void setAnsJson() throws JSONException {
 
         if (quesType.equalsIgnoreCase("Pre")) {
-            if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
+            if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("single")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-                dataPostJson1.put("type", "1");
-            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+                dataPostJson1.put("type", "single");
+            } else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("multiple")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -777,31 +672,25 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
                     jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
                 }
-                dataPostJson1.put("type", "2");
-            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
+                dataPostJson1.put("type", "multiple");
+            } else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("numeric")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-                dataPostJson1.put("type", "3");
-            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("4")) {
+                dataPostJson1.put("type", "numeric");
+            } else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("freetext")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", edt_questionType.getText().toString());
-                dataPostJson1.put("type", "4");
-            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("5")) {
-                dataPostJson1 = new JSONObject();
-                quesJson.put(selectedQuesId, dataPostJson1);
-                dataPostJson1.put("id", selectedAnsId);
-                dataPostJson1.put("text", typeFiveReason);
-                dataPostJson1.put("type", "5");
+                dataPostJson1.put("type", "freetext");
             }
             //6 no question json set on another screen
-            else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")) {
+            else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("7")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
-            } else if (preQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")) {
+            } else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("8")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -812,12 +701,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("type", "8");
             }
         } else {
-            if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("1")) {
+            if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("1")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "1");
-            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("2")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("2")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -826,29 +715,29 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
                 }
                 dataPostJson1.put("type", "2");
-            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("3")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("3")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "3");
-            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("4")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("4")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", edt_questionType.getText().toString());
                 dataPostJson1.put("type", "4");
-            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("5")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("5")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("id", selectedAnsId);
                 dataPostJson1.put("text", typeFiveReason);
                 dataPostJson1.put("type", "5");
             }//6 no question json set on another screen
-            else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("7")) {
+            else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("7")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
                 dataPostJson1.put("type", "7");
-            } else if (postQuestions.get(questionNo).getQuestion_type().equalsIgnoreCase("8")) {
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("8")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -865,9 +754,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void submitAnswer() {
         progressDialog(QuestionActivity.this, "Please wait...", true);
-        String cf_id = SdkPreferences.getCfId(getApplicationContext());
-        String cmp_Id = SdkPreferences.getCmpId(getApplicationContext());
-        String apiToken = SdkPreferences.getApiToken(getApplicationContext());
+        String cf_id = getCfId(getApplicationContext());
+        String cmp_Id = getCmpId(getApplicationContext());
+        String apiToken = getApiToken(getApplicationContext());
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, quesType);
         Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
@@ -928,10 +817,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         savedQuesAndAnswers.getGridQuesIds().clear();
         savedQuesAndAnswers.getRadioAnsIds().clear();
         savedQuesAndAnswers.getRadioQuesIds().clear();
-        savedQuesAndAnswers.getMultiImageOid().clear();
-        savedQuesAndAnswers.getMultiImageQid().clear();
-        savedQuesAndAnswers.getSingleImageOid().clear();
-        savedQuesAndAnswers.getSingleImageQId().clear();
         questionNo = 0;
         questionSize = 0;
 

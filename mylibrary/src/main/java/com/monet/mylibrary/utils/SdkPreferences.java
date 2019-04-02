@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 public class SdkPreferences {
     private static SharedPreferences mPrefs;
     private static SharedPreferences.Editor mPrefsEditor;
@@ -68,15 +72,17 @@ public class SdkPreferences {
         mPrefsEditor.commit();
     }
 
-    public static String getCamEval(Context ctx) {
+    public static Set<String> getCamEval(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return mPrefs.getString("sdk_camEval", "");
+        return mPrefs.getStringSet("sdk_camEval", null);
     }
 
-    public static void setCamEval(Context ctx, String value) {
+    public static void setCamEval(Context ctx, ArrayList<String> value) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mPrefsEditor = mPrefs.edit();
-        mPrefsEditor.putString("sdk_camEval", value);
+        Set<String> set = new HashSet<>();
+        set.addAll(value);
+        mPrefsEditor.putStringSet("sdk_camEval", set);
         mPrefsEditor.commit();
     }
 

@@ -15,9 +15,9 @@ import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
-import com.monet.mylibrary.model.question.SdkPojo;
-import com.monet.mylibrary.model.question.SdkPostQuestions;
-import com.monet.mylibrary.model.question.SdkPreQuestions;
+import com.monet.mylibrary.model.sdk.PostQuestions;
+import com.monet.mylibrary.model.sdk.PreQuestions;
+import com.monet.mylibrary.model.sdk.SdkPojo;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.monet.mylibrary.utils.SdkUtils;
 import com.squareup.picasso.Picasso;
@@ -50,8 +50,8 @@ public class LandingPage extends AppCompatActivity {
     private static ImageView img_currentShows;
     private static TextView tv_land_watch, tv_landCam, tv_vid_landTime;
     private static ArrayList<GetCampDetails_Response> detailsResponses = new ArrayList<>();
-    public static ArrayList<SdkPreQuestions> preQuestions = new ArrayList<>();
-    public static ArrayList<SdkPostQuestions> postQuestions = new ArrayList<>();
+    public static ArrayList<PreQuestions> preQuestions = new ArrayList<>();
+    public static ArrayList<PostQuestions> postQuestions = new ArrayList<>();
     private static Button btn_landProceed, btn_currentShows;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id, apiToken, client_license;
@@ -136,14 +136,14 @@ public class LandingPage extends AppCompatActivity {
         arrayList.clear();
         cmp_Id = cmpId;
         user_Id = "1";
-        client_license = "123456789@abcde";
+        client_license = "fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd";
         getCmpFlow(activity);
     }
 
     private void getCmpFlow(final Activity activity) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id,client_license);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(client_license, cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
@@ -159,7 +159,7 @@ public class LandingPage extends AppCompatActivity {
                             saveDetails(activity, response);
                         }
                     } else {
-                        Toast.makeText(activity, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -176,8 +176,8 @@ public class LandingPage extends AppCompatActivity {
     private void saveDetails(Activity activity, Response<SdkPojo> response) {
         SdkPreferences.setCmpId(activity, cmp_Id);
         SdkPreferences.setUserId(activity, user_Id);
-        SdkPreferences.setCfId(activity, response.body().getData().getCf_id());
-        SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getApi_token());
+        SdkPreferences.setCfId(activity, response.body().getData().getUser_ex_id());
+        SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getToken());
         if (response.body().getData().getPre().getQuestions() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
         }
@@ -187,8 +187,8 @@ public class LandingPage extends AppCompatActivity {
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCmpLengthCount(activity, 0);
-        SdkPreferences.setCamEval(activity, response.body().getData().getCmp_eval());
-        SdkPreferences.setVideoUrl(activity, response.body().getData().getC_url());
+        SdkPreferences.setCamEval(activity, response.body().getData().getReaction_inputs());
+        SdkPreferences.setVideoUrl(activity, response.body().getData().getContent_url());
         apiToken = getApiToken(activity);
         getCampDetails(activity, apiToken, cmp_Id);
     }
