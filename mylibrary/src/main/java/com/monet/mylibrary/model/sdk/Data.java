@@ -27,7 +27,7 @@ public class Data {
 
     private String user_ex_id;
 
-    private String content_length;
+    private long content_length;
 
     public String getThumb_url() {
         return thumb_url;
@@ -125,11 +125,11 @@ public class Data {
         this.user_ex_id = user_ex_id;
     }
 
-    public String getContent_length() {
+    public long getContent_length() {
         return content_length;
     }
 
-    public void setContent_length(String content_length) {
+    public void setContent_length(long content_length) {
         this.content_length = content_length;
     }
 

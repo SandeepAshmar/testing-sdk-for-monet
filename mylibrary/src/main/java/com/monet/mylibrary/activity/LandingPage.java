@@ -210,7 +210,10 @@ public class LandingPage extends AppCompatActivity {
         apiToken = getApiToken(activity);
         setThumbUrl(activity, response.body().getData().getThumb_url());
         setCmpName(activity, response.body().getData().getCmp_name());
-        setVideoTime(activity, convertVideoTime(Long.parseLong(response.body().getData().getContent_length())));
+        String length = String.valueOf(response.body().getData().getContent_length());
+        length = String.valueOf(length.split("."));
+        setVideoTime(activity, convertVideoTime(Long.parseLong(length)));
+
 //        getCampDetails(activity, apiToken, cmp_Id);
     }
 
