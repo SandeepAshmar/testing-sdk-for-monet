@@ -43,6 +43,7 @@ import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
+import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class LandingPage extends AppCompatActivity {
@@ -151,18 +152,13 @@ public class LandingPage extends AppCompatActivity {
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 if (response.body() == null) {
-                    Toast.makeText(activity, response.raw().message(), Toast.LENGTH_SHORT).show();
-                    checkSuccessResponse.onSDKResponse(false);
-                    finish();
+                    checkSuccessResponse.onSDKResponse(false, response.raw().message());
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence() == null) {
-                            checkSuccessResponse.onSDKResponse(false);
-                            finish();
-                            Toast.makeText(activity, "No Campaign flow is found", Toast.LENGTH_SHORT).show();
-                            btn_landProceed.performClick();
+                            checkSuccessResponse.onSDKResponse(false, response.body().getMessage());
                         } else {
-                            checkSuccessResponse.onSDKResponse(true);
+                            checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
                             activity.startActivity(new Intent(activity, LandingPage.class));
                             saveDetails(activity, response);
                         }
@@ -176,8 +172,7 @@ public class LandingPage extends AppCompatActivity {
             public void onFailure(Call<SdkPojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
                 Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
-                checkSuccessResponse.onSDKResponse(false);
-                finish();
+                checkSuccessResponse.onSDKResponse(false, t.getMessage());
             }
         });
 
@@ -200,55 +195,67 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setCamEval(activity, response.body().getData().getReaction_inputs());
         SdkPreferences.setVideoUrl(activity, response.body().getData().getContent_url());
         apiToken = getApiToken(activity);
-        getCampDetails(activity, apiToken, cmp_Id);
+
+        Picasso.get().load(response.body().getData().getThumb_url())
+                .into(img_currentShows);
+        setThumbUrl(activity, response.body().getData().getThumb_url());
+        tv_landCam.setText(response.body().getData().getCmp_name());
+        setCmpName(activity, response.body().getData().getCmp_name());
+        tv_vid_landTime.setText(convertVideoTime(Long.parseLong(response.body().getData().getContent_length())));
+        setVideoTime(activity, convertVideoTime(Long.parseLong(response.body().getData().getContent_length())));
+        String test = response.body().getData().getCmp_name();
+        test = String.valueOf(test.charAt(0));
+        btn_currentShows.setText(test);
+
+//        getCampDetails(activity, apiToken, cmp_Id);
     }
 
-    private void getCampDetails(final Activity activity, String token, final String cmpId) {
-        SdkUtils.progressDialog(activity, "Please wait...", true);
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
-        pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
-            @Override
-            public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
-                SdkUtils.progressDialog(activity, "Please wait...", false);
-                if (response.body() == null) {
-                    Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (response.body().getCode().equals("200")) {
-                        if (response.body().getResponse().size() <= 1) {
-                            tv_land_watch.setText("In the following study you will\n watch " + response.body().getResponse().size() + " short clip");
-                        } else {
-                            tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
-                        }
-
-                        for (int i = 0; i < response.body().getResponse().size(); i++) {
-                            Picasso.get().load(response.body().getResponse().get(i).getC_thumb_url())
-                                    .into(img_currentShows);
-                            setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
-                            break;
-                        }
-
-                        tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
-                        setCmpName(activity, response.body().getResponse().get(0).getCmp_name());
-                        tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
-                        setVideoTime(activity, response.body().getResponse().get(0).getC_length());
-                        String test = response.body().getResponse().get(0).getCmp_name();
-                        test = String.valueOf(test.charAt(0));
-                        btn_currentShows.setText(test);
-
-                    } else {
-                        Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
-                SdkUtils.progressDialog(activity, "Please wait...", false);
-                Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void getCampDetails(final Activity activity, String token, final String cmpId) {
+//        SdkUtils.progressDialog(activity, "Please wait...", true);
+//        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+//        Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
+//        pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
+//            @Override
+//            public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
+//                SdkUtils.progressDialog(activity, "Please wait...", false);
+//                if (response.body() == null) {
+//                    Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    if (response.body().getCode().equals("200")) {
+//                        if (response.body().getResponse().size() <= 1) {
+//                            tv_land_watch.setText("In the following study you will\n watch " + response.body().getResponse().size() + " short clip");
+//                        } else {
+//                            tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
+//                        }
+//
+//                        for (int i = 0; i < response.body().getResponse().size(); i++) {
+//                            Picasso.get().load(response.body().getResponse().get(i).getC_thumb_url())
+//                                    .into(img_currentShows);
+//                            setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
+//                            break;
+//                        }
+//
+//                        tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
+//                        setCmpName(activity, response.body().getResponse().get(0).getCmp_name());
+//                        tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
+//                        setVideoTime(activity, response.body().getResponse().get(0).getC_length());
+//                        String test = response.body().getResponse().get(0).getCmp_name();
+//                        test = String.valueOf(test.charAt(0));
+//                        btn_currentShows.setText(test);
+//
+//                    } else {
+//                        Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
+//                SdkUtils.progressDialog(activity, "Please wait...", false);
+//                Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void setScreen() {
         int count = Integer.valueOf(getCmpLength(this));

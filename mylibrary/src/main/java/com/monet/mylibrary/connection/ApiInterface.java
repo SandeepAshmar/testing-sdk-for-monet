@@ -22,9 +22,9 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-    @Headers("Content-Type: application/json")
-    @GET("campaignDetails")
-    Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
+//    @Headers("Content-Type: application/json")
+//    @GET("campaignDetails")
+//    Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
 
     @Headers({"Content-Type: application/json",
     "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
