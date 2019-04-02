@@ -26,9 +26,10 @@ public interface ApiInterface {
     @GET("campaignDetails")
     Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
 
-    @Headers("Content-Type: application/json")
+    @Headers({"Content-Type: application/json",
+    "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
     @POST("sdk")
-    Call<SdkPojo> getSdk(@Header("licence-key") String value , @Query("cmp_id") String cam_id, @Query("user_id") String userId);
+    Call<SdkPojo> getSdk(@Query("cmp_id") String cam_id, @Query("user_id") String userId);
 
     /*save survay answer*/
     @Headers("Content-Type: application/json")
