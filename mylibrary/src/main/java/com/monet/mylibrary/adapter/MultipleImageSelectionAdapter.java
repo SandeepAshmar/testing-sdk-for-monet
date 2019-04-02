@@ -47,7 +47,7 @@ public class MultipleImageSelectionAdapter extends RecyclerView.Adapter<Multiple
         final Options question_options = sdkOptions.get(position);
 
         if (question_options.getOption_value() != null) {
-            Picasso.get().load(question_options.getOption_value())
+            Picasso.with(ctx).load(question_options.getOption_value())
                     .into(holder.thumb);
         } else {
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);

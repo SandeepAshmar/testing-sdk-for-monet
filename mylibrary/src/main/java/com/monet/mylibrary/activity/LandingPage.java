@@ -130,9 +130,8 @@ public class LandingPage extends AppCompatActivity {
         getCmpFlow(activity);
     }
 
-    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license){
+    public void getSuccessResponse(Activity activity, String cmpId, String userId, String license){
 //        activity.startActivity(new Intent(activity, LandingPage.class));
-        this.checkSuccessResponse = checkSuccessResponse;
         detailsResponses.clear();
         preQuestions.clear();
         postQuestions.clear();
@@ -196,7 +195,7 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setVideoUrl(activity, response.body().getData().getContent_url());
         apiToken = getApiToken(activity);
 
-        Picasso.get().load(response.body().getData().getThumb_url())
+        Picasso.with(this).load(response.body().getData().getThumb_url())
                 .into(img_currentShows);
         setThumbUrl(activity, response.body().getData().getThumb_url());
         tv_landCam.setText(response.body().getData().getCmp_name());

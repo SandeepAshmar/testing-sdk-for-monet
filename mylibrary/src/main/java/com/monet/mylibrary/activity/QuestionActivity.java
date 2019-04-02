@@ -546,7 +546,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         } else {
 
-            Picasso.get().load(getThumbUrl(this)).into(img_preComThumb);
+            Picasso.with(this).load(getThumbUrl(this)).into(img_preComThumb);
         }
 
         tv_time.setText(getVideoTime(QuestionActivity.this) + " Mins");

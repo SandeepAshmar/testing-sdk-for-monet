@@ -48,7 +48,7 @@ public class SingleImageSelectionAdapter extends RecyclerView.Adapter<SingleImag
 
         final Options sdkOption = sdkOptions.get(position);
         if (sdkOption.getOption_value() != null) {
-            Picasso.get().load(sdkOption.getOption_value())
+            Picasso.with(ctx).load(sdkOption.getOption_value())
                     .into(holder.thumb);
         } else {
             holder.thumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
