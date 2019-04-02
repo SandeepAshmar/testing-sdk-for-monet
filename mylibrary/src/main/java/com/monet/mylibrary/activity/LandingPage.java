@@ -143,7 +143,7 @@ public class LandingPage extends AppCompatActivity {
         getCmpFlow(activity);
     }
 
-    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license){
+    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license) {
 //        activity.startActivity(new Intent(activity, LandingPage.class));
         this.checkSuccessResponse = checkSuccessResponse;
         detailsResponses.clear();
@@ -210,9 +210,7 @@ public class LandingPage extends AppCompatActivity {
         apiToken = getApiToken(activity);
         setThumbUrl(activity, response.body().getData().getThumb_url());
         setCmpName(activity, response.body().getData().getCmp_name());
-        String length = String.valueOf(response.body().getData().getContent_length());
-        length = String.valueOf(length.split("."));
-        setVideoTime(activity, convertVideoTime(Long.parseLong(length)));
+        setVideoTime(activity, convertVideoTime(response.body().getData().getContent_length()));
 
 //        getCampDetails(activity, apiToken, cmp_Id);
     }
