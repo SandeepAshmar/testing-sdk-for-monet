@@ -14,7 +14,6 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.listner.CheckSuccessResponse;
-import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.sdk.PostQuestions;
 import com.monet.mylibrary.model.sdk.PreQuestions;
@@ -210,7 +209,8 @@ public class LandingPage extends AppCompatActivity {
         apiToken = getApiToken(activity);
         setThumbUrl(activity, response.body().getData().getThumb_url());
         setCmpName(activity, response.body().getData().getCmp_name());
-        setVideoTime(activity, convertVideoTime(response.body().getData().getContent_length()));
+        String time = convertVideoTime(response.body().getData().getContent_length());
+        setVideoTime(activity, time);
 
 //        getCampDetails(activity, apiToken, cmp_Id);
     }
