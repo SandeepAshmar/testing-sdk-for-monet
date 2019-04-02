@@ -130,7 +130,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license){
-        activity.startActivity(new Intent(activity, LandingPage.class));
+//        activity.startActivity(new Intent(activity, LandingPage.class));
         this.checkSuccessResponse = checkSuccessResponse;
         detailsResponses.clear();
         preQuestions.clear();
@@ -163,6 +163,7 @@ public class LandingPage extends AppCompatActivity {
                             btn_landProceed.performClick();
                         } else {
                             checkSuccessResponse.onSDKResponse(true);
+                            activity.startActivity(new Intent(activity, LandingPage.class));
                             saveDetails(activity, response);
                         }
                     } else {
