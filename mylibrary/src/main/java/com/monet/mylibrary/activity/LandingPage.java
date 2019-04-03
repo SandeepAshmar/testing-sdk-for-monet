@@ -174,6 +174,8 @@ public class LandingPage extends AppCompatActivity {
                             activity.startActivity(new Intent(activity, LandingPage.class));
                             checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
                             saveDetails(activity, response);
+                            activity.finish();
+
                         }
                     } else {
                         checkSuccessResponse.onSDKResponse(false, response.body().getMessage());

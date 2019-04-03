@@ -57,7 +57,7 @@ public class SdkUtils {
         long minutes = millis / minutesInMilli;
         millis = millis % minutesInMilli;
 
-        long secounds = millis / secoundsInMilli;
+        long secounds = Math.round(millis / secoundsInMilli);
 
         if (hours == 0) {
             if (minutes >= 0 && minutes <= 9) {
