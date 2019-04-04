@@ -182,6 +182,7 @@ public class GridFragment extends Fragment {
                     optionValue.add(postQuestions.get(questionNo).getOptions().get(i).getOpt_id());
                 }
             }
+
             for (int i = 0; i < postQuestions.get(questionNo).getValues().size(); i++) {
                 if (postQuestions.get(questionNo).getValues() != null) {
                     postQuestions.get(questionNo).getValues().get(i).setOptionId(optionValue);
