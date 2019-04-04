@@ -87,7 +87,7 @@ public class LandingPage extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        arrayList.clear();
+
 
         Picasso.with(this).load(getThumbUrl(this))
                 .into(img_currentShows);
@@ -201,6 +201,7 @@ public class LandingPage extends AppCompatActivity {
         if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
         }
+        arrayList.clear();
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCmpLengthCount(activity, 0);
