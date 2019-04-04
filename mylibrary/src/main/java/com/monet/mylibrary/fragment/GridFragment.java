@@ -162,18 +162,22 @@ public class GridFragment extends Fragment {
             questionId = preQuestions.get(questionNo).getQs_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
+            for (int i = 0; i < preQuestions.get(questionNo).getOptions().size(); i++) {
+                optionValue.add(preQuestions.get(questionNo).getOptions().get(i).getOpt_id());
+            }
             for (int i = 0; i < preQuestions.get(questionNo).getValues().size(); i++) {
-                preQuestions.get(questionNo).getValues().get(i).setOptionId(preQuestions.get(questionNo).getOptions().
-                        get(optionPosition).getOpt_id());
+                preQuestions.get(questionNo).getValues().get(i).setOptionId(optionValue);
             }
             setAdapter(preQuestions.get(questionNo).getValues());
         } else {
             questionId = postQuestions.get(questionNo).getQs_id();
             optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
+            for (int i = 0; i < postQuestions.get(questionNo).getOptions().size(); i++) {
+                optionValue.add(postQuestions.get(questionNo).getOptions().get(i).getOpt_id());
+            }
             for (int i = 0; i < postQuestions.get(questionNo).getValues().size(); i++) {
-                postQuestions.get(questionNo).getValues().get(i).setOptionId(postQuestions.get(questionNo).getOptions().
-                        get(optionPosition).getOpt_id());
+                postQuestions.get(questionNo).getValues().get(i).setOptionId(optionValue);
             }
             setAdapter(postQuestions.get(questionNo).getValues());
         }

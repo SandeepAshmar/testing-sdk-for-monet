@@ -44,8 +44,8 @@ public class Values
         return optionId;
     }
 
-    public void setOptionId(String optionId) {
-        this.optionId.add(optionId);
+    public void setOptionId(ArrayList<String> optionId) {
+        this.optionId = optionId;
     }
 
     @Override
