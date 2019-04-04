@@ -201,7 +201,6 @@ public class LandingPage extends AppCompatActivity {
         if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
         }
-        arrayList.clear();
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCmpLengthCount(activity, 0);
@@ -213,55 +212,7 @@ public class LandingPage extends AppCompatActivity {
         String time = convertVideoTime(response.body().getData().getContent_length());
         setVideoTime(activity, time);
 
-//        getCampDetails(activity, apiToken, cmp_Id);
     }
-
-//    private void getCampDetails(final Activity activity, String token, final String cmpId) {
-//        SdkUtils.progressDialog(activity, "Please wait...", true);
-//        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-//        Call<GetCampDetails_Pojo> pojoCall = apiInterface.getCampDetails(token, cmpId);
-//        pojoCall.enqueue(new Callback<GetCampDetails_Pojo>() {
-//            @Override
-//            public void onResponse(Call<GetCampDetails_Pojo> call, Response<GetCampDetails_Pojo> response) {
-//                SdkUtils.progressDialog(activity, "Please wait...", false);
-//                if (response.body() == null) {
-//                    Toast.makeText(activity.getApplicationContext(), response.raw().message(), Toast.LENGTH_SHORT).show();
-//                } else {
-//                    if (response.body().getCode().equals("200")) {
-//                        if (response.body().getResponse().size() <= 1) {
-//                            tv_land_watch.setText("In the following study you will\n watch " + response.body().getResponse().size() + " short clip");
-//                        } else {
-//                            tv_land_watch.append("In the following study you will\n watch " + response.body().getResponse().size() + " short clips");
-//                        }
-//
-//                        for (int i = 0; i < response.body().getResponse().size(); i++) {
-//                            Picasso.get().load(response.body().getResponse().get(i).getC_thumb_url())
-//                                    .into(img_currentShows);
-//                            setThumbUrl(activity, response.body().getResponse().get(i).getC_thumb_url());
-//                            break;
-//                        }
-//
-//                        tv_landCam.setText(response.body().getResponse().get(0).getCmp_name());
-//                        setCmpName(activity, response.body().getResponse().get(0).getCmp_name());
-//                        tv_vid_landTime.setText(response.body().getResponse().get(0).getC_length());
-//                        setVideoTime(activity, response.body().getResponse().get(0).getC_length());
-//                        String test = response.body().getResponse().get(0).getCmp_name();
-//                        test = String.valueOf(test.charAt(0));
-//                        btn_currentShows.setText(test);
-//
-//                    } else {
-//                        Toast.makeText(activity.getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GetCampDetails_Pojo> call, Throwable t) {
-//                SdkUtils.progressDialog(activity, "Please wait...", false);
-//                Toast.makeText(activity.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
     private void setScreen() {
         int count = Integer.valueOf(getCmpLength(this));

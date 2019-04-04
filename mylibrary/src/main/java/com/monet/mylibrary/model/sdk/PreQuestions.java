@@ -11,6 +11,8 @@ public class PreQuestions {
 
     private String questionType;
 
+    private ArrayList<Values> values;
+
     public String getQuestion() {
         return question;
     }
@@ -25,6 +27,14 @@ public class PreQuestions {
 
     public void setQs_id(String qs_id) {
         this.qs_id = qs_id;
+    }
+
+    public ArrayList<Values> getValues() {
+        return values;
+    }
+
+    public void setValues(ArrayList<Values> values) {
+        this.values = values;
     }
 
     public ArrayList<Options> getOptions() {
