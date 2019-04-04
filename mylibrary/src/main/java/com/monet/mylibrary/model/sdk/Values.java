@@ -1,14 +1,12 @@
 package com.monet.mylibrary.model.sdk;
 
-import java.util.ArrayList;
-
 public class Values
 {
     private String grid_value;
 
     private String gr_id;
 
-    private ArrayList<String> optionId;
+    private String optionId;
 
     private boolean isChecked;
 
@@ -40,11 +38,11 @@ public class Values
         this.gr_id = gr_id;
     }
 
-    public ArrayList<String> getOptionId() {
+    public String getOptionId() {
         return optionId;
     }
 
-    public void setOptionId(ArrayList<String> optionId) {
+    public void setOptionId(String optionId) {
         this.optionId = optionId;
     }
 
