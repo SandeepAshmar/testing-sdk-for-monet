@@ -161,7 +161,7 @@ public class GridFragment extends Fragment {
             questionId = preQuestions.get(questionNo).getQs_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id());
-            setAdapter(postQuestions.get(questionNo).getValues());
+            setAdapter(preQuestions.get(questionNo).getValues());
         } else {
             questionId = postQuestions.get(questionNo).getQs_id();
             optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
