@@ -10,7 +10,7 @@ public class Options
 
     private String opt_id;
 
-    private ArrayList<Values> values;
+    private ArrayList<Values> values = new ArrayList<>();
 
     public ArrayList<Values> getValues() {
         return values;
