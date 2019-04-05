@@ -69,8 +69,6 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     }
 
     private void colorChange(ViewHolder holder, Values sdkGrid) {
-        holder.rd_view.setBackground(null);
-        holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
         if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
             if (savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGr_id())) {
                 if (sdkGrid.isChecked()) {

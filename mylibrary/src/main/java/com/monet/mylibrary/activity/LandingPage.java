@@ -197,6 +197,13 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getToken());
         if (response.body().getData().getPre() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
+            for (int i = 0; i < preQuestions.size(); i++) {
+                if(preQuestions.get(i).getQuestionType().equals("grid")){
+                    for (int j = 0; j < preQuestions.get(i).getOptions().size(); j++) {
+                        preQuestions.get(i).getOptions().get(j).setValues(preQuestions.get(i).getValues());
+                    }
+                }
+            }
         }
         if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
