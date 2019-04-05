@@ -45,9 +45,13 @@ public interface ApiInterface {
     @POST("getCampaign")
     Call<GetCampFlowPojo> getCampFlow(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
 
+//    @Headers("Content-Type: application/json")
+//    @POST("savereaction")
+//    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body ReactionPost reactionPost);
+
     @Headers("Content-Type: application/json")
-    @POST("savereaction")
-    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body ReactionPost reactionPost);
+    @POST("reactionCommentData")
+    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body JSONObject jsonObject);
 
     @Headers("Content-Type: application/json")
     @GET("videoUrlToMp4")

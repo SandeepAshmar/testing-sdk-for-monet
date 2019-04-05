@@ -222,36 +222,37 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
     private void setReactionIcons() {
 
-        ArrayList<String> cmpList = new ArrayList<>();
-        cmpList.add(String.valueOf(getCamEval(this)));
+//        ArrayList<String> cmpList = new ArrayList<>();
+//        cmpList.add(String.valueOf(getCamEval(this)));
+        iconNameList.addAll(getCamEval(this));
 
-        if (cmpList.contains("a") || cmpList.contains("1")) {
-            iconNameList.add("Like");
-        }
-        if (cmpList.contains("b") || cmpList.contains("2")) {
-            iconNameList.add("Love");
-        }
-        if (cmpList.contains("c") || cmpList.contains("3")) {
-            iconNameList.add("Want");
-        }
-        if (cmpList.contains("d") || cmpList.contains("4")) {
-            iconNameList.add("Memorable");
-        }
-        if (cmpList.contains("e") || cmpList.contains("5")) {
-            iconNameList.add("Dislike");
-        }
-        if (cmpList.contains("f") || cmpList.contains("6")) {
-            iconNameList.add("Accurate");
-        }
-        if (cmpList.contains("g") || cmpList.contains("7")) {
-            iconNameList.add("Misleading");
-        }
-        if (cmpList.contains("h") || cmpList.contains("8")) {
-            iconNameList.add("Engaging");
-        }
-        if (cmpList.contains("i") || cmpList.contains("9")) {
-            iconNameList.add("Boring");
-        }
+//        if (cmpList.contains("a") || cmpList.contains("1")) {
+//                iconNameList.add("Like");
+//        }
+//        if (cmpList.contains("b") || cmpList.contains("2")) {
+//            iconNameList.add("Love");
+//        }
+//        if (cmpList.contains("c") || cmpList.contains("3")) {
+//            iconNameList.add("Want");
+//        }
+//        if (cmpList.contains("d") || cmpList.contains("4")) {
+//            iconNameList.add("Memorable");
+//        }
+//        if (cmpList.contains("e") || cmpList.contains("5")) {
+//            iconNameList.add("Dislike");
+//        }
+//        if (cmpList.contains("f") || cmpList.contains("6")) {
+//            iconNameList.add("Accurate");
+//        }
+//        if (cmpList.contains("g") || cmpList.contains("7")) {
+//            iconNameList.add("Misleading");
+//        }
+//        if (cmpList.contains("h") || cmpList.contains("8")) {
+//            iconNameList.add("Engaging");
+//        }
+//        if (cmpList.contains("i") || cmpList.contains("9")) {
+//            iconNameList.add("Boring");
+//        }
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         reactionIconsAdapter = new ReactionIconsAdapter(this, iClickListener, iconNameList);
@@ -319,11 +320,16 @@ public class ReactionWatchVideo extends AppCompatActivity {
             setScreen();
             finish();
         } else {
+            try {
+                reactionMainObject.put("reaction_data", jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             progressDialog(this, "Please wait...", true);
             ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-            ReactionPost reactionPost = new ReactionPost("" + reactionMainObject, cf_id, user_id, cmp_id);
+//            ReactionPost reactionPost = new ReactionPost("" + reactionMainObject, cf_id, user_id, cmp_id);
             Log.d("send json object", "json" + reactionMainObject);
-            Call<ReactionResponse> responseCall = apiInterface.submitReactionPart(token, reactionPost);
+            Call<ReactionResponse> responseCall = apiInterface.submitReactionPart(token, reactionMainObject);
             responseCall.enqueue(new Callback<ReactionResponse>() {
                 @Override
                 public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
