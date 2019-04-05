@@ -160,12 +160,18 @@ public class GridFragment extends Fragment {
             questionId = preQuestions.get(questionNo).getQs_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            setAdapter(preQuestions.get(questionNo).getValues());
+            for (int i = 0; i < preQuestions.get(questionNo).getOptions().size(); i++) {
+                preQuestions.get(questionNo).getOptions().get(i).setValues(preQuestions.get(questionNo).getValues());
+            }
+            setAdapter(preQuestions.get(questionNo).getOptions().get(optionPosition).getValues());
         } else {
             questionId = postQuestions.get(questionNo).getQs_id();
             optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            setAdapter(postQuestions.get(questionNo).getValues());
+            for (int i = 0; i < preQuestions.get(questionNo).getOptions().size(); i++) {
+                preQuestions.get(questionNo).getOptions().get(i).setValues(preQuestions.get(questionNo).getValues());
+            }
+            setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getValues());
         }
 
 

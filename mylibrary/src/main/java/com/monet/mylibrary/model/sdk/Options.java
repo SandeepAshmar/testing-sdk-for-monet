@@ -1,5 +1,7 @@
 package com.monet.mylibrary.model.sdk;
 
+import java.util.ArrayList;
+
 public class Options
 {
     private String option_value;
@@ -7,6 +9,16 @@ public class Options
     private String type;
 
     private String opt_id;
+
+    private ArrayList<Values> values;
+
+    public ArrayList<Values> getValues() {
+        return values;
+    }
+
+    public void setValues(ArrayList<Values> values) {
+        this.values = values;
+    }
 
     public String getOption_value ()
     {
