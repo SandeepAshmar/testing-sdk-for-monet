@@ -30,7 +30,6 @@ import com.monet.mylibrary.listner.CheckBoxClickListner;
 import com.monet.mylibrary.listner.ImageQClickListner;
 import com.monet.mylibrary.listner.RadioClickListner;
 import com.monet.mylibrary.model.survay.SurvayPojo;
-import com.monet.mylibrary.model.survay.SurvayPost;
 import com.monet.mylibrary.utils.AnswerSavedClass;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.squareup.picasso.Picasso;
@@ -90,7 +89,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     public static JSONObject dataPostJson1 = new JSONObject();
     public static JSONObject quesJson = new JSONObject();
-    public static JSONObject quesJson1 = new JSONObject();
     public static JSONObject quesJsonGrid = new JSONObject();
     public static JSONArray jsonArray = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
@@ -748,19 +746,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void submitAnswer() {
         progressDialog(QuestionActivity.this, "Please wait...", true);
-        int cf_id = getCfId(getApplicationContext());
-        String cmp_Id = getCmpId(getApplicationContext());
-        String apiToken = getApiToken(getApplicationContext());
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-//        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, quesType);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("user_response_id", cf_id);
-            jsonObject.put("survey", quesJson1);
+            jsonObject.put("user_response_id", getCfId(getApplicationContext()));
+            jsonObject.put("survey", quesJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, jsonObject);
+        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(token, jsonObject);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
             public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
