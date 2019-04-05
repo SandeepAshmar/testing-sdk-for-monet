@@ -86,7 +86,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static int questionSize;
     public static String quesType = "";
     private int questionNo = 0;
-    public static String token, type, cmp_id, cf_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
+    public static String token, type, cmp_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     public static JSONObject dataPostJson1 = new JSONObject();
     public static JSONObject quesJson = new JSONObject();
@@ -227,7 +227,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         token = getApiToken(getApplicationContext());
         cmp_id = getCmpId(getApplicationContext());
-        cf_id = getCfId(getApplicationContext());
 
         quesType = SdkPreferences.getQuestionType(getApplicationContext());
 
@@ -748,12 +747,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void submitAnswer() {
         progressDialog(QuestionActivity.this, "Please wait...", true);
-        String cf_id = getCfId(getApplicationContext());
+        int cf_id = getCfId(getApplicationContext());
         String cmp_Id = getCmpId(getApplicationContext());
         String apiToken = getApiToken(getApplicationContext());
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, quesType);
-        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, survayPost);
+//        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, quesType);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_response_id", cf_id);
+            jsonObject.put("survey", quesJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, jsonObject);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
             public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {

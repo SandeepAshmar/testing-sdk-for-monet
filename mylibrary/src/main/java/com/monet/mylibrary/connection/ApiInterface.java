@@ -1,5 +1,6 @@
 package com.monet.mylibrary.connection;
 
+import com.google.gson.JsonObject;
 import com.monet.mylibrary.model.StagingPojo;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Pojo;
 import com.monet.mylibrary.model.getCampignFlow.GetCampFlowPojo;
@@ -31,10 +32,16 @@ public interface ApiInterface {
     @POST("sdk")
     Call<SdkPojo> getSdk(@Query("cmp_id") String cam_id, @Query("user_id") String userId);
 
+//    /*save survay answer*/
+//    @Headers("Content-Type: application/json")
+//    @POST("savesurveyanswers")
+//    Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body SurvayPost survayPost);
+
     /*save survay answer*/
-    @Headers("Content-Type: application/json")
-    @POST("savesurveyanswers")
-    Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body SurvayPost survayPost);
+    @Headers({"Content-Type: application/json",
+            "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
+    @POST("storeFeedback")
+    Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body JSONObject survayPost);
 
     /*get camp flow*/
     @Headers("Content-Type: application/json")

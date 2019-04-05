@@ -121,7 +121,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         setReactionIcons();
 
         token = getApiToken(this);
-        cf_id = getCfId(this);
+//        cf_id = getCfId(this);
         user_id = getUserId(this);
         cmp_id = getCmpId(this);
 
