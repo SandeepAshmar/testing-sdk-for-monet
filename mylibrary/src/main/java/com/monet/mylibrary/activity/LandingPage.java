@@ -207,6 +207,13 @@ public class LandingPage extends AppCompatActivity {
         }
         if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
+            for (int i = 0; i < postQuestions.size(); i++) {
+                if(postQuestions.get(i).getQuestionType().equals("grid")){
+                    for (int j = 0; j < postQuestions.get(i).getOptions().size(); j++) {
+                        postQuestions.get(i).getOptions().get(j).setValues(postQuestions.get(i).getValues());
+                    }
+                }
+            }
         }
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);

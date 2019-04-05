@@ -44,25 +44,23 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final Values values = gridArrayList.get(position);
-
-        holder.rd_opetionValue.setText(values.getGrid_value());
+        holder.rd_opetionValue.setText(gridArrayList.get(position).getGrid_value());
 
         holder.rd_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (radioClickListner != null) {
-                    radioClickListner.onItemClick(v, position, values.getGr_id());
+                    radioClickListner.onItemClick(v, position, gridArrayList.get(position).getGr_id());
                     for (int i = 0; i < gridArrayList.size(); i++) {
-                        values.setChecked(false);
+                        gridArrayList.get(i).setChecked(false);
                     }
-                    values.setChecked(true);
+                    gridArrayList.get(position).setChecked(true);
                     notifyDataSetChanged();
                 }
             }
         });
 
-        colorChange(holder, values);
+        colorChange(holder, gridArrayList.get(position));
     }
 
     private void colorChange(ViewHolder holder, Values sdkGrid) {

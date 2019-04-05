@@ -2,7 +2,6 @@ package com.monet.mylibrary.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +155,7 @@ public class GridFragment extends Fragment {
         optionPosition = getArguments().getInt("position");
         survayType = getArguments().getString("survayType");
         questionNo = getArguments().getInt("questionNo");
+        initView();
         return view;
     }
 
@@ -189,17 +189,4 @@ public class GridFragment extends Fragment {
         gridOptionAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initView();
-                }
-            }, 20);
-        }
-    }
 }
