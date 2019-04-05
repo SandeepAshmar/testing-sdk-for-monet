@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.sdk.Options;
 import com.monet.mylibrary.model.sdk.Values;
 
 import java.util.ArrayList;
@@ -22,16 +21,14 @@ import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.ViewHolder> {
 
     private RadioClickListner radioClickListner;
-    private ArrayList<Options> gridArrayList;
+    private ArrayList<Values> gridArrayList;
     private String optionId;
-    private int optionPosition;
 
-    public GridOptionAdapter(RadioClickListner radioClickListner, ArrayList<Options> gridArrayList,
-                             String optionId, int optionPosition) {
+    public GridOptionAdapter(RadioClickListner radioClickListner, ArrayList<Values> gridArrayList,
+                             String optionId) {
         this.radioClickListner = radioClickListner;
         this.gridArrayList = gridArrayList;
         this.optionId = optionId;
-        this.optionPosition = optionPosition;
     }
 
     @NonNull
@@ -47,23 +44,23 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.rd_opetionValue.setText(gridArrayList.get(optionPosition).getValues().get(position).getGrid_value());
+        holder.rd_opetionValue.setText(gridArrayList.get(position).getGrid_value());
 
         holder.rd_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (radioClickListner != null) {
-                    radioClickListner.onItemClick(v, position, gridArrayList.get(optionPosition).getValues().get(position).getGr_id());
-                    for (int i = 0; i < gridArrayList.get(optionPosition).getValues().size(); i++) {
-                        gridArrayList.get(optionPosition).getValues().get(i).setChecked(false);
+                    radioClickListner.onItemClick(v, position, gridArrayList.get(position).getGr_id());
+                    for (int i = 0; i < gridArrayList.size(); i++) {
+                        gridArrayList.get(i).setChecked(false);
                     }
-                    gridArrayList.get(optionPosition).getValues().get(position).setChecked(true);
+                    gridArrayList.get(position).setChecked(true);
                     notifyDataSetChanged();
                 }
             }
         });
 
-        colorChange(holder, gridArrayList.get(optionPosition).getValues().get(position));
+        colorChange(holder, gridArrayList.get(position));
     }
 
     private void colorChange(ViewHolder holder, Values sdkGrid) {
