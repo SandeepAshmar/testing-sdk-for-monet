@@ -48,15 +48,15 @@ public class SdkPreferences {
         mPrefsEditor.commit();
     }
 
-    public static String getCfId(Context ctx) {
+    public static Integer getCfId(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return mPrefs.getString("sdk_cfid", "");
+        return mPrefs.getInt("sdk_cfid", 0);
     }
 
-    public static void setCfId(Context ctx, String value) {
+    public static void setCfId(Context ctx, int value) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mPrefsEditor = mPrefs.edit();
-        mPrefsEditor.putString("sdk_cfid", value);
+        mPrefsEditor.putInt("sdk_cfid", value);
         mPrefsEditor.commit();
     }
 
