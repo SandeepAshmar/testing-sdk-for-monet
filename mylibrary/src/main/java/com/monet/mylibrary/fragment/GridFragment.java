@@ -2,6 +2,7 @@ package com.monet.mylibrary.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class GridFragment extends Fragment {
     private TextView tv_gridOption, tv_gridCount;
     private RecyclerView rv_grid;
     private GridOptionAdapter gridOptionAdapter;
+    private View view;
 
     private RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -150,14 +152,14 @@ public class GridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_grid, container, false);
+        view = inflater.inflate(R.layout.fragment_grid, container, false);
         optionPosition = getArguments().getInt("position");
         survayType = getArguments().getString("survayType");
         questionNo = getArguments().getInt("questionNo");
-        return initView(view);
+        return view;
     }
 
-    private View initView(View view) {
+    private View initView() {
         tv_gridCount = view.findViewById(R.id.tv_gridCount);
         tv_gridOption = view.findViewById(R.id.tv_gridOption);
         rv_grid = view.findViewById(R.id.rv_grid);
@@ -185,5 +187,19 @@ public class GridFragment extends Fragment {
         gridOptionAdapter = new GridOptionAdapter(radioClickListner, sdkGrid, optionId);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initView();
+                }
+            }, 20);
+        }
     }
 }
