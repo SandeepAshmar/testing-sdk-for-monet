@@ -24,11 +24,13 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     private Context context;
     private RadioClickListner radioClickListner;
     private ArrayList<Values> gridArrayList;
+    private String optionId;
 
-    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<Values> gridArrayList) {
+    public GridOptionAdapter(Context context, RadioClickListner radioClickListner, ArrayList<Values> gridArrayList, String optionId) {
         this.context = context;
         this.radioClickListner = radioClickListner;
         this.gridArrayList = gridArrayList;
+        this.optionId = optionId;
     }
 
     @NonNull
@@ -64,7 +66,7 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
     }
 
     private void colorChange(ViewHolder holder, Values sdkGrid) {
-                if (savedQuesAndAnswers.getGridOptionIds().contains(sdkGrid.getOptionId())) {
+                if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
                     if (savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGr_id())) {
                         if (sdkGrid.isChecked()) {
                             holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);

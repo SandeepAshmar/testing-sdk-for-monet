@@ -40,7 +40,6 @@ public class GridFragment extends Fragment {
     private TextView tv_gridOption, tv_gridCount;
     private RecyclerView rv_grid;
     private GridOptionAdapter gridOptionAdapter;
-    private ArrayList<String> optionValue;
 
     private RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -156,33 +155,16 @@ public class GridFragment extends Fragment {
         rv_grid.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         tv_gridCount.setText("Question " + (optionPosition + 1));
-        optionValue = new ArrayList<>();
 
         if (survayType.equalsIgnoreCase("pre")) {
             questionId = preQuestions.get(questionNo).getQs_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            for (int i = 0; i < preQuestions.get(questionNo).getOptions().size(); i++) {
-                if (preQuestions.get(questionNo).getOptions() != null) {
-                    if (preQuestions.get(questionNo).getValues() != null) {
-                        preQuestions.get(questionNo).getValues().get(i).
-                                setOptionId(preQuestions.get(questionNo).getOptions().get(i).getOpt_id());
-                    }
-                }
-            }
             setAdapter(preQuestions.get(questionNo).getValues());
         } else {
             questionId = postQuestions.get(questionNo).getQs_id();
             optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            for (int i = 0; i < postQuestions.get(questionNo).getOptions().size(); i++) {
-                if (postQuestions.get(questionNo).getOptions() != null) {
-                    if (postQuestions.get(questionNo).getValues() != null) {
-                        postQuestions.get(questionNo).getValues().get(i).
-                                setOptionId(postQuestions.get(questionNo).getOptions().get(i).getOpt_id());
-                    }
-                }
-            }
             setAdapter(postQuestions.get(questionNo).getValues());
         }
 
@@ -191,7 +173,7 @@ public class GridFragment extends Fragment {
     }
 
     private void setAdapter(ArrayList<Values> sdkGrid) {
-        gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid);
+        gridOptionAdapter = new GridOptionAdapter(getActivity(), radioClickListner, sdkGrid, optionId);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();
     }
