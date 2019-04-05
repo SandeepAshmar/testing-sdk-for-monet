@@ -56,7 +56,7 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
             public void onClick(View v) {
                 if (radioClickListner != null) {
                     radioClickListner.onItemClick(v, position, values.getGr_id());
-                    for (int i = 0; i < gridArrayList.size(); i++) {
+                    for (int i = 0; i < gridArrayList.get(optionPosition).getValues().size(); i++) {
                         values.setChecked(false);
                     }
                     values.setChecked(true);
