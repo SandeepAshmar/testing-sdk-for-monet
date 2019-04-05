@@ -747,19 +747,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void submitAnswer() {
         progressDialog(QuestionActivity.this, "Please wait...", true);
-        int cf_id = getCfId(getApplicationContext());
-        String cmp_Id = getCmpId(getApplicationContext());
-        String apiToken = getApiToken(getApplicationContext());
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-//        SurvayPost survayPost = new SurvayPost(quesJson.toString(), cf_id, cmp_Id, quesType);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("user_response_id", cf_id);
+            jsonObject.put("user_response_id", getCfId(getApplicationContext()));
             jsonObject.put("survey", quesJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(apiToken, jsonObject);
+        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(token, jsonObject);
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
             public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
