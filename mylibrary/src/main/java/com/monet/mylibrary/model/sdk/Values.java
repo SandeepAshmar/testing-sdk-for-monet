@@ -6,6 +6,8 @@ public class Values
 
     private String gr_id;
 
+    private String optionId;
+
     private boolean isChecked;
 
     public boolean isChecked() {
@@ -34,6 +36,14 @@ public class Values
     public void setGr_id (String gr_id)
     {
         this.gr_id = gr_id;
+    }
+
+    public String getOptionId() {
+        return optionId;
+    }
+
+    public void setOptionId(String optionId) {
+        this.optionId = optionId;
     }
 
     @Override
