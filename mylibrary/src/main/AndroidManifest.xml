@@ -24,4 +24,5 @@
         <activity android:name=".activity.PlayVideoAndRecordScreen"
             android:screenOrientation="portrait"/>
     </application>
+
 </manifest>
