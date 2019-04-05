@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.GridOptionAdapter;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.sdk.Options;
+import com.monet.mylibrary.model.sdk.Values;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -171,20 +171,20 @@ public class GridFragment extends Fragment {
             questionId = preQuestions.get(questionNo).getQs_id();
             optionId = preQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(preQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            setAdapter(preQuestions.get(questionNo).getOptions());
+            setAdapter(preQuestions.get(questionNo).getOptions().get(optionPosition).getValues());
         } else {
             questionId = postQuestions.get(questionNo).getQs_id();
             optionId = postQuestions.get(questionNo).getOptions().get(optionPosition).getOpt_id();
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
-            setAdapter(postQuestions.get(questionNo).getOptions());
+            setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getValues());
         }
 
 
         return view;
     }
 
-    private void setAdapter(ArrayList<Options> sdkGrid) {
-        gridOptionAdapter = new GridOptionAdapter(radioClickListner, sdkGrid, optionId, optionPosition);
+    private void setAdapter(ArrayList<Values> sdkGrid) {
+        gridOptionAdapter = new GridOptionAdapter(radioClickListner, sdkGrid, optionId);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();
     }
