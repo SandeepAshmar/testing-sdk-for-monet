@@ -77,22 +77,12 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
                     holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
                 }
             } else {
-                if (sdkGrid.isChecked()) {
-                    holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
-                    holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
-                } else {
-                    holder.rd_view.setBackground(null);
-                    holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
-                }
-            }
-        }else{
-            if (sdkGrid.isChecked()) {
-                holder.rd_view.setBackgroundResource(R.drawable.ic_selected_background);
-                holder.rd_opetionValue.setTextColor(Color.parseColor("#FFCF4A"));
-            } else {
                 holder.rd_view.setBackground(null);
                 holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
             }
+        }else{
+                holder.rd_view.setBackground(null);
+                holder.rd_opetionValue.setTextColor(Color.parseColor("#ffffff"));
         }
     }
 
