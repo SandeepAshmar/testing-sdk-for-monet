@@ -684,13 +684,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dataPostJson1.put("options", edt_questionType.getText().toString());
                 dataPostJson1.put("type", "freetext");
             }
-            //6 no question json set on another screen
-            else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("7")) {
+            //grid type question json set on another screen
+            else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("image")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-                dataPostJson1.put("type", "7");
-            } else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("8")) {
+                dataPostJson1.put("type", "image");
+            } else if (preQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("multiple_image")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -698,15 +698,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 for (int i = 0; i < savedQuesAndAnswers.getMultiImageOid().size(); i++) {
                     jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
                 }
-                dataPostJson1.put("type", "8");
+                dataPostJson1.put("type", "multiple_image");
             }
         } else {
-            if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("1")) {
+            if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("single")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-                dataPostJson1.put("type", "1");
-            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("2")) {
+                dataPostJson1.put("type", "single");
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("multiple")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -714,30 +714,24 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 for (int i = 0; i < savedQuesAndAnswers.getCheckAnsId().size(); i++) {
                     jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getCheckAnsId().get(i)));
                 }
-                dataPostJson1.put("type", "2");
-            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("3")) {
+                dataPostJson1.put("type", "multiple");
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("numeric")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-                dataPostJson1.put("type", "3");
-            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("4")) {
+                dataPostJson1.put("type", "numeric");
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("freetext")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", edt_questionType.getText().toString());
-                dataPostJson1.put("type", "4");
-            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("5")) {
-                dataPostJson1 = new JSONObject();
-                quesJson.put(selectedQuesId, dataPostJson1);
-                dataPostJson1.put("id", selectedAnsId);
-                dataPostJson1.put("text", typeFiveReason);
-                dataPostJson1.put("type", "5");
-            }//6 no question json set on another screen
-            else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("7")) {
+                dataPostJson1.put("type", "freetext");
+            } //6 no question json set on another screen
+            else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("image")) {
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
                 dataPostJson1.put("options", Integer.valueOf(selectedAnsId));
-                dataPostJson1.put("type", "7");
-            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("8")) {
+                dataPostJson1.put("type", "image");
+            } else if (postQuestions.get(questionNo).getQuestionType().equalsIgnoreCase("multiple_image")) {
                 jsonArray = new JSONArray();
                 dataPostJson1 = new JSONObject();
                 quesJson.put(selectedQuesId, dataPostJson1);
@@ -745,7 +739,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 for (int i = 0; i < savedQuesAndAnswers.getMultiImageOid().size(); i++) {
                     jsonArray.put(i, Integer.valueOf(savedQuesAndAnswers.getMultiImageOid().get(i)));
                 }
-                dataPostJson1.put("type", "8");
+                dataPostJson1.put("type", "multiple_image");
             }
         }
 
