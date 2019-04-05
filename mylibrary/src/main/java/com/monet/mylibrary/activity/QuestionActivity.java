@@ -90,7 +90,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
     public static JSONObject dataPostJson1 = new JSONObject();
     public static JSONObject quesJson = new JSONObject();
-    public static JSONObject quesJson1 = new JSONObject();
     public static JSONObject quesJsonGrid = new JSONObject();
     public static JSONArray jsonArray = new JSONArray();
     private RadioTypeAdapter radioTypeAdapter;
@@ -756,7 +755,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user_response_id", cf_id);
-            jsonObject.put("survey", quesJson1);
+            jsonObject.put("survey", quesJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
