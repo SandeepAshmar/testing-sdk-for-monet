@@ -18,6 +18,7 @@ import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.sdk.PostQuestions;
 import com.monet.mylibrary.model.sdk.PreQuestions;
 import com.monet.mylibrary.model.sdk.SdkPojo;
+import com.monet.mylibrary.model.sdk.Values;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.monet.mylibrary.utils.SdkUtils;
 import com.squareup.picasso.Picasso;
@@ -203,7 +204,11 @@ public class LandingPage extends AppCompatActivity {
                         String gridId = preQuestions.get(i).getValues().get(j).getGr_id();
                         String gridValue = preQuestions.get(i).getValues().get(j).getGrid_value();
                         for (int k = 0; k < preQuestions.get(i).getOptions().size(); k++) {
-                            preQuestions.get(i).getOptions().get(k).setValues(gridId, gridValue, false);
+                            Values values = new Values() ;
+                            values.setGr_id(gridId);
+                            values.setGrid_value(gridValue);
+                            values.setChecked(false);
+                            preQuestions.get(i).getOptions().get(k).setValues(values);
                         }
                     }
                 }
