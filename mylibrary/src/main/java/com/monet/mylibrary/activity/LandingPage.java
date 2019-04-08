@@ -18,6 +18,7 @@ import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.sdk.PostQuestions;
 import com.monet.mylibrary.model.sdk.PreQuestions;
 import com.monet.mylibrary.model.sdk.SdkPojo;
+import com.monet.mylibrary.model.sdk.Values;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.monet.mylibrary.utils.SdkUtils;
 import com.squareup.picasso.Picasso;
@@ -200,22 +201,23 @@ public class LandingPage extends AppCompatActivity {
             for (int i = 0; i < preQuestions.size(); i++) {
                if(preQuestions.get(i).getQuestionType().equals("grid")){
                    for (int j = 0; j < preQuestions.get(i).getOptions().size(); j++) {
-                       preQuestions.get(i).getOptions().get(j).setValues(preQuestions.get(i).getValues());
+                       ArrayList<Values> values = preQuestions.get(i).getValues();
+                       preQuestions.get(i).getOptions().get(j).setValues(values);
                    }
                }
             }
         }
-//        if (response.body().getData().getPost() != null) {
-//            postQuestions.addAll(response.body().getData().getPost().getQuestions());
-//            for (int i = 0; i < postQuestions.size(); i++) {
-//                if(postQuestions.get(i).getQuestionType().equals("grid")){
-//                    for (int j = 0; j < postQuestions.get(i).getOptions().size(); j++) {
-//                        ArrayList<Values> values = postQuestions.get(i).getValues();
-//                        postQuestions.get(i).getOptions().get(j).setValues(values);
-//                    }
-//                }
-//            }
-//        }
+        if (response.body().getData().getPost() != null) {
+            postQuestions.addAll(response.body().getData().getPost().getQuestions());
+            for (int i = 0; i < postQuestions.size(); i++) {
+                if(postQuestions.get(i).getQuestionType().equals("grid")){
+                    for (int j = 0; j < postQuestions.get(i).getOptions().size(); j++) {
+                        ArrayList<Values> values = postQuestions.get(i).getValues();
+                        postQuestions.get(i).getOptions().get(j).setValues(values);
+                    }
+                }
+            }
+        }
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCmpLengthCount(activity, 0);
