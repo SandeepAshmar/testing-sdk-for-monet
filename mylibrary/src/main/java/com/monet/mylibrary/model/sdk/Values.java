@@ -2,11 +2,11 @@ package com.monet.mylibrary.model.sdk;
 
 public class Values
 {
-    private String grid_value;
+    private String grid_value = new String();
 
-    private String gr_id;
+    private String gr_id = new String();
 
-    private boolean isChecked;
+    private boolean isChecked = new Boolean(false);
 
     public boolean isChecked() {
         return isChecked;

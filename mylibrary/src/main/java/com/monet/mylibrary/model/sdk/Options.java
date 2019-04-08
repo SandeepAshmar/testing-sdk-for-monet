@@ -10,15 +10,14 @@ public class Options
 
     private String opt_id;
 
-    private ArrayList<GridValues> value;
+    private ArrayList<Values> value;
 
-    public ArrayList<GridValues> getValues() {
+    public ArrayList<Values> getValues() {
         return value;
     }
 
-    public void setValues(GridValues values) {
-        values = new GridValues();
-        this.value.add(values);
+    public void setValues(ArrayList<Values> values) {
+       this.value = value;
     }
 
     public String getOption_value ()

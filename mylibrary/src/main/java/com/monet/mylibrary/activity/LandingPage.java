@@ -15,7 +15,6 @@ import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.listner.CheckSuccessResponse;
 import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
-import com.monet.mylibrary.model.sdk.GridValues;
 import com.monet.mylibrary.model.sdk.PostQuestions;
 import com.monet.mylibrary.model.sdk.PreQuestions;
 import com.monet.mylibrary.model.sdk.SdkPojo;
@@ -199,19 +198,11 @@ public class LandingPage extends AppCompatActivity {
         if (response.body().getData().getPre() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
             for (int i = 0; i < preQuestions.size(); i++) {
-                if(preQuestions.get(i).getQuestionType().equals("grid")){
-                    for (int j = 0; j < preQuestions.get(i).getValues().size(); j++) {
-                        String gridId = preQuestions.get(i).getValues().get(j).getGr_id();
-                        String gridValue = preQuestions.get(i).getValues().get(j).getGrid_value();
-                        for (int k = 0; k < preQuestions.get(i).getOptions().size(); k++) {
-                            GridValues values = new GridValues() ;
-                            values.setGr_id(gridId);
-                            values.setGrid_value(gridValue);
-                            values.setChecked(false);
-                            preQuestions.get(i).getOptions().get(k).setValues(values);
-                        }
-                    }
-                }
+               if(preQuestions.get(i).getQuestionType().equals("grid")){
+                   for (int j = 0; j < preQuestions.get(i).getOptions().size(); j++) {
+                       preQuestions.get(i).getOptions().get(j).setValues(preQuestions.get(i).getValues());
+                   }
+               }
             }
         }
 //        if (response.body().getData().getPost() != null) {
