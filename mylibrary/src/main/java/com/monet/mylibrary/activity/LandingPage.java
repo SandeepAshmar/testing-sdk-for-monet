@@ -18,7 +18,6 @@ import com.monet.mylibrary.model.cmpDetails.GetCampDetails_Response;
 import com.monet.mylibrary.model.sdk.PostQuestions;
 import com.monet.mylibrary.model.sdk.PreQuestions;
 import com.monet.mylibrary.model.sdk.SdkPojo;
-import com.monet.mylibrary.model.sdk.Values;
 import com.monet.mylibrary.utils.SdkPreferences;
 import com.monet.mylibrary.utils.SdkUtils;
 import com.squareup.picasso.Picasso;
@@ -199,14 +198,12 @@ public class LandingPage extends AppCompatActivity {
         if (response.body().getData().getPre() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
             for (int i = 0; i < preQuestions.size(); i++) {
-                if (preQuestions.get(i).getQuestionType().equals("grid")) {
-                    Values values = null;
+                if(preQuestions.get(i).getQuestionType().equals("grid")){
                     for (int j = 0; j < preQuestions.get(i).getValues().size(); j++) {
-                        values.setGr_id(preQuestions.get(i).getValues().get(j).getGr_id());
-                        values.setGrid_value(preQuestions.get(i).getValues().get(j).getGrid_value());
-                        values.setChecked(false);
+                        String gridId = preQuestions.get(i).getValues().get(j).getGr_id();
+                        String gridValue = preQuestions.get(i).getValues().get(j).getGrid_value();
                         for (int k = 0; k < preQuestions.get(i).getOptions().size(); k++) {
-                            preQuestions.get(i).getOptions().get(k).setValues(values);
+                            preQuestions.get(i).getOptions().get(k).setValues(gridId, gridValue, false);
                         }
                     }
                 }

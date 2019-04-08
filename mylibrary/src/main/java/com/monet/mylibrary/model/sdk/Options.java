@@ -16,8 +16,12 @@ public class Options
         return value;
     }
 
-    public void setValues(Values value) {
-        this.value.add(value);
+    public void setValues(String gridId, String gridValue, boolean isChacked) {
+        Values values = new Values();
+        values.setGr_id(gridId);
+        values.setGrid_value(gridValue);
+        values.setChecked(isChacked);
+        this.value.add(values);
     }
 
     public String getOption_value ()
