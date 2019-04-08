@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.GridOptionAdapter;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.sdk.Values;
+import com.monet.mylibrary.model.sdk.GridValues;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -183,7 +183,7 @@ public class GridFragment extends Fragment {
         return view;
     }
 
-    private void setAdapter(ArrayList<Values> sdkGrid) {
+    private void setAdapter(ArrayList<GridValues> sdkGrid) {
         gridOptionAdapter = new GridOptionAdapter(radioClickListner, sdkGrid, optionId);
         rv_grid.setAdapter(gridOptionAdapter);
         gridOptionAdapter.notifyDataSetChanged();

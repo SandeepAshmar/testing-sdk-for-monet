@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.listner.RadioClickListner;
-import com.monet.mylibrary.model.sdk.Values;
+import com.monet.mylibrary.model.sdk.GridValues;
 
 import java.util.ArrayList;
 
@@ -21,10 +21,10 @@ import static com.monet.mylibrary.activity.QuestionActivity.savedQuesAndAnswers;
 public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.ViewHolder> {
 
     private RadioClickListner radioClickListner;
-    private ArrayList<Values> gridArrayList;
+    private ArrayList<GridValues> gridArrayList;
     private String optionId;
 
-    public GridOptionAdapter(RadioClickListner radioClickListner, ArrayList<Values> gridArrayList,
+    public GridOptionAdapter(RadioClickListner radioClickListner, ArrayList<GridValues> gridArrayList,
                              String optionId) {
         this.radioClickListner = radioClickListner;
         this.gridArrayList = gridArrayList;
@@ -63,7 +63,7 @@ public class GridOptionAdapter extends RecyclerView.Adapter<GridOptionAdapter.Vi
         colorChange(holder, gridArrayList.get(position));
     }
 
-    private void colorChange(ViewHolder holder, Values sdkGrid) {
+    private void colorChange(ViewHolder holder, GridValues sdkGrid) {
         if (savedQuesAndAnswers.getGridOptionIds().contains(optionId)) {
             if (savedQuesAndAnswers.getGridAnsIds().contains(sdkGrid.getGr_id())) {
                 if (sdkGrid.isChecked()) {
