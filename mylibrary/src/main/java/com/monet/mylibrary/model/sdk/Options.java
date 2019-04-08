@@ -10,14 +10,14 @@ public class Options
 
     private String opt_id;
 
-    private ArrayList<Values> value;
+    private ArrayList<GridValues> value;
 
-    public ArrayList<Values> getValues() {
+    public ArrayList<GridValues> getValues() {
         return value;
     }
 
     public void setValues(String gridId, String gridValue, boolean isChacked) {
-        Values values = new Values();
+        GridValues values = new GridValues();
         values.setGr_id(gridId);
         values.setGrid_value(gridValue);
         values.setChecked(isChacked);
