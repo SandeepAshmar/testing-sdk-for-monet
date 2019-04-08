@@ -200,8 +200,8 @@ public class LandingPage extends AppCompatActivity {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
             for (int i = 0; i < preQuestions.size(); i++) {
                 if(preQuestions.get(i).getQuestionType().equals("grid")){
-                    ArrayList<Values> values = preQuestions.get(i).getValues();
                     for (int j = 0; j < preQuestions.get(i).getOptions().size(); j++) {
+                        ArrayList<Values> values = preQuestions.get(i).getValues();
                         preQuestions.get(i).getOptions().get(j).setValues(values);
                     }
                 }
@@ -212,7 +212,8 @@ public class LandingPage extends AppCompatActivity {
             for (int i = 0; i < postQuestions.size(); i++) {
                 if(postQuestions.get(i).getQuestionType().equals("grid")){
                     for (int j = 0; j < postQuestions.get(i).getOptions().size(); j++) {
-                        postQuestions.get(i).getOptions().get(j).setValues(postQuestions.get(i).getValues());
+                        ArrayList<Values> values = postQuestions.get(i).getValues();
+                        postQuestions.get(i).getOptions().get(j).setValues(values);
                     }
                 }
             }
