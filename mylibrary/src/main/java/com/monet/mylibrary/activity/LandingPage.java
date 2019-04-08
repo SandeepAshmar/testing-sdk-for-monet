@@ -199,27 +199,30 @@ public class LandingPage extends AppCompatActivity {
         if (response.body().getData().getPre() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
             for (int i = 0; i < preQuestions.size(); i++) {
-                ArrayList<Values> values;
                 if (preQuestions.get(i).getQuestionType().equals("grid")) {
-                    for (int j = 0; j < preQuestions.get(i).getOptions().size(); j++) {
-                        values = new ArrayList<>();
-                        values = preQuestions.get(i).getValues();
-                        preQuestions.get(i).getOptions().get(j).setValues(values);
+                    Values values = null;
+                    for (int j = 0; j < preQuestions.get(i).getValues().size(); j++) {
+                        values.setGr_id(preQuestions.get(i).getValues().get(j).getGr_id());
+                        values.setGrid_value(preQuestions.get(i).getValues().get(j).getGrid_value());
+                        values.setChecked(false);
+                        for (int k = 0; k < preQuestions.get(i).getOptions().size(); k++) {
+                            preQuestions.get(i).getOptions().get(k).setValues(values);
+                        }
                     }
                 }
             }
         }
-        if (response.body().getData().getPost() != null) {
-            postQuestions.addAll(response.body().getData().getPost().getQuestions());
-            for (int i = 0; i < postQuestions.size(); i++) {
-                if (postQuestions.get(i).getQuestionType().equals("grid")) {
-                    for (int j = 0; j < postQuestions.get(i).getOptions().size(); j++) {
-                        ArrayList<Values> values = postQuestions.get(i).getValues();
-                        postQuestions.get(i).getOptions().get(j).setValues(values);
-                    }
-                }
-            }
-        }
+//        if (response.body().getData().getPost() != null) {
+//            postQuestions.addAll(response.body().getData().getPost().getQuestions());
+//            for (int i = 0; i < postQuestions.size(); i++) {
+//                if(postQuestions.get(i).getQuestionType().equals("grid")){
+//                    for (int j = 0; j < postQuestions.get(i).getOptions().size(); j++) {
+//                        ArrayList<Values> values = postQuestions.get(i).getValues();
+//                        postQuestions.get(i).getOptions().get(j).setValues(values);
+//                    }
+//                }
+//            }
+//        }
         arrayList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCmpLengthCount(activity, 0);

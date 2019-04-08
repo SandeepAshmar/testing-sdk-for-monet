@@ -10,14 +10,14 @@ public class Options
 
     private String opt_id;
 
-    private ArrayList<Values> value = new ArrayList<>();
+    private ArrayList<Values> value;
 
     public ArrayList<Values> getValues() {
         return value;
     }
 
-    public void setValues(ArrayList<Values> value) {
-        this.value = value;
+    public void setValues(Values value) {
+        this.value.add(value);
     }
 
     public String getOption_value ()
