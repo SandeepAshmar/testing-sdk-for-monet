@@ -41,7 +41,7 @@ public interface ApiInterface {
     @Headers({"Content-Type: application/json",
             "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
     @POST("storeFeedback")
-    Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body JSONObject survayPost);
+    Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, JSONObject survayPost);
 
     /*get camp flow*/
     @Headers("Content-Type: application/json")
