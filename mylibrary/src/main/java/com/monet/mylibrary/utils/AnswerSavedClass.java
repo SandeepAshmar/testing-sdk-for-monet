@@ -9,7 +9,7 @@ public class AnswerSavedClass {
     public ArrayList<String> gridQuesIds = new ArrayList<>();
     public ArrayList<String> gridOptionIds = new ArrayList<>();
     public ArrayList<String> gridAnsIds = new ArrayList<>();
-    public int selectedIntSize = 0;
+    public int selectedIntSize = -1;
     public ArrayList<String> checkQuesId = new ArrayList<>();
     public ArrayList<String> checkAnsId = new ArrayList<>();
     public ArrayList<String> rateQuesId = new ArrayList<>();
