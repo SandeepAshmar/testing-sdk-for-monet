@@ -73,7 +73,7 @@ public class GridFragment extends Fragment {
                         }
                     }
                 } else {
-                    savedQuesAndAnswers.setSelectedIntSize(1);
+                    savedQuesAndAnswers.setSelectedIntSize(0);
                     tv_nextGrid.setVisibility(View.GONE);
                 }
             } else {
@@ -103,7 +103,7 @@ public class GridFragment extends Fragment {
                         }
                     }
                 } else {
-                    savedQuesAndAnswers.setSelectedIntSize(1);
+                    savedQuesAndAnswers.setSelectedIntSize(0);
                     tv_nextGrid.setVisibility(View.GONE);
                 }
             }
