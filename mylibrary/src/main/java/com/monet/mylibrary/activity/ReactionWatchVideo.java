@@ -133,11 +133,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
-        if(getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("vimeo")){
-            getVideoUrlFromLink(getVideoUrl(this));
-        }else{
-            playVideo("https://dev.monetrewards.com/"+getVideoUrl(this));
-        }
+        playVideo(getVideoUrl(this));
+
     }
 
     private void getVideoUrlFromLink(String url) {
@@ -188,7 +185,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 try {
-                    stagingJson.put("5","5");
+                    stagingJson.put("5", "5");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -211,10 +208,10 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 }
             };
             handler.postDelayed(runnable, 1000);
-        }else{
-            if(!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")){
+        } else {
+            if (!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")) {
                 pb_recactionVideo.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 pb_recactionVideo.setVisibility(View.GONE);
             }
         }
