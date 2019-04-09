@@ -755,7 +755,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
         }
 
-        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(token, jsonObject);
+        Call<SurvayPojo> pojoCall = apiInterface.submitSurvayAns(token, jsonObject.toString());
         pojoCall.enqueue(new Callback<SurvayPojo>() {
             @Override
             public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
