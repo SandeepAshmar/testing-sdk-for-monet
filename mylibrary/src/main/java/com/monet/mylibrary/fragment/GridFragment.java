@@ -178,8 +178,6 @@ public class GridFragment extends Fragment {
             tv_gridOption.setText(postQuestions.get(questionNo).getOptions().get(optionPosition).getOption_value());
             setAdapter(postQuestions.get(questionNo).getOptions().get(optionPosition).getValues());
         }
-
-
         return view;
     }
 
