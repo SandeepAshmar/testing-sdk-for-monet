@@ -3,6 +3,7 @@ package com.monet.mylibrary.model.sdk;
 import java.util.ArrayList;
 
 public class PreQuestions {
+
     private String question;
 
     private String qs_id;
@@ -41,10 +42,5 @@ public class PreQuestions {
 
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
-    }
-
-    @Override
-    public String toString() {
-        return "ClassPojo [question = " + question + ", qs_id = " + qs_id + ", options = " + options + ", questionType = " + questionType + "]";
     }
 }

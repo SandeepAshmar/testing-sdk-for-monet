@@ -3,6 +3,7 @@ package com.monet.mylibrary.model.sdk;
 import java.util.ArrayList;
 
 public class Post {
+
     private ArrayList<PostQuestions> questions;
 
     public ArrayList<PostQuestions> getQuestions() {
