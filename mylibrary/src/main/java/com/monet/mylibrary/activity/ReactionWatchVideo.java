@@ -287,16 +287,15 @@ public class ReactionWatchVideo extends AppCompatActivity {
             setScreen();
             finish();
         } else {
+            JSONObject jsonObjectSubmit = new JSONObject();
             try {
-                reactionMainObject.put("reaction_data", jsonObject);
+                jsonObjectSubmit.put("reaction_data", reactionMainObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             progressDialog(this, "Please wait...", true);
             ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-//            ReactionPost reactionPost = new ReactionPost("" + reactionMainObject, cf_id, user_id, cmp_id);
-            Log.d("send json object", "json" + reactionMainObject);
-            Call<ReactionResponse> responseCall = apiInterface.submitReactionPart(token, reactionMainObject.toString());
+            Call<ReactionResponse> responseCall = apiInterface.submitReactionPart(token, jsonObjectSubmit.toString());
             responseCall.enqueue(new Callback<ReactionResponse>() {
                 @Override
                 public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
