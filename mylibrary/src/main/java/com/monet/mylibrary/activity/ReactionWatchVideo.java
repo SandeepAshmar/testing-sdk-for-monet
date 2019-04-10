@@ -209,11 +209,12 @@ public class ReactionWatchVideo extends AppCompatActivity {
             };
             handler.postDelayed(runnable, 1000);
         } else {
-            if (!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")) {
-                pb_recactionVideo.setVisibility(View.VISIBLE);
-            } else {
-                pb_recactionVideo.setVisibility(View.GONE);
-            }
+          //  Toast.makeText(this, "Video Finish...", Toast.LENGTH_SHORT).show();
+//            if (!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")) {
+//                pb_recactionVideo.setVisibility(View.VISIBLE);
+//            } else {
+//                pb_recactionVideo.setVisibility(View.GONE);
+//            }
         }
     }
 
