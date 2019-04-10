@@ -79,7 +79,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
     private ImageView img_dialog;
     private Button btn_dialogSubmit;
     private String dialog_name, coment, token, cf_id, user_id, cmp_id;
-    private int videoStopTime = 0;
     boolean intrupt = false;
 
     private JSONArray jsonArray1 = new JSONArray();
@@ -274,8 +273,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 return null;
             }
         };
-        videoStopTime = videoView.getCurrentPosition();
-        pauseVideo();
+        videoView.pause();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog);
@@ -352,12 +350,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
         }
     }
 
-    private void pauseVideo() {
-        videoView.pause();
-    }
 
     private void playVideoAgain() {
-        videoView.seekTo(videoStopTime);
         videoView.start();
         setProgressBar();
     }
@@ -418,59 +412,57 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
     private void setReactionJson() throws JSONException {
 
-        videoStopTime = videoView.getCurrentPosition();
-
         if (dialog_name.equalsIgnoreCase("Love")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray1.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray1);
         } else if (dialog_name.equalsIgnoreCase("Like")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray2.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray2);
         } else if (dialog_name.equalsIgnoreCase("Want to watch / buy")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray3.put(jsonObject);
             reactionMainObject.put("Want", jsonArray3);
         } else if (dialog_name.equalsIgnoreCase("Memorable")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray4.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray4);
         } else if (dialog_name.equalsIgnoreCase("Dislike")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray5.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray5);
         } else if (dialog_name.equalsIgnoreCase("Accurate")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray6.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray6);
         } else if (dialog_name.equalsIgnoreCase("Misleading")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray7.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray7);
         } else if (dialog_name.equalsIgnoreCase("Engaging")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray8.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray8);
         } else if (dialog_name.equalsIgnoreCase("Boring")) {
             jsonObject = new JSONObject();
-            jsonObject.put("time", videoStopTime);
+            jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
             jsonArray9.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray9);
@@ -617,7 +609,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        videoStopTime = videoView.getCurrentPosition();
+      //  videoStopTime = videoView.getCurrentPosition();
         videoView.pause();
         intrupt = true;
     }
