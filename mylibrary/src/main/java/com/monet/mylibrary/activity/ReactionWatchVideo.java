@@ -296,7 +296,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
 //            ReactionPost reactionPost = new ReactionPost("" + reactionMainObject, cf_id, user_id, cmp_id);
             Log.d("send json object", "json" + reactionMainObject);
-            Call<ReactionResponse> responseCall = apiInterface.submitReactionPart(token, reactionMainObject);
+            Call<ReactionResponse> responseCall = apiInterface.submitReactionPart(token, reactionMainObject.toString());
             responseCall.enqueue(new Callback<ReactionResponse>() {
                 @Override
                 public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {

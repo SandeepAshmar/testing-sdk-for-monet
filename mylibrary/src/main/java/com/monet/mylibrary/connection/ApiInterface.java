@@ -59,7 +59,7 @@ public interface ApiInterface {
     @Headers({"Content-Type: application/json",
             "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
     @POST("reactionCommentData")
-    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body JSONObject jsonObject);
+    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body String jsonObject);
 
     @Headers("Content-Type: application/json")
     @GET("videoUrlToMp4")
