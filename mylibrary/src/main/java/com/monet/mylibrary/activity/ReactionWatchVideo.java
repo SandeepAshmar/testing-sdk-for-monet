@@ -395,7 +395,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             jsonObject.put("coment", coment);
             jsonArray2.put(jsonObject);
             reactionMainObject.put(dialog_name, jsonArray2);
-        } else if (dialog_name.equalsIgnoreCase("Want to watch / buy")) {
+        } else if (dialog_name.equalsIgnoreCase("Want")) {
             jsonObject = new JSONObject();
             jsonObject.put("time", videoView.getCurrentPosition());
             jsonObject.put("coment", coment);
