@@ -56,7 +56,8 @@ public interface ApiInterface {
 //    @POST("savereaction")
 //    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body ReactionPost reactionPost);
 
-    @Headers("Content-Type: application/json")
+    @Headers({"Content-Type: application/json",
+            "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
     @POST("reactionCommentData")
     Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body JSONObject jsonObject);
 
