@@ -209,7 +209,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
             };
             handler.postDelayed(runnable, 1000);
         } else {
-          //  Toast.makeText(this, "Video Finish...", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Video Finish...", Toast.LENGTH_SHORT).show();
 //            if (!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")) {
 //                pb_recactionVideo.setVisibility(View.VISIBLE);
 //            } else {
@@ -274,7 +274,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 return null;
             }
         };
-
+        videoStopTime = videoView.getCurrentPosition();
         pauseVideo();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
@@ -306,7 +306,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    videoStopTime = videoView.getCurrentPosition();
                     playVideoAgain();
                 }
             }
