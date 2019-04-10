@@ -136,36 +136,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
 
     }
 
-    private void getVideoUrlFromLink(String url) {
-        progressDialog(this, "Please wait...", true);
-        apiInterface.getMp4VideoUrl(url)
-                .enqueue(new Callback<VideoPojo>() {
-                    @Override
-                    public void onResponse(Call<VideoPojo> call, Response<VideoPojo> response) {
-                        progressDialog(ReactionWatchVideo.this, "Please wait...", false);
-                        if (response.body().getCode().equals("200")) {
-                            for (int i = 0; i < response.body().getResponse().size(); i++) {
-                                if (response.body().getResponse().get(i).getQuality().equals("medium")) {
-                                    playVideo(response.body().getResponse().get(i).getUrl());
-                                    break;
-                                }
-                                if (i == response.body().getResponse().size()) {
-                                    playVideo(response.body().getResponse().get(0).getUrl());
-                                    break;
-                                }
-                            }
-                        } else {
-                            Toast.makeText(ReactionWatchVideo.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<VideoPojo> call, Throwable t) {
-                        progressDialog(ReactionWatchVideo.this, "Please wait...", false);
-                    }
-                });
-    }
-
     private void playVideo(String url) {
         Uri uri = Uri.parse(url);
         videoView.setVideoURI(uri);
@@ -183,6 +153,8 @@ public class ReactionWatchVideo extends AppCompatActivity {
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                progressBarVideo.setProgress(videoView.getDuration());
+                tv_timeVideoView.setText("00:00");
                 try {
                     stagingJson.put("5", "5");
                 } catch (JSONException e) {
