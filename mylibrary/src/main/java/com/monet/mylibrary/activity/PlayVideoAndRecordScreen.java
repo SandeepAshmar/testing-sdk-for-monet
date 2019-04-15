@@ -87,18 +87,15 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         pb_emotionRound = findViewById(R.id.pb_emotionRound);
         ll_surfaceView = findViewById(R.id.ll_surfaceView);
 
+        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion,PlayVideoAndRecordScreen.this);
+
+
         handler = new Handler();
         handler1 = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
 
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        if (getVideoUrl(this).contains("youtube") || getVideoUrl(this).contains("vimeo")) {
-            getVideoUrlFromLink(getVideoUrl(this));
-        } else {
-            video_Url = "https://dev.monetrewards.com/" + getVideoUrl(this);
-            rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
-            playVideo();
-        }
+        playVideo(getVideoUrl(PlayVideoAndRecordScreen.this));
 
         img_detect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,39 +107,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         });
     }
 
-    private void getVideoUrlFromLink(String url) {
-        progressDialog(this, "Please wait...", true);
-        apiInterface.getMp4VideoUrl(url)
-                .enqueue(new Callback<VideoPojo>() {
-                    @Override
-                    public void onResponse(Call<VideoPojo> call, Response<VideoPojo> response) {
-                        progressDialog(PlayVideoAndRecordScreen.this, "Please wait...", false);
-                        if (response.body().getCode().equals("200")) {
-                            for (int i = 0; i < response.body().getResponse().size(); i++) {
-                                if (response.body().getResponse().get(i).getQuality().equals("medium")) {
-                                    video_Url = response.body().getResponse().get(i).getUrl();
-                                    break;
-                                }
-                                if (i == response.body().getResponse().size()) {
-                                    video_Url = response.body().getResponse().get(0).getUrl();
-                                    break;
-                                }
-                            }
-                            rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion, PlayVideoAndRecordScreen.this);
-                            playVideo();
-                        } else {
-                            Toast.makeText(PlayVideoAndRecordScreen.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<VideoPojo> call, Throwable t) {
-                        progressDialog(PlayVideoAndRecordScreen.this, "Please wait...", false);
-                    }
-                });
-    }
-
-    private void playVideo() {
+    private void playVideo(String video_Url) {
         Uri uri = Uri.parse(video_Url);
         videoViewEmotion.setVideoURI(uri);
         videoViewEmotion.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
