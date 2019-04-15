@@ -86,7 +86,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public static String quesType = "";
     private int questionNo = 0;
     public static String token, type, cmp_id, qusId, selectedAnsId, selectedQuesId, questionType, typeFiveReason = "";
-    public static AnswerSavedClass savedQuesAndAnswers = new AnswerSavedClass();
+    public static AnswerSavedClass savedQuesAndAnswers;
     public static JSONObject dataPostJson1 = new JSONObject();
     public static JSONObject quesJson = new JSONObject();
     public static JSONObject quesJsonGrid = new JSONObject();
@@ -221,6 +221,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         quesJson = new JSONObject();
         quesJsonGrid = new JSONObject();
         jsonArray = new JSONArray();
+        savedQuesAndAnswers = new AnswerSavedClass();
 
         dialog = new Dialog(QuestionActivity.this, R.style.Theme_Dialog);
 
