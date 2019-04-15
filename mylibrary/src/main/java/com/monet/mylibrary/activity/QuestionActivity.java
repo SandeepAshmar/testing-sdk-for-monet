@@ -866,8 +866,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         e.printStackTrace();
                     }
 
-//                    startActivity(new Intent(this, ReactionScreen.class));  uncomment it .
-                    startActivity(new Intent(this, EmotionScreen.class));
+                    startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
