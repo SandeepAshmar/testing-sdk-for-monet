@@ -87,6 +87,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         pb_emotionRound = findViewById(R.id.pb_emotionRound);
         ll_surfaceView = findViewById(R.id.ll_surfaceView);
 
+        rtmpCamera1 = new RtmpCamera1(surfaceViewEmotion,PlayVideoAndRecordScreen.this);
+
         handler = new Handler();
         handler1 = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
