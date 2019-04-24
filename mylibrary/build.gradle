@@ -23,7 +23,7 @@ android {
 
     buildTypes {
         release {
-            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8126/api/"'
+            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8125/api/"'
 //            buildConfigField 'String', 'hostAPI', '"http://dev.monetrewards.com/MonetSdk/api/"'
             buildConfigField 'String', 'rtmpUrl', '"rtmp://dev.monetrewards.com/Monet/"'
             //    public static final String BASE_URL = "https://dev.monetrewards.com/appSandbox/api/";
@@ -31,7 +31,7 @@ android {
 //            public static final String BASE_URL = "https://dev.monetrewards.com/MonetSDK/api/";
         }
         debug {
-            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8126/api/"'
+            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8125/api/"'
 //            buildConfigField 'String', 'hostAPI', '"http://dev.monetrewards.com/MonetSdk/api/"'
             buildConfigField 'String', 'rtmpUrl', '"rtmp://dev.monetrewards.com/Monet/"'
         }
