@@ -480,7 +480,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 btn_question.setVisibility(View.GONE);
                 questionType = "grid";
                 selectedQuesId = postQuestions.get(questionNo).getQs_id();
-                gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
+                gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
             } else if (postQuestions.get(questionNo).getQuestionType().equals("image")) {

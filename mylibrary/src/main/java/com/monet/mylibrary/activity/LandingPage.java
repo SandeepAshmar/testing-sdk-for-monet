@@ -168,7 +168,7 @@ public class LandingPage extends AppCompatActivity {
                 } else {
                     if (response.body().getCode().equals("200")) {
                         if (response.body().getData().getSequence() == null) {
-                            checkSuccessResponse.onSDKResponse(false, response.body().getMessage());
+                            checkSuccessResponse.onSDKResponse(false, "No Campaign Flow Found");
                         } else {
                             activity.startActivity(new Intent(activity, LandingPage.class));
                             checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
@@ -183,7 +183,6 @@ public class LandingPage extends AppCompatActivity {
             @Override
             public void onFailure(Call<SdkPojo> call, Throwable t) {
                 SdkUtils.progressDialog(activity, "Please wait...", false);
-                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
                 checkSuccessResponse.onSDKResponse(false, t.getMessage());
             }
         });
