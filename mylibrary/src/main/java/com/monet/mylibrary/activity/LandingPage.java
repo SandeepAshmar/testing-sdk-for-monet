@@ -128,20 +128,7 @@ public class LandingPage extends AppCompatActivity {
             }
         });
     }
-
-    public void startCampaign(Activity activity, String cmpId, String userId, String license) {
-        landingActivity = activity;
-        activity.startActivity(new Intent(activity, LandingPage.class));
-        detailsResponses.clear();
-        preQuestions.clear();
-        postQuestions.clear();
-        arrayList.clear();
-        cmp_Id = cmpId;
-        user_Id = userId;
-        client_license = license;
-        getCmpFlow(activity);
-    }
-
+    
     public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license) {
 //        activity.startActivity(new Intent(activity, LandingPage.class));
         this.checkSuccessResponse = checkSuccessResponse;
