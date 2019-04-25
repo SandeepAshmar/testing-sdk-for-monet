@@ -167,13 +167,18 @@ public class LandingPage extends AppCompatActivity {
                     checkSuccessResponse.onSDKResponse(false, response.raw().message());
                 } else {
                     if (response.body().getCode().equals("200")) {
-                        if (response.body().getData().getSequence() == null) {
+                        try{
+                            if (response.body().getData().getSequence() == null) {
+                                checkSuccessResponse.onSDKResponse(false, "No Campaign Flow Found");
+                            } else {
+                                activity.startActivity(new Intent(activity, LandingPage.class));
+                                checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
+                                saveDetails(activity, response);
+                            }
+                        }catch (Exception e){
                             checkSuccessResponse.onSDKResponse(false, "No Campaign Flow Found");
-                        } else {
-                            activity.startActivity(new Intent(activity, LandingPage.class));
-                            checkSuccessResponse.onSDKResponse(true, response.body().getMessage());
-                            saveDetails(activity, response);
                         }
+
                     } else {
                         checkSuccessResponse.onSDKResponse(false, response.body().getMessage());
                     }
