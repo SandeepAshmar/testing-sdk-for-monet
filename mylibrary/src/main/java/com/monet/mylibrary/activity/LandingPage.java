@@ -128,7 +128,7 @@ public class LandingPage extends AppCompatActivity {
             }
         });
     }
-    
+
     public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license) {
 //        activity.startActivity(new Intent(activity, LandingPage.class));
         this.checkSuccessResponse = checkSuccessResponse;
