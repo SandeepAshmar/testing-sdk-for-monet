@@ -124,6 +124,7 @@ public class SdkUtils {
         pojoCall.enqueue(new Callback<StagingPojo>() {
             @Override
             public void onResponse(Call<StagingPojo> call, Response<StagingPojo> response) {
+
                 if (response.body() == null) {
                     Log.d("TAG", "staging error: "+response.raw().message());
                 } else {

@@ -153,6 +153,7 @@ public class ReactionWatchVideo extends AppCompatActivity {
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                pb_recactionVideo.setVisibility(View.GONE);
                 progressBarVideo.setProgress(videoView.getDuration());
                 tv_timeVideoView.setText("00:00");
                 try {
@@ -180,49 +181,16 @@ public class ReactionWatchVideo extends AppCompatActivity {
             };
             handler.postDelayed(runnable, 1000);
         } else {
-            //  Toast.makeText(this, "Video Finish...", Toast.LENGTH_SHORT).show();
-//            if (!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")) {
-//                pb_recactionVideo.setVisibility(View.VISIBLE);
-//            } else {
-//                pb_recactionVideo.setVisibility(View.GONE);
-//            }
+            if (!convertVideoTime(videoView.getCurrentPosition()).equalsIgnoreCase("00:00")) {
+                pb_recactionVideo.setVisibility(View.GONE);
+            } else {
+                pb_recactionVideo.setVisibility(View.VISIBLE);
+            }
         }
     }
 
     private void setReactionIcons() {
-
-//        ArrayList<String> cmpList = new ArrayList<>();
-//        cmpList.add(String.valueOf(getCamEval(this)));
         iconNameList.addAll(getCamEval(this));
-
-//        if (cmpList.contains("a") || cmpList.contains("1")) {
-//                iconNameList.add("Like");
-//        }
-//        if (cmpList.contains("b") || cmpList.contains("2")) {
-//            iconNameList.add("Love");
-//        }
-//        if (cmpList.contains("c") || cmpList.contains("3")) {
-//            iconNameList.add("Want");
-//        }
-//        if (cmpList.contains("d") || cmpList.contains("4")) {
-//            iconNameList.add("Memorable");
-//        }
-//        if (cmpList.contains("e") || cmpList.contains("5")) {
-//            iconNameList.add("Dislike");
-//        }
-//        if (cmpList.contains("f") || cmpList.contains("6")) {
-//            iconNameList.add("Accurate");
-//        }
-//        if (cmpList.contains("g") || cmpList.contains("7")) {
-//            iconNameList.add("Misleading");
-//        }
-//        if (cmpList.contains("h") || cmpList.contains("8")) {
-//            iconNameList.add("Engaging");
-//        }
-//        if (cmpList.contains("i") || cmpList.contains("9")) {
-//            iconNameList.add("Boring");
-//        }
-
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         reactionIconsAdapter = new ReactionIconsAdapter(this, iClickListener, iconNameList);
         recyclerView.setAdapter(reactionIconsAdapter);

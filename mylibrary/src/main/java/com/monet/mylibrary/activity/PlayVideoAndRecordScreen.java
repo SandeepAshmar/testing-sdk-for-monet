@@ -176,7 +176,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         checkNetworkType();
         if (rtmpCamera1.isRecording() || prepareEncoders()) {
             String rtmpUrl = BuildConfig.rtmpUrl + getCfId(this);
-            Log.d("TAG", "recordingStart: rtmpurl " + rtmpUrl);
+//            Log.d("TAG", "recordingStart: rtmpurl " + rtmpUrl);
             rtmpCamera1.startStream(rtmpUrl);
             if (flag == 0) {
                 try {
