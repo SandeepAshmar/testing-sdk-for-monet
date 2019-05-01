@@ -184,7 +184,7 @@ public class LandingPage extends AppCompatActivity {
     private void saveDetails(Activity activity, Response<SdkPojo> response) {
         SdkPreferences.setCmpId(activity, cmp_Id);
         SdkPreferences.setUserId(activity, user_Id);
-        SdkPreferences.setCfId(activity, Integer.parseInt(response.body().getData().getUser_ex_id()));
+        SdkPreferences.setCfId(activity, Integer.parseInt(response.body().getData().getUser_response_id()));
         SdkPreferences.setApiToken(activity, "Bearer " + response.body().getData().getToken());
         if (response.body().getData().getPre() != null) {
             preQuestions.addAll(response.body().getData().getPre().getQuestions());
