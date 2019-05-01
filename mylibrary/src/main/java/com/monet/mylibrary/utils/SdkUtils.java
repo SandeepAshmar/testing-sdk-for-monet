@@ -1,5 +1,6 @@
 package com.monet.mylibrary.utils;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -46,8 +47,11 @@ public class SdkUtils {
 //        d.show();
 //    }
 
+    @SuppressLint("DefaultLocale")
     public static String convertVideoTime(long millis) {
-        return ""+ DateFormat.format("hh:mm:ss", millis);
+
+        long secs = millis / 1000;
+        return String.format("%02d:%02d:%02d", secs / 3600, (secs % 3600) / 60, secs % 60);
 
 //        String videoTime, hourString, minutesString, secoundsString;
 //        long secoundsInMilli = 1000;
