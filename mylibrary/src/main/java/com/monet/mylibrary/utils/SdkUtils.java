@@ -47,21 +47,21 @@ public class SdkUtils {
 
     public static String convertVideoTime(long millis) {
         String videoTime, hourString, minutesString, secoundsString;
-//        long secoundsInMilli = 1000;
-//        long minutesInMilli = secoundsInMilli * 60;
-//        long hoursInMilli = minutesInMilli * 60;
-//
-//        long hours = millis / hoursInMilli;
-//        millis = millis % hoursInMilli;
-//
-//        long minutes = millis / minutesInMilli;
-//        millis = millis % minutesInMilli;
-//
-//        long secounds = Math.round(millis / secoundsInMilli);
+        long secoundsInMilli = 1000;
+        long minutesInMilli = secoundsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
 
-        long secounds = (millis / 1000) % 60;
-        long minutes = (millis / (1000 * 60)) % 60;
-        long hours = millis / (1000 * 60 * 60);
+        long hours = millis / hoursInMilli;
+        millis = millis % hoursInMilli;
+
+        long minutes = millis / minutesInMilli;
+        millis = millis % minutesInMilli;
+
+        long secounds = Math.round(millis / secoundsInMilli);
+
+        secounds = (millis / 1000) % 60;
+        minutes = (millis / (1000 * 60)) % 60;
+        hours = millis / (1000 * 60 * 60);
 
         if (hours == 0) {
             if (minutes >= 0 && minutes <= 9) {
@@ -126,19 +126,19 @@ public class SdkUtils {
             public void onResponse(Call<StagingPojo> call, Response<StagingPojo> response) {
 
                 if (response.body() == null) {
-                    Log.d("TAG", "staging error: "+response.raw().message());
+                    Log.d("TAG", "staging error: " + response.raw().message());
                 } else {
                     if (response.body().getCode().equalsIgnoreCase("200")) {
-                        Log.d("TAG", "staging success: "+response.body().getMessage());
+                        Log.d("TAG", "staging success: " + response.body().getMessage());
                     } else {
-                        Log.d("TAG", "staging caode no match: "+response.body().getMessage());
+                        Log.d("TAG", "staging caode no match: " + response.body().getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<StagingPojo> call, Throwable t) {
-                Log.d("TAG", "staging through: "+ t.getMessage());
+                Log.d("TAG", "staging through: " + t.getMessage());
             }
         });
     }
