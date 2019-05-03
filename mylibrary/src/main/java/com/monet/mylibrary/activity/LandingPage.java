@@ -127,7 +127,7 @@ public class LandingPage extends AppCompatActivity {
         arrayList.clear();
         cmp_Id = cmpId;
         user_Id = userId;
-        setlicence_key(this, license);
+        setlicence_key(landingActivity, license);
         getCmpFlow(activity);
     }
 
