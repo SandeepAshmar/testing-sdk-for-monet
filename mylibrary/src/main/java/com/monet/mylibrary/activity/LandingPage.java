@@ -134,7 +134,7 @@ public class LandingPage extends AppCompatActivity {
     private void getCmpFlow(final Activity activity) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(getlicence_key(this), cmp_Id, user_Id);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(getlicence_key(activity), cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
