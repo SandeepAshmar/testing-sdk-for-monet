@@ -14,7 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
-import static com.monet.mylibrary.activity.LandingPage.stagingJson;
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
+import static com.monet.mylibrary.utils.SdkPreferences.setPageStage;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class ReactionScreen extends AppCompatActivity {
@@ -36,12 +37,6 @@ public class ReactionScreen extends AppCompatActivity {
         reactionImageSliderAdapter = new ReactionImageSliderAdapter(getSupportFragmentManager());
         viewPager.setAdapter(reactionImageSliderAdapter);
         circleIndicator.setViewPager(viewPager);
-
-        try {
-            stagingJson.put("5", "2");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -67,10 +62,17 @@ public class ReactionScreen extends AppCompatActivity {
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String pageStage = getPageStage(ReactionScreen.this);
+                pageStage = pageStage.replace("reaction=q-card-start", "reaction=video-start");
+                setPageStage(ReactionScreen.this, pageStage);
+                sendStagingData(ReactionScreen.this, 0);
                 startActivity(new Intent(ReactionScreen.this, ReactionWatchVideo.class));
                 finish();
             }
         });
+
+        setPageStage(this, getPageStage(this) + ",reaction=q-card-start");
+        sendStagingData(this, 0);
 
     }
 
@@ -82,6 +84,9 @@ public class ReactionScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        String pageStage = getPageStage(ReactionScreen.this);
+        pageStage = pageStage.replace("reaction=q-card-start", "reaction=q-card-exit");
+        setPageStage(ReactionScreen.this, pageStage);
         sendStagingData(this, 0);
         finish();
         super.onBackPressed();

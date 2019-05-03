@@ -233,10 +233,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if (quesType.equalsIgnoreCase("Pre")) {
             questionSize = preQuestions.size();
-            setPageStage(QuestionActivity.this, getPageStage(this) + "pre=question-start");
+            setPageStage(QuestionActivity.this, getPageStage(this) + ",pre=question-start");
         } else {
             questionSize = postQuestions.size();
-            setPageStage(QuestionActivity.this, getPageStage(this) + "post=question-start");
+            setPageStage(QuestionActivity.this, getPageStage(this) + ",post=question-start");
         }
         sendStagingData(this, 0);
 

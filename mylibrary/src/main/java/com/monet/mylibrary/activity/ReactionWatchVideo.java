@@ -43,7 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
-import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCamEval;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
@@ -51,13 +50,16 @@ import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.getUserId;
 import static com.monet.mylibrary.utils.SdkPreferences.getVideoUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.setPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 
 public class ReactionWatchVideo extends AppCompatActivity {
@@ -124,12 +126,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
         user_id = getUserId(this);
         cmp_id = getCmpId(this);
 
-        try {
-            stagingJson.put("5", "4");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         handler = new Handler();
         playVideo(getVideoUrl(this));
@@ -156,11 +152,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 pb_recactionVideo.setVisibility(View.GONE);
                 progressBarVideo.setProgress(videoView.getDuration());
                 tv_timeVideoView.setText("00:00");
-                try {
-                    stagingJson.put("5", "5");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 iconNameList.clear();
                 dialog.dismiss();
                 submitReactionPart();
@@ -251,6 +242,10 @@ public class ReactionWatchVideo extends AppCompatActivity {
     }
 
     private void submitReactionPart() {
+        String pageStage = getPageStage(ReactionWatchVideo.this);
+        pageStage = pageStage.replace("reaction=video-start", "reaction=video-watch-complete");
+        setPageStage(ReactionWatchVideo.this, pageStage);
+        sendStagingData(ReactionWatchVideo.this, 0);
         if (reactionMainObject.length() == 0) {
             setScreen();
             finish();
@@ -498,7 +493,6 @@ public class ReactionWatchVideo extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-      //  videoStopTime = videoView.getCurrentPosition();
         videoView.pause();
         intrupt = true;
     }
