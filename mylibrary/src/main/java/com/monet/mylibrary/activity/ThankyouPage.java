@@ -64,7 +64,6 @@ public class ThankyouPage extends AppCompatActivity {
         btn_cam_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn_cam_proceed.getText().equals("Finish")) {
                     sendFinalStagingData(3);
                     setMaxValue = 0;
                     setMinValue = 0;
@@ -72,18 +71,13 @@ public class ThankyouPage extends AppCompatActivity {
 
                     sendStagingData(ThankyouPage.this, 3);
                     finish();
-                } else {
-                    setScreen();
-                    finish();
-                }
             }
         });
     }
 
     public void sendFinalStagingData(int success) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SurvayPojo> pojoCall = apiInterface.updatePageStage(getApiToken(this), getlicence_key(this),
-                getPageStage(this), success);
+        Call<SurvayPojo> pojoCall = apiInterface.updatePageStage(getApiToken(this),getPageStage(this), success);
 
         Log.d("TAG", "sendStagingData: " + getPageStage(this) + " success:- " + success);
 
@@ -179,96 +173,6 @@ public class ThankyouPage extends AppCompatActivity {
                 }
             }
         }).start();
-    }
-
-    public void setScreen() {
-        int count = Integer.valueOf(SdkPreferences.getCmpLength(this));
-        int i = SdkPreferences.getCmpLengthCount(this);
-
-        if (count == 1) {
-            setDetails();
-            runSeekBar();
-            SdkPreferences.setCmpLength(this, 0);
-            SdkPreferences.setCmpLengthCountFlag(this, 0);
-            SdkPreferences.setCmpLengthCount(this, 0);
-        } else {
-
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
-                    SdkPreferences.setQuestionType(this, "pre");
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
-                    startActivity(new Intent(this, QuestionActivity.class));
-                    finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
-                    SdkPreferences.setQuestionType(this, "post");
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
-                    startActivity(new Intent(this, QuestionActivity.class));
-                    finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
-                    startActivity(new Intent(this, EmotionScreen.class));
-                    finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
-                    SdkPreferences.setCmpLengthCount(this, i + 1);
-                    startActivity(new Intent(this, ReactionScreen.class));
-                    finish();
-                }
-            } else {
-
-                int flag = SdkPreferences.getCmpLengthCountFlag(this);
-                SdkPreferences.setCmpLengthCountFlag(this, flag + 1);
-                getData();
-            }
-
-        }
-
-    }
-
-    private void getData() {
-        String cmp_id = SdkPreferences.getCmpId(this);
-        token = SdkPreferences.getApiToken(this);
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<GetCampFlowPojo> pojoCall = apiInterface.getCampFlow(token, cmp_id);
-        pojoCall.enqueue(new Callback<GetCampFlowPojo>() {
-            @Override
-            public void onResponse(Call<GetCampFlowPojo> call, Response<GetCampFlowPojo> response) {
-                if (response.body() == null) {
-                    Toast.makeText(ThankyouPage.this, response.raw().message(), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (response.body().getCode().equals("200")) {
-                        SdkPreferences.setCmpLength(ThankyouPage.this, setMaxValue);
-                        SdkPreferences.setCmpLengthCountFlag(ThankyouPage.this, setMinValue);
-                        arrayList.clear();
-                        arrayList.addAll(response.body().getResponse().getCmp_sequence());
-//                        SdkPreferences.setCamEval(ThankyouPage.this, response.body().getResponse().getCmp_eval());
-
-                        if (arrayList.get(0).equalsIgnoreCase("Pre")) {
-                            SdkPreferences.setQuestionType(ThankyouPage.this, "pre");
-                            startActivity(new Intent(ThankyouPage.this, QuestionActivity.class));
-                            finish();
-                        } else if (arrayList.get(0).equalsIgnoreCase("Post")) {
-                            SdkPreferences.setQuestionType(ThankyouPage.this, "post");
-                            startActivity(new Intent(ThankyouPage.this, QuestionActivity.class));
-                            finish();
-                        } else if (arrayList.get(0).equalsIgnoreCase("Emotion")) {
-                            startActivity(new Intent(ThankyouPage.this, EmotionScreen.class));
-                            finish();
-                        } else if (arrayList.get(0).equalsIgnoreCase("Reaction")) {
-                            startActivity(new Intent(ThankyouPage.this, ReactionScreen.class));
-                            finish();
-                        }
-
-                    } else {
-                        Toast.makeText(ThankyouPage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetCampFlowPojo> call, Throwable t) {
-                Toast.makeText(ThankyouPage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

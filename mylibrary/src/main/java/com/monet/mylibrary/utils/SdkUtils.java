@@ -3,15 +3,12 @@ package com.monet.mylibrary.utils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.model.StagingPojo;
 import com.monet.mylibrary.model.survay.SurvayPojo;
 
 import retrofit2.Call;
@@ -94,8 +91,7 @@ public class SdkUtils {
 
     public static void sendStagingData(final Context context, int success) {
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SurvayPojo> pojoCall = apiInterface.updatePageStage(getApiToken(context), getlicence_key(context),
-                getPageStage(context), success);
+        Call<SurvayPojo> pojoCall = apiInterface.updatePageStage(getApiToken(context), getPageStage(context), success);
 
         Log.d("TAG", "sendStagingData: " + getPageStage(context) + " suucess:- " + success);
 
