@@ -64,40 +64,12 @@ public class ThankyouPage extends AppCompatActivity {
         btn_cam_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    sendFinalStagingData(3);
                     setMaxValue = 0;
                     setMinValue = 0;
                     pStatus = 0;
 
                     sendStagingData(ThankyouPage.this, 3);
                     finish();
-            }
-        });
-    }
-
-    public void sendFinalStagingData(int success) {
-        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SurvayPojo> pojoCall = apiInterface.updatePageStage(getApiToken(this),getPageStage(this), success);
-
-        Log.d("TAG", "sendStagingData: " + getPageStage(this) + " success:- " + success);
-
-        pojoCall.enqueue(new Callback<SurvayPojo>() {
-            @Override
-            public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
-                if (response.body() == null) {
-                    Log.d("TAG", "staging error: " + response.raw().message());
-                } else {
-                    if (response.body().getCode().equalsIgnoreCase("200")) {
-                        Log.d("TAG", "staging success: " + response.body().getMessage());
-                    } else {
-                        Log.d("TAG", "staging code no match: " + response.body().getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SurvayPojo> call, Throwable t) {
-                Log.d("TAG", "staging through: " + t.getMessage());
             }
         });
     }
