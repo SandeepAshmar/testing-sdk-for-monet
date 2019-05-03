@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
+import static com.monet.mylibrary.utils.SdkPreferences.setPageStage;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class FaceDetectionScreen extends AppCompatActivity {
@@ -58,6 +60,10 @@ public class FaceDetectionScreen extends AppCompatActivity {
         super.onResume();
         createCameraSource();
         startCameraSource();
+        String pageStage = getPageStage(FaceDetectionScreen.this);
+        pageStage = pageStage.replace("emotion=q-card-complete", "emotion=face-detection-start");
+        setPageStage(FaceDetectionScreen.this, pageStage);
+        sendStagingData(this, 0);
     }
 
     private void createCameraSource() {
@@ -178,6 +184,10 @@ public class FaceDetectionScreen extends AppCompatActivity {
                 tv_notify.setText("Detected");
                 break;
             case 3:
+                String pageStage = getPageStage(FaceDetectionScreen.this);
+                pageStage = pageStage.replace("emotion=face-detection-start", "emotion=face-detection-complete");
+                setPageStage(FaceDetectionScreen.this, pageStage);
+                sendStagingData(FaceDetectionScreen.this, 0);
                 startActivity(new Intent(FaceDetectionScreen.this, PlayVideoAndRecordScreen.class));
                 finish();
                 mPreview.stop();
@@ -194,7 +204,10 @@ public class FaceDetectionScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        sendStagingData(this);
+        String pageStage = getPageStage(FaceDetectionScreen.this);
+        pageStage = pageStage.replace("emotion=face-detection-start", "emotion=face-detection-exit");
+        setPageStage(FaceDetectionScreen.this, pageStage);
+        sendStagingData(FaceDetectionScreen.this, 0);
         finish();
         super.onBackPressed();
     }

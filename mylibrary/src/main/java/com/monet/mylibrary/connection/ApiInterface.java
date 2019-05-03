@@ -23,19 +23,9 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-//    @Headers("Content-Type: application/json")
-//    @GET("campaignDetails")
-//    Call<GetCampDetails_Pojo> getCampDetails(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
-
-    @Headers({"Content-Type: application/json",
-    "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
+    @Headers("Content-Type: application/json")
     @POST("sdk")
-    Call<SdkPojo> getSdk(@Query("cmp_id") String cam_id, @Query("user_id") String userId);
-
-//    /*save survay answer*/
-//    @Headers("Content-Type: application/json")
-//    @POST("savesurveyanswers")
-//    Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token, @Body SurvayPost survayPost);
+    Call<SdkPojo> getSdk( @Header("licence-key") String licence,@Query("cmp_id") String cam_id, @Query("user_id") String userId);
 
     /*save survay answer*/
     @Headers({"Content-Type: application/json",
@@ -43,25 +33,17 @@ public interface ApiInterface {
     @POST("storeFeedback")
     Call<SurvayPojo> submitSurvayAns(@Header("Authorization") String token,@Body String survayPost);
 
-    /*get camp flow*/
-    @Headers("Content-Type: application/json")
-    @POST("feedbackStage")
-    Call<StagingPojo> sendStagingData(@Header("Authorization") String token, @Query("cmp_id") String cmp_id, @Query("jsonData") JSONObject jsonData);
-
     @Headers("Content-Type: application/json")
     @POST("getCampaign")
     Call<GetCampFlowPojo> getCampFlow(@Header("Authorization") String token, @Query("cmp_id") String cmp_id);
 
-//    @Headers("Content-Type: application/json")
-//    @POST("savereaction")
-//    Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body ReactionPost reactionPost);
+    @Headers("Content-Type: application/json")
+    @POST("updatePageStage")
+    Call<SurvayPojo> updatePageStage(@Header("Authorization") String token, @Header("licence-key") String licence,
+                                           @Query("page_stage") String page_stage, @Query("success_flag") int success_flag);
 
     @Headers({"Content-Type: application/json",
             "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
     @POST("reactionCommentData")
     Call<ReactionResponse> submitReactionPart(@Header("Authorization") String token, @Body String jsonObject);
-
-    @Headers("Content-Type: application/json")
-    @GET("videoUrlToMp4")
-    Call<VideoPojo> getMp4VideoUrl(@Query("video_url") String video_url);
 }

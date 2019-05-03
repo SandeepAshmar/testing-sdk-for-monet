@@ -52,7 +52,6 @@ import retrofit2.Response;
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
 import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
-import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
@@ -60,10 +59,12 @@ import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.getThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.getVideoTime;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.setPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
@@ -232,10 +233,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         if (quesType.equalsIgnoreCase("Pre")) {
             questionSize = preQuestions.size();
+            setPageStage(QuestionActivity.this, getPageStage(this) + "pre=question-start");
         } else {
             questionSize = postQuestions.size();
-            Toast.makeText(getApplicationContext(), "Post", Toast.LENGTH_SHORT).show();
+            setPageStage(QuestionActivity.this, getPageStage(this) + "post=question-start");
         }
+        sendStagingData(this, 0);
 
         edt_questionType.addTextChangedListener(new TextWatcher() {
             @Override
@@ -567,8 +570,18 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         questionNo = (questionNo - 1);
 
         if (questionNo == -1) {
+            if (quesType.equalsIgnoreCase("Pre")) {
+                questionSize = preQuestions.size();
+                String pageStage = getPageStage(QuestionActivity.this);
+                pageStage = pageStage.replace("pre=question-start", "pre=question-exit");
+                setPageStage(QuestionActivity.this, pageStage);
+            } else {
+                questionSize = postQuestions.size();
+                String pageStage = getPageStage(QuestionActivity.this);
+                pageStage = pageStage.replace("post=question-start", "post=question-exit");
+                setPageStage(QuestionActivity.this, pageStage);
+            }
             clearValues();
-            sendStagingData(this);
             finish();
         } else {
             btn_question.setBackgroundResource(R.drawable.btn_disabled);
@@ -579,7 +592,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onSupportNavigateUp() {
-        sendStagingData(this);
+        sendStagingData(this, 0);
         return super.onSupportNavigateUp();
     }
 
@@ -767,18 +780,16 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     if (response.body().getCode().equals("200")) {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        if (quesType.equalsIgnoreCase("pre")) {
-                            try {
-                                stagingJson.put("2", "2");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        if (quesType.equalsIgnoreCase("Pre")) {
+                            questionSize = preQuestions.size();
+                            String pageStage = getPageStage(QuestionActivity.this);
+                            pageStage = pageStage.replace("pre=question-start", "pre=question-complete");
+                            setPageStage(QuestionActivity.this, pageStage);
                         } else {
-                            try {
-                                stagingJson.put("3", "2");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            questionSize = postQuestions.size();
+                            String pageStage = getPageStage(QuestionActivity.this);
+                            pageStage = pageStage.replace("post=question-start", "post=question-complete");
+                            setPageStage(QuestionActivity.this, pageStage);
                         }
                         clearValues();
                         setScreen();
@@ -822,62 +833,37 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         } else {
             postQuestions.clear();
         }
+        sendStagingData(this, 0);
     }
 
     private void setScreen() {
-        int count = Integer.valueOf(getCmpLength(this));
+        int count = getCmpLength(this);
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -885,51 +871,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }

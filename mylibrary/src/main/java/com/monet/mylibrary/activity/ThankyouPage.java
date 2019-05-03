@@ -1,8 +1,10 @@
 package com.monet.mylibrary.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.monet.mylibrary.R;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.model.getCampignFlow.GetCampFlowPojo;
+import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.utils.SdkPreferences;
 
 import org.json.JSONException;
@@ -24,7 +27,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
-import static com.monet.mylibrary.activity.LandingPage.stagingJson;
+import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
+import static com.monet.mylibrary.utils.SdkPreferences.getlicence_key;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 
@@ -54,35 +59,51 @@ public class ThankyouPage extends AppCompatActivity {
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
 
         img_toolbarBack.setVisibility(View.GONE);
-
-        try {
-            stagingJson.put("6", "1");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         setDetails();
 
         btn_cam_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (btn_cam_proceed.getText().equals("Finish")) {
-                    try {
-                        stagingJson.put("6", "2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    sendFinalStagingData(3);
                     setMaxValue = 0;
                     setMinValue = 0;
                     pStatus = 0;
 
-                    sendStagingData(ThankyouPage.this);
+                    sendStagingData(ThankyouPage.this, 3);
                     finish();
                 } else {
                     setScreen();
                     finish();
                 }
+            }
+        });
+    }
+
+    public void sendFinalStagingData(int success) {
+        ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
+        Call<SurvayPojo> pojoCall = apiInterface.updatePageStage(getApiToken(this), getlicence_key(this),
+                getPageStage(this), success);
+
+        Log.d("TAG", "sendStagingData: " + getPageStage(this) + " success:- " + success);
+
+        pojoCall.enqueue(new Callback<SurvayPojo>() {
+            @Override
+            public void onResponse(Call<SurvayPojo> call, Response<SurvayPojo> response) {
+                if (response.body() == null) {
+                    Log.d("TAG", "staging error: " + response.raw().message());
+                } else {
+                    if (response.body().getCode().equalsIgnoreCase("200")) {
+                        Log.d("TAG", "staging success: " + response.body().getMessage());
+                    } else {
+                        Log.d("TAG", "staging code no match: " + response.body().getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SurvayPojo> call, Throwable t) {
+                Log.d("TAG", "staging through: " + t.getMessage());
             }
         });
     }
@@ -258,7 +279,7 @@ public class ThankyouPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        sendStagingData(this);
+        sendStagingData(this,0);
         finish();
         super.onBackPressed();
     }

@@ -82,7 +82,7 @@ public class ReactionScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        sendStagingData(this);
+        sendStagingData(this, 0);
         finish();
         super.onBackPressed();
     }

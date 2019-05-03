@@ -32,19 +32,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.getThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.getVideoTime;
+import static com.monet.mylibrary.utils.SdkPreferences.getlicence_key;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
+import static com.monet.mylibrary.utils.SdkPreferences.setPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
+import static com.monet.mylibrary.utils.SdkPreferences.setlicence_key;
 import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
@@ -58,9 +61,8 @@ public class LandingPage extends AppCompatActivity {
     public static ArrayList<PostQuestions> postQuestions = new ArrayList<>();
     private static Button btn_landProceed, btn_currentShows;
     private static CheckBox land_chack;
-    private static String cmp_Id, user_Id, apiToken, client_license;
+    private static String cmp_Id, user_Id;
     public static ArrayList<String> arrayList = new ArrayList<String>();
-    public static JSONObject stagingJson = new JSONObject();
     private static Activity landingActivity;
     private CheckSuccessResponse checkSuccessResponse;
 
@@ -76,18 +78,6 @@ public class LandingPage extends AppCompatActivity {
         tv_landCam = findViewById(R.id.tv_nameCurrentShows);
         tv_vid_landTime = findViewById(R.id.tv_videoTimeCurrentShows);
         btn_currentShows = findViewById(R.id.btn_currentShows);
-        try {
-            stagingJson.put("0", "3");
-            stagingJson.put("1", "1");
-            stagingJson.put("2", "0");
-            stagingJson.put("3", "0");
-            stagingJson.put("4", "0");
-            stagingJson.put("5", "0");
-            stagingJson.put("6", "0");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
 
         Picasso.with(this).load(getThumbUrl(this))
                 .into(img_currentShows);
@@ -111,11 +101,10 @@ public class LandingPage extends AppCompatActivity {
             public void onClick(View view) {
                 if (arrayList.size() != 0) {
                     if (land_chack.isChecked()) {
-                        try {
-                            stagingJson.put("1", "2");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        String pageStage = getPageStage(LandingPage.this);
+                        pageStage = pageStage.replace("landing=start", "landing=complete");
+                        setPageStage(LandingPage.this, pageStage);
+                        sendStagingData(landingActivity, 0);
                         setScreen();
                         finish();
                     } else {
@@ -130,7 +119,6 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license) {
-//        activity.startActivity(new Intent(activity, LandingPage.class));
         this.checkSuccessResponse = checkSuccessResponse;
         landingActivity = activity;
         detailsResponses.clear();
@@ -139,14 +127,14 @@ public class LandingPage extends AppCompatActivity {
         arrayList.clear();
         cmp_Id = cmpId;
         user_Id = userId;
-        client_license = license;
+        setlicence_key(this, license);
         getCmpFlow(activity);
     }
 
     private void getCmpFlow(final Activity activity) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(getlicence_key(this), cmp_Id, user_Id);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
@@ -198,7 +186,6 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setCmpLengthCount(activity, 0);
         SdkPreferences.setCamEval(activity, response.body().getData().getReaction_inputs());
         SdkPreferences.setVideoUrl(activity, response.body().getData().getContent_url());
-        apiToken = getApiToken(activity);
         setThumbUrl(activity, response.body().getData().getThumb_url());
         setCmpName(activity, response.body().getData().getCmp_name());
         String time = convertVideoTime(response.body().getData().getContent_length());
@@ -207,58 +194,33 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void setScreen() {
-        int count = Integer.valueOf(getCmpLength(this));
+        int count = getCmpLength(this);
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -266,51 +228,26 @@ public class LandingPage extends AppCompatActivity {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -325,13 +262,18 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        try {
-            stagingJson.put("1", "3");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        sendStagingData(landingActivity);
+        String pageStage = getPageStage(this);
+        pageStage = pageStage.replace("landing=start", "landing=exit");
+        setPageStage(this, pageStage);
+        sendStagingData(landingActivity, 0);
         finish();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        setPageStage(this, "device=android,landing=start");
+        sendStagingData(landingActivity, 0);
+        super.onResume();
     }
 }

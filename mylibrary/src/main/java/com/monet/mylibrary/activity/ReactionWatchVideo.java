@@ -410,58 +410,33 @@ public class ReactionWatchVideo extends AppCompatActivity {
     }
 
     private void setScreen() {
-        int count = Integer.valueOf(getCmpLength(this));
+        int count = getCmpLength(this);
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -469,51 +444,26 @@ public class ReactionWatchVideo extends AppCompatActivity {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }

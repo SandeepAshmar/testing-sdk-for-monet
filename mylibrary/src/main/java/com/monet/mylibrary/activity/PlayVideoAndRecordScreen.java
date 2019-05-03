@@ -37,22 +37,19 @@ import org.json.JSONException;
 import java.util.concurrent.TimeUnit;
 
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
-import static com.monet.mylibrary.activity.LandingPage.stagingJson;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.getVideoUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
+import static com.monet.mylibrary.utils.SdkPreferences.setPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
-import static com.monet.mylibrary.utils.SdkUtils.progressDialog;
+import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class PlayVideoAndRecordScreen extends AppCompatActivity implements ConnectCheckerRtmp {
 
@@ -105,6 +102,11 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 changeView();
             }
         });
+
+        String pageStage = getPageStage(PlayVideoAndRecordScreen.this);
+        pageStage = pageStage.replace("emotion=face-detection-complete", "emotion=face-recodring-start");
+        setPageStage(PlayVideoAndRecordScreen.this, pageStage);
+        sendStagingData(PlayVideoAndRecordScreen.this, 0);
     }
 
 
@@ -137,14 +139,13 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             @Override
             public void onCompletion(MediaPlayer mp) {
                 detecting = false;
-                try {
-                    stagingJson.put("4", "5");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 rtmpCamera1.stopStream();
                 rtmpCamera1.stopPreview();
                 rtmpCamera1.disableFaceDetection();
+                String pageStage = getPageStage(PlayVideoAndRecordScreen.this);
+                pageStage = pageStage.replace("emotion=face-recodring-start", "emotion=face-recodring-complete");
+                setPageStage(PlayVideoAndRecordScreen.this, pageStage);
+                sendStagingData(PlayVideoAndRecordScreen.this, 0);
                 setScreen();
                 finish();
             }
@@ -283,22 +284,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 bitrate * 1024, false, CameraHelper.getCameraOrientation(this));
     }
 
-    private void changeImage(int length) {
-        faceDetect = true;
-        if (length == 0) {
-            img_detect.setVisibility(View.VISIBLE);
-            count = true;
-            detecting = true;
-//            notDetectDialog();
-        } else {
-            img_detect.setVisibility(View.GONE);
-            if (count) {
-                countPercentage();
-                detecting = false;
-            }
-        }
-    }
-
     private void changeView() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -309,43 +294,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         }, 3000);
     }
 
-    private void notDetectDialog() {
-        if (detecting) {
-            runnable1 = new Runnable() {
-                @Override
-                public void run() {
-                    if (detecting) {
-                        img_detect.setVisibility(View.INVISIBLE);
-                        surfaceViewEmotion.setVisibility(View.VISIBLE);
-                    }
-                }
-            };
-            handler.postDelayed(runnable1, 5000);
-        } else {
-            handler1.removeCallbacks(runnable1);
-        }
-    }
-
-    private void countPercentage() {
-        count = false;
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                detectedTime = detectedTime + 1;
-                count = true;
-            }
-        };
-        handler.postDelayed(runnable, 1000);
-    }
-
     @Override
     public void onConnectionSuccessRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(PlayVideoAndRecordScreen.this, "onConnectionSuccessRtmp", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -355,6 +305,10 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                String pageStage = getPageStage(PlayVideoAndRecordScreen.this);
+                pageStage = pageStage.replace("emotion=face-recodring-start", "emotion=face-recording-problem");
+                setPageStage(PlayVideoAndRecordScreen.this, pageStage);
+                sendStagingData(PlayVideoAndRecordScreen.this, 0);
                 Toast.makeText(PlayVideoAndRecordScreen.this, "There is something went wrong please try again", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(PlayVideoAndRecordScreen.this, LandingPage.class));
                 finish();
@@ -364,87 +318,46 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
     @Override
     public void onDisconnectRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(PlayVideoAndRecordScreen.this, "onDisconnectRtmp", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public void onAuthErrorRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(PlayVideoAndRecordScreen.this, "onAuthErrorRtmp", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override
     public void onAuthSuccessRtmp() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(PlayVideoAndRecordScreen.this, "onAuthSuccessRtmp", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     private void setScreen() {
-        int count = Integer.valueOf(getCmpLength(this));
+        int count = getCmpLength(this);
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
@@ -452,51 +365,26 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
             if (arrayList.size() > i) {
                 if (arrayList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
-                    try {
-                        stagingJson.put("2", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
-                    try {
-                        stagingJson.put("3", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("4", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
                 } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
-                    try {
-                        stagingJson.put("5", "1");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
                 }
             } else {
                 int flag = getCmpLengthCountFlag(this);
                 setCmpLengthCountFlag(this, flag + 1);
-                try {
-                    stagingJson.put("6", "1");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 startActivity(new Intent(this, ThankyouPage.class));
                 finish();
             }
