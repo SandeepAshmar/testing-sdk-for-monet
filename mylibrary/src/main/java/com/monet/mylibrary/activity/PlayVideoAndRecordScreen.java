@@ -22,19 +22,12 @@ import android.widget.VideoView;
 
 import com.monet.mylibrary.BuildConfig;
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.connection.ApiInterface;
-import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.model.video.VideoPojo;
 import com.pedro.encoder.input.video.Camera1ApiManager;
 import com.pedro.encoder.input.video.CameraHelper;
 import com.pedro.encoder.input.video.CameraOpenException;
 import com.pedro.rtplibrary.rtmp.RtmpCamera1;
 
 import net.ossrs.rtmp.ConnectCheckerRtmp;
-
-import org.json.JSONException;
-
-import java.util.concurrent.TimeUnit;
 
 import androidx.appcompat.app.AppCompatActivity;
 import static com.monet.mylibrary.activity.LandingPage.arrayList;
@@ -59,16 +52,11 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private ProgressBar pb_emotion, pb_emotionRound;
     private TextView tv_videoTimeEmotion;
     private SurfaceView surfaceViewEmotion;
-    private String video_Url;
-    private ApiInterface apiInterface;
     private RtmpCamera1 rtmpCamera1;
-    private Runnable runnable1;
     private Handler handler;
-    private Handler handler1;
     private Runnable runnable;
     private short flag = 0, bitrate = 150;
-    private int detectedTime = 0, minVisionTime = 0;
-    private boolean count = true, detecting = false, faceDetect = false, doubleBackToExitPressedOnce = false, connectionStatus;
+    private boolean doubleBackToExitPressedOnce = false, connectionStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +76,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
 
 
         handler = new Handler();
-        handler1 = new Handler();
         img_toolbarBack.setVisibility(View.GONE);
 
-        apiInterface = BaseUrl.getClient().create(ApiInterface.class);
         playVideo(getVideoUrl(PlayVideoAndRecordScreen.this));
 
         img_detect.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +105,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 recordingStart();
                 videoViewEmotion.start();
                 pb_emotion.setMax(videoViewEmotion.getDuration());
-                minVisionTime = (int) TimeUnit.MILLISECONDS.toSeconds((videoViewEmotion.getDuration() * 70) / 100);
                 setProgressBar();
                 changeView();
             }
@@ -138,7 +123,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         videoViewEmotion.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                detecting = false;
                 rtmpCamera1.stopStream();
                 rtmpCamera1.stopPreview();
                 rtmpCamera1.disableFaceDetection();
