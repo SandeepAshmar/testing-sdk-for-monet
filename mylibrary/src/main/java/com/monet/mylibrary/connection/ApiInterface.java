@@ -16,7 +16,7 @@ public interface ApiInterface {
     @Headers({"Content-Type: application/json",
             "licence-key: fsdjhkdjsfhsjkdfhjkdsahfjkdshgjkhd"})
     @POST("sdk")
-    Call<SdkPojo> getSdk(@Query("cmp_id") String cam_id, @Query("user_id") String userId);
+    Call<SdkPojo> getSdk(@Query("cmp_id") String cam_id, @Query("user_id") String userId, @Query("gender") String gender, @Query("age") String age);
 
     /*save survay answer*/
     @Headers({"Content-Type: application/json",

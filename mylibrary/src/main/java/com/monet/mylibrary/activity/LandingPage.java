@@ -118,7 +118,8 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId, String userId, String license) {
+    public void getSuccessResponse(CheckSuccessResponse checkSuccessResponse, Activity activity, String cmpId,
+                                   String userId, String license, String gender, String age) {
         this.checkSuccessResponse = checkSuccessResponse;
         landingActivity = activity;
         detailsResponses.clear();
@@ -128,13 +129,13 @@ public class LandingPage extends AppCompatActivity {
         cmp_Id = cmpId;
         user_Id = userId;
         setlicence_key(landingActivity, license);
-        getCmpFlow(activity);
+        getCmpFlow(activity, gender, age);
     }
 
-    private void getCmpFlow(final Activity activity) {
+    private void getCmpFlow(final Activity activity, String gender, String age) {
         SdkUtils.progressDialog(activity, "Please wait...", true);
         ApiInterface apiInterface = BaseUrl.getClient().create(ApiInterface.class);
-        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id);
+        Call<SdkPojo> pojoCall = apiInterface.getSdk(cmp_Id, user_Id, gender, age);
         pojoCall.enqueue(new Callback<SdkPojo>() {
             @Override
             public void onResponse(Call<SdkPojo> call, Response<SdkPojo> response) {
