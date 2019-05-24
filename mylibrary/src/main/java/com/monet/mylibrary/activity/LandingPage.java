@@ -49,6 +49,7 @@ import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
 import static com.monet.mylibrary.utils.SdkPreferences.setlicence_key;
 import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
+import static com.monet.mylibrary.utils.SdkUtils.convertVideoTimeForTextVeiw;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 public class LandingPage extends AppCompatActivity {
@@ -189,7 +190,7 @@ public class LandingPage extends AppCompatActivity {
         SdkPreferences.setVideoUrl(activity, response.body().getData().getContent_url());
         setThumbUrl(activity, response.body().getData().getThumb_url());
         setCmpName(activity, response.body().getData().getCmp_name());
-        String time = convertVideoTime(response.body().getData().getContent_length());
+        String time = convertVideoTimeForTextVeiw(response.body().getData().getContent_length());
         setVideoTime(activity, time);
 
     }
