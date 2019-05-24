@@ -34,9 +34,9 @@ public class SdkUtils {
 
     public static String convertVideoTime(long millis) {
         String videoTime, hourString, minutesString, secoundsString;
-        long secounds = (millis / 1000) % 60;
-        long minutes = (millis / (1000 * 60)) % 60;
-        long hours = millis / (1000 * 60 * 60);
+        long secounds = millis % 60;
+        long minutes = (millis /60) % 60;
+        long hours = millis / 3600;
 
         if (hours == 0) {
             if (minutes >= 0 && minutes <= 9) {
