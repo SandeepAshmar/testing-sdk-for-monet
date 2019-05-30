@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +24,7 @@ import com.monet.mylibrary.adapter.ReactionIconsAdapter;
 import com.monet.mylibrary.connection.ApiInterface;
 import com.monet.mylibrary.connection.BaseUrl;
 import com.monet.mylibrary.listner.IOnItemClickListener;
-import com.monet.mylibrary.model.reaction.ReactionPost;
 import com.monet.mylibrary.model.reaction.ReactionResponse;
-import com.monet.mylibrary.model.video.VideoPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,10 +39,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.activity.LandingPage.arrayList;
+import static com.monet.mylibrary.activity.LandingPage.sequenceList;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCamEval;
-import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
@@ -409,22 +405,22 @@ public class ReactionWatchVideo extends AppCompatActivity {
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
@@ -436,22 +432,22 @@ public class ReactionWatchVideo extends AppCompatActivity {
                 finish();
             }
         } else {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();

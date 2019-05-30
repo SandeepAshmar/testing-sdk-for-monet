@@ -1,35 +1,19 @@
 package com.monet.mylibrary.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.monet.mylibrary.R;
-import com.monet.mylibrary.connection.ApiInterface;
-import com.monet.mylibrary.connection.BaseUrl;
-import com.monet.mylibrary.model.getCampignFlow.GetCampFlowPojo;
-import com.monet.mylibrary.model.survay.SurvayPojo;
 import com.monet.mylibrary.utils.SdkPreferences;
 
-import org.json.JSONException;
-
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.monet.mylibrary.activity.LandingPage.arrayList;
-import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
-import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
-import static com.monet.mylibrary.utils.SdkPreferences.getlicence_key;
+import static com.monet.mylibrary.activity.LandingPage.sequenceList;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
 
@@ -68,7 +52,14 @@ public class ThankyouPage extends AppCompatActivity {
                     setMinValue = 0;
                     pStatus = 0;
 
-                    sendStagingData(ThankyouPage.this, 3);
+                    if(sequenceList.size() == 4){
+                        sendStagingData(ThankyouPage.this, 3);
+                    }else if(sequenceList.contains("emotion")){
+                        sendStagingData(ThankyouPage.this, 2);
+                    }else {
+                        sendStagingData(ThankyouPage.this, 1);
+                    }
+
                     finish();
             }
         });

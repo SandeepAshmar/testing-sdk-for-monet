@@ -22,9 +22,6 @@ import com.monet.mylibrary.utils.SdkPreferences;
 import com.monet.mylibrary.utils.SdkUtils;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +36,6 @@ import static com.monet.mylibrary.utils.SdkPreferences.getCmpName;
 import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
 import static com.monet.mylibrary.utils.SdkPreferences.getThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.getVideoTime;
-import static com.monet.mylibrary.utils.SdkPreferences.getlicence_key;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCount;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpLengthCountFlag;
 import static com.monet.mylibrary.utils.SdkPreferences.setCmpName;
@@ -48,7 +44,6 @@ import static com.monet.mylibrary.utils.SdkPreferences.setQuestionType;
 import static com.monet.mylibrary.utils.SdkPreferences.setThumbUrl;
 import static com.monet.mylibrary.utils.SdkPreferences.setVideoTime;
 import static com.monet.mylibrary.utils.SdkPreferences.setlicence_key;
-import static com.monet.mylibrary.utils.SdkUtils.convertVideoTime;
 import static com.monet.mylibrary.utils.SdkUtils.convertVideoTimeForTextVeiw;
 import static com.monet.mylibrary.utils.SdkUtils.sendStagingData;
 
@@ -63,7 +58,7 @@ public class LandingPage extends AppCompatActivity {
     private static Button btn_landProceed, btn_currentShows;
     private static CheckBox land_chack;
     private static String cmp_Id, user_Id;
-    public static ArrayList<String> arrayList = new ArrayList<String>();
+    public static ArrayList<String> sequenceList = new ArrayList<String>();
     private static Activity landingActivity;
     private CheckSuccessResponse checkSuccessResponse;
 
@@ -100,7 +95,7 @@ public class LandingPage extends AppCompatActivity {
         btn_landProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (arrayList.size() != 0) {
+                if (sequenceList.size() != 0) {
                     if (land_chack.isChecked()) {
                         String pageStage = getPageStage(LandingPage.this);
                         pageStage = pageStage.replace("landing=start", "landing=complete");
@@ -126,7 +121,7 @@ public class LandingPage extends AppCompatActivity {
         detailsResponses.clear();
         preQuestions.clear();
         postQuestions.clear();
-        arrayList.clear();
+        sequenceList.clear();
         cmp_Id = cmpId;
         user_Id = userId;
         setlicence_key(landingActivity, license);
@@ -183,7 +178,7 @@ public class LandingPage extends AppCompatActivity {
         if (response.body().getData().getPost() != null) {
             postQuestions.addAll(response.body().getData().getPost().getQuestions());
         }
-        arrayList.addAll(response.body().getData().getSequence());
+        sequenceList.addAll(response.body().getData().getSequence());
         SdkPreferences.setCmpLength(activity, 1);
         SdkPreferences.setCmpLengthCount(activity, 0);
         SdkPreferences.setCamEval(activity, response.body().getData().getReaction_inputs());
@@ -200,22 +195,22 @@ public class LandingPage extends AppCompatActivity {
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
@@ -227,22 +222,22 @@ public class LandingPage extends AppCompatActivity {
                 finish();
             }
         } else {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();

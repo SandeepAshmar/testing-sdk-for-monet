@@ -49,7 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.activity.LandingPage.arrayList;
+import static com.monet.mylibrary.activity.LandingPage.sequenceList;
 import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
@@ -841,22 +841,22 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
@@ -868,22 +868,22 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             }
         } else {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();

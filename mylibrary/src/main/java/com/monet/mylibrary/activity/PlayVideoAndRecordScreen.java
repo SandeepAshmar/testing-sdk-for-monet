@@ -30,7 +30,7 @@ import com.pedro.rtplibrary.rtmp.RtmpCamera1;
 import net.ossrs.rtmp.ConnectCheckerRtmp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import static com.monet.mylibrary.activity.LandingPage.arrayList;
+import static com.monet.mylibrary.activity.LandingPage.sequenceList;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLength;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpLengthCount;
@@ -319,22 +319,22 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
         int i = getCmpLengthCount(this);
 
         if (count == 1) {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
@@ -346,22 +346,22 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 finish();
             }
         } else {
-            if (arrayList.size() > i) {
-                if (arrayList.get(i).equalsIgnoreCase("Pre")) {
+            if (sequenceList.size() > i) {
+                if (sequenceList.get(i).equalsIgnoreCase("Pre")) {
                     setQuestionType(this, "pre");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Post")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Post")) {
                     setQuestionType(this, "post");
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, QuestionActivity.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Emotion")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Emotion")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, EmotionScreen.class));
                     finish();
-                } else if (arrayList.get(i).equalsIgnoreCase("Reaction")) {
+                } else if (sequenceList.get(i).equalsIgnoreCase("Reaction")) {
                     setCmpLengthCount(this, i + 1);
                     startActivity(new Intent(this, ReactionScreen.class));
                     finish();
