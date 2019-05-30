@@ -401,7 +401,8 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     protected void onResume() {
         super.onResume();
         if (intrupt) {
-            onCreate(new Bundle());
+            startActivity(new Intent(PlayVideoAndRecordScreen.this, PlayVideoAndRecordScreen.class));
+            finish();
             intrupt = false;
         }
     }
