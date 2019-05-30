@@ -56,7 +56,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private Handler handler;
     private Runnable runnable;
     private short flag = 0, bitrate = 150;
-    private boolean doubleBackToExitPressedOnce = false, connectionStatus;
+    private boolean doubleBackToExitPressedOnce = false, connectionStatus, intrupt = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,5 +389,20 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 doubleBackToExitPressedOnce = false;
             }
         }, 0);
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        intrupt = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (intrupt) {
+            onCreate(new Bundle());
+            intrupt = false;
+        }
     }
 }
