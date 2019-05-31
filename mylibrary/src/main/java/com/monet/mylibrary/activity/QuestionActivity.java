@@ -312,7 +312,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        setQuestion();
+//        setQuestion();
     }
 
     @Override
@@ -328,6 +328,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
 
             if (qCardVisible) {
+                if (quesType.equalsIgnoreCase("Pre")) {
+                    if(preQuestions.get(0).getQuestionType().equals("grid")){
+                        btn_question.setVisibility(View.GONE);
+                    }
+                } else {
+                    if(postQuestions.get(0).getQuestionType().equals("grid")){
+                        btn_question.setVisibility(View.GONE);
+                    }
+                }
                 cl_quesQCard.setVisibility(View.GONE);
                 cl_questionLayout.setVisibility(View.VISIBLE);
                 qCardVisible = false;
@@ -484,11 +493,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
-                if(qCardVisible){
-                    btn_question.setVisibility(View.VISIBLE);
-                }else{
-                    btn_question.setVisibility(View.GONE);
-                }
+                btn_question.setVisibility(View.GONE);
                 questionType = "grid";
                 selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
