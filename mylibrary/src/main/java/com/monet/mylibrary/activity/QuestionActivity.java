@@ -404,7 +404,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
-                btn_question.setVisibility(View.GONE);
+                if(qCardVisible){
+                    btn_question.setVisibility(View.VISIBLE);
+                }else{
+                    btn_question.setVisibility(View.GONE);
+                }
                 questionType = "grid";
                 selectedQuesId = preQuestions.get(questionNo).getQs_id();
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
@@ -480,7 +484,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 rate_layout.setVisibility(View.GONE);
                 ll_edtLayout.setVisibility(View.GONE);
                 rl_grid.setVisibility(View.VISIBLE);
-                btn_question.setVisibility(View.GONE);
+                if(qCardVisible){
+                    btn_question.setVisibility(View.VISIBLE);
+                }else{
+                    btn_question.setVisibility(View.GONE);
+                }
                 questionType = "grid";
                 selectedQuesId = postQuestions.get(questionNo).getQs_id();
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
