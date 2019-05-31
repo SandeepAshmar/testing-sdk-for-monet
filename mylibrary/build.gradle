@@ -23,15 +23,15 @@ android {
 
     buildTypes {
         release {
-//            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8125/api/"'
-            buildConfigField 'String', 'hostAPI', '"http://app.monetrewards.com/MonetSdk/api/"'
+            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8125/api/"'
+//            buildConfigField 'String', 'hostAPI', '"http://app.monetrewards.com/MonetSdk/api/"'
 //            buildConfigField 'String', 'hostAPI', '"http://dev.monetrewards.com/MonetSdk/api/"'
 //            buildConfigField 'String', 'rtmpUrl', '"rtmp://dev.monetrewards.com/Monet/"'
             buildConfigField 'String', 'rtmpUrl', '"rtmp://app.monetrewards.com/Monet/"'
         }
         debug {
-//            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8125/api/"'
-            buildConfigField 'String', 'hostAPI', '"http://app.monetrewards.com/MonetSdk/api/"'
+            buildConfigField 'String', 'hostAPI', '"http://192.168.1.114:8125/api/"'
+//            buildConfigField 'String', 'hostAPI', '"http://app.monetrewards.com/MonetSdk/api/"'
 //            buildConfigField 'String', 'hostAPI', '"http://dev.monetrewards.com/MonetSdk/api/"'
             buildConfigField 'String', 'rtmpUrl', '"rtmp://app.monetrewards.com/Monet/"'
 //            buildConfigField 'String', 'rtmpUrl', '"rtmp://dev.monetrewards.com/Monet/"'
