@@ -58,6 +58,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private short flag = 0, bitrate = 150;
     private boolean doubleBackToExitPressedOnce = false, connectionStatus, intrupt = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +127,7 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
                 rtmpCamera1.stopStream();
                 rtmpCamera1.stopPreview();
                 rtmpCamera1.disableFaceDetection();
+
                 String pageStage = getPageStage(PlayVideoAndRecordScreen.this);
                 pageStage = pageStage.replace("emotion=face-recodring-start", "emotion=face-recodring-complete");
                 setPageStage(PlayVideoAndRecordScreen.this, pageStage);
