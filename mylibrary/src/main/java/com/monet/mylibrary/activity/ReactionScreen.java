@@ -3,15 +3,15 @@ package com.monet.mylibrary.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.ReactionImageSliderAdapter;
 
-import org.json.JSONException;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
@@ -24,6 +24,7 @@ public class ReactionScreen extends AppCompatActivity {
     private CircleIndicator circleIndicator;
     private TextView tv_next;
     private ReactionImageSliderAdapter reactionImageSliderAdapter;
+    private ImageView forwardArrowImageViewRS, backArrowImageViewRS, img_toolbarBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,11 @@ public class ReactionScreen extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPagerReaction);
         tv_next = findViewById(R.id.textView8);
         circleIndicator = findViewById(R.id.circleIndicatorReaction);
+        forwardArrowImageViewRS = findViewById(R.id.forwardArrowImageView);
+        backArrowImageViewRS = findViewById(R.id.backArrowImageViewRS);
+        forwardArrowImageViewRS.setVisibility(View.VISIBLE);
+        img_toolbarBack = findViewById(R.id.img_toolbarBack);
+        img_toolbarBack.setVisibility(View.GONE);
 
         reactionImageSliderAdapter = new ReactionImageSliderAdapter(getSupportFragmentManager());
         viewPager.setAdapter(reactionImageSliderAdapter);
@@ -46,11 +52,29 @@ public class ReactionScreen extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 2) {
-                    tv_next.setVisibility(View.VISIBLE);
-                } else {
-                    tv_next.setVisibility(View.GONE);
+
+                switch (position) {
+                    case 0:
+                        tv_next.setVisibility(View.GONE);
+                        forwardArrowImageViewRS.setVisibility(View.VISIBLE);
+                        backArrowImageViewRS.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        forwardArrowImageViewRS.setVisibility(View.VISIBLE);
+                        backArrowImageViewRS.setVisibility(View.VISIBLE);
+                        tv_next.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        forwardArrowImageViewRS.setVisibility(View.GONE);
+                        backArrowImageViewRS.setVisibility(View.VISIBLE);
+                        tv_next.setVisibility(View.VISIBLE);
+                        break;
                 }
+//                if (position == 2) {
+//                    tv_next.setVisibility(View.VISIBLE);
+//                } else {
+//                    tv_next.setVisibility(View.GONE);
+//                }
             }
 
             @Override
@@ -58,6 +82,41 @@ public class ReactionScreen extends AppCompatActivity {
 
             }
         });
+
+        forwardArrowImageViewRS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPosition = viewPager.getCurrentItem();
+                switch (currentPosition) {
+                    case 0:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case 1:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    default:
+                        viewPager.setCurrentItem(2);
+                }
+            }
+        });
+
+        backArrowImageViewRS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPosition = viewPager.getCurrentItem();
+                switch (currentPosition) {
+                    case 1:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case 2:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    default:
+                        viewPager.setCurrentItem(0);
+                }
+            }
+        });
+
 
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
