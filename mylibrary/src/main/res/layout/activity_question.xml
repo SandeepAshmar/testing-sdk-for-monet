@@ -33,13 +33,14 @@
         app:layout_constraintVertical_bias="0.97"
         tools:ignore="HardcodedText" />
 
+    <!--cl_questionQCard android:visibility="visible"-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionQCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="visible"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/btn_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,16 +63,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="This part records your answers\nto a Questionnaire"
             android:gravity="center"
-            android:textSize="22sp"
+            android:text="This part records your answers\nto a Questionnaire"
             android:textColor="@color/colorWhite"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.586"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textView4"
@@ -85,9 +86,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.876"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--cl_questionLayout android:visibility="gone"-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionLayout"
         android:layout_width="0dp"
@@ -114,7 +116,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.073"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/tv_question"
@@ -131,8 +133,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.149"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
 
+        <!--rate_layout android:visibility="gone"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rate_layout"
             android:layout_width="match_parent"
@@ -180,6 +183,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--rl_grid android:visibility="gone"-->
         <RelativeLayout
             android:id="@+id/rl_grid"
             android:layout_width="0dp"
@@ -194,52 +198,55 @@
                 android:id="@+id/pager_grid"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
                 android:layout_above="@+id/indicatorGrid"
+                android:layout_alignParentStart="true"
                 android:overScrollMode="never" />
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicatorGrid"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true" />
 
+            <!-- tv_nextGrid android:visibility="gone" -->
             <TextView
                 android:id="@+id/tv_nextGrid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next"
-                android:visibility="gone"
-                android:elevation="5dp"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="18dp"
+                android:layout_alignParentBottom="true"
                 android:layout_marginRight="18dp"
+                android:layout_marginBottom="18dp"
+                android:elevation="5dp"
+                android:text="Next"
                 android:textColor="@color/colorWhite"
+                android:visibility="gone"
                 tools:ignore="HardcodedText,UnusedAttribute" />
 
         </RelativeLayout>
 
+        <!--rv_question android:visibility="gone" -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_question"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="5dp"
-            android:visibility="gone"
             android:foregroundGravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_question" />
 
+        <!--ll_edtLayout android:visibility="gone" -->
         <LinearLayout
             android:id="@+id/ll_edtLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/colorWhite"
+            android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -247,32 +254,33 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_question"
             app:layout_constraintVertical_bias="0.14999998">
 
-        <EditText
-            android:id="@+id/edt_questionType"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/comment_box"
-            android:gravity="top|left"
-            android:hint="write your answer here"
-            android:maxLength="500"
-            android:inputType="textMultiLine"
-            android:padding="10dp"
-            android:textColor="@color/colorGray"
-            android:textColorHint="@color/colorGray"
-            android:visibility="visible"/>
+            <!--edt_questionType android:visibility="visible"-->
+            <EditText
+                android:id="@+id/edt_questionType"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/comment_box"
+                android:gravity="top|left"
+                android:hint="write your answer here"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:padding="10dp"
+                android:textColor="@color/colorGray"
+                android:textColorHint="@color/colorGray"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_edtCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
-                android:text="0/500"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
+                android:text="0/500"
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>

@@ -58,7 +58,6 @@ public class PlayVideoAndRecordScreen extends AppCompatActivity implements Conne
     private short flag = 0, bitrate = 150;
     private boolean doubleBackToExitPressedOnce = false, connectionStatus, intrupt = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

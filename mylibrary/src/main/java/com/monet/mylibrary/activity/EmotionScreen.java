@@ -11,15 +11,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.monet.mylibrary.R;
-import com.monet.mylibrary.adapter.EmotionImageSliderAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import com.monet.mylibrary.R;
+import com.monet.mylibrary.adapter.EmotionImageSliderAdapter;
+
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.monet.mylibrary.utils.SdkPreferences.getPageStage;
@@ -31,6 +32,7 @@ public class EmotionScreen extends AppCompatActivity {
     private ViewPager imageSliderViewPager;
     private ImageView img_toolbarBack;
     private TextView tv_next;
+    private ImageView forwardArrowImageView, backArrowImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class EmotionScreen extends AppCompatActivity {
         tv_next = findViewById(R.id.tv_next);
         img_toolbarBack.setVisibility(View.GONE);
         imageSliderViewPager = findViewById(R.id.imageSliderViewPager);
+        backArrowImageView = findViewById(R.id.backArrowImageView);
+        forwardArrowImageView = findViewById(R.id.forwardArrowImageView);
 
         EmotionImageSliderAdapter emotionImageSliderAdapter = new EmotionImageSliderAdapter(getSupportFragmentManager());
         imageSliderViewPager.setAdapter(emotionImageSliderAdapter);
@@ -56,16 +60,69 @@ public class EmotionScreen extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 2) {
-                    tv_next.setVisibility(View.VISIBLE);
-                } else {
-                    tv_next.setVisibility(View.GONE);
+                switch (position) {
+                    case 0:
+                        forwardArrowImageView.setVisibility(View.VISIBLE);
+                        backArrowImageView.setVisibility(View.GONE);
+                        tv_next.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        forwardArrowImageView.setVisibility(View.VISIBLE);
+                        backArrowImageView.setVisibility(View.VISIBLE);
+                        tv_next.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        forwardArrowImageView.setVisibility(View.GONE);
+                        backArrowImageView.setVisibility(View.VISIBLE);
+                        tv_next.setVisibility(View.VISIBLE);
+                        break;
                 }
+
+//                if (position == 2) {
+//                    tv_next.setVisibility(View.VISIBLE);
+//                } else {
+//                    tv_next.setVisibility(View.GONE);
+//                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        forwardArrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPosition = imageSliderViewPager.getCurrentItem();
+                switch (currentPosition) {
+                    case 0:
+                        imageSliderViewPager.setCurrentItem(1);
+                        break;
+                    case 1:
+                        imageSliderViewPager.setCurrentItem(2);
+                        break;
+                    default:
+                        imageSliderViewPager.setCurrentItem(2);
+
+                }
+            }
+        });
+
+        backArrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPosition = imageSliderViewPager.getCurrentItem();
+                switch (currentPosition) {
+                    case 1:
+                        imageSliderViewPager.setCurrentItem(0);
+                        break;
+                    case 2:
+                        imageSliderViewPager.setCurrentItem(1);
+                        break;
+                    default:
+                        imageSliderViewPager.setCurrentItem(0);
+                }
             }
         });
 
@@ -94,10 +151,10 @@ public class EmotionScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setPageStage(this, getPageStage(this)+",emotion=q-card-start");
+        setPageStage(this, getPageStage(this) + ",emotion=q-card-start");
         sendStagingData(this, 0);
         if (checkCameraPermission()) {
-         //   Toast.makeText(this, "Permission granted onResume", Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(this, "Permission granted onResume", Toast.LENGTH_SHORT).show();
         } else {
             requestCameraPermission();
         }
@@ -144,7 +201,7 @@ public class EmotionScreen extends AppCompatActivity {
             alertDialog.show();
         } else {
             //take positive actions
-          //  Toast.makeText(this, "Permission granted onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Permission granted onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
         }
 
     }

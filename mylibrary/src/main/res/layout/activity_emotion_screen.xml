@@ -29,16 +29,18 @@
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/imageSliderCircleIndicator"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintEnd_toStartOf="@+id/forwardArrowImageView"
+        app:layout_constraintStart_toEndOf="@+id/backArrowImageView">
 
     </me.relex.circleindicator.CircleIndicator>
+
+
 
     <TextView
         android:id="@+id/tv_next"
@@ -54,6 +56,36 @@
         app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="@+id/imageSliderCircleIndicator"
         app:layout_constraintTop_toTopOf="@+id/imageSliderCircleIndicator" />
+
+    <ImageView
+        android:id="@+id/backArrowImageView"
+        android:layout_width="56dp"
+        android:layout_height="0dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="4dp"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageSliderCircleIndicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageSliderCircleIndicator"
+        app:srcCompat="@drawable/ic_back_arrow"
+        tools:ignore="VectorDrawableCompat" />
+
+    <ImageView
+        android:id="@+id/forwardArrowImageView"
+        android:layout_width="56dp"
+        android:layout_height="0dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="4dp"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageSliderCircleIndicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageSliderCircleIndicator"
+        app:srcCompat="@drawable/ic_forward_arrow"
+        tools:ignore="VectorDrawableCompat" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
