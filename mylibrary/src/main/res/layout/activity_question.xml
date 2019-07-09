@@ -40,7 +40,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btn_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,12 +89,12 @@
             tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--cl_questionLayout android:visibility="gone"-->
+    <!-- cl_questionLayout android:visibility="gone" -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_questionLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/btn_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -135,7 +135,7 @@
             app:layout_constraintVertical_bias="0.149"
             tools:ignore="HardcodedText" />
 
-        <!--rate_layout android:visibility="gone"-->
+        <!-- rate_layout android:visibility="gone" -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rate_layout"
             android:layout_width="match_parent"
@@ -183,16 +183,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--rl_grid android:visibility="gone"-->
+        <!-- rl_grid android:visibility="gone" -->
         <RelativeLayout
             android:id="@+id/rl_grid"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_question">
+            app:layout_constraintTop_toBottomOf="@+id/tv_question"
+            app:layout_constraintVertical_bias="1.0">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pager_grid"
@@ -223,9 +225,29 @@
                 android:visibility="gone"
                 tools:ignore="HardcodedText,UnusedAttribute" />
 
+            <ImageView
+                android:id="@+id/forwardArrowImageViewQA"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_forward_arrow"
+                android:padding="14dp"/>
+
+            <ImageView
+                android:id="@+id/backArrowImageViewQA"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:padding="14dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_back_arrow"/>
+
+
+
         </RelativeLayout>
 
-        <!--rv_question android:visibility="gone" -->
+        <!-- rv_question android:visibility="gone" -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_question"
             android:layout_width="0dp"
@@ -238,7 +260,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_question" />
 
-        <!--ll_edtLayout android:visibility="gone" -->
+        <!-- ll_edtLayout android:visibility="gone" -->
         <LinearLayout
             android:id="@+id/ll_edtLayout"
             android:layout_width="match_parent"
@@ -254,7 +276,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_question"
             app:layout_constraintVertical_bias="0.14999998">
 
-            <!--edt_questionType android:visibility="visible"-->
+            <!-- edt_questionType android:visibility="visible" -->
             <EditText
                 android:id="@+id/edt_questionType"
                 android:layout_width="match_parent"

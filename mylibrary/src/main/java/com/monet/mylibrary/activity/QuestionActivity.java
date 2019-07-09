@@ -99,6 +99,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private Dialog dialog;
     private SingleImageSelectionAdapter singleImageSelectionAdapter;
     private MultipleImageSelectionAdapter multipleImageSelectionAdapter;
+    private ImageView forwardArrowImageViewQA, backArrowImageViewQA;
 
     RadioClickListner radioClickListner = new RadioClickListner() {
         @Override
@@ -120,7 +121,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     savedQuesAndAnswers.setRadioAnsIds(ansId);
                 }
             }
-
         }
     };
 
@@ -213,6 +213,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         rl_grid = findViewById(R.id.rl_grid);
         indicatorGrid = findViewById(R.id.indicatorGrid);
         tv_nextGrid = findViewById(R.id.tv_nextGrid);
+        backArrowImageViewQA = findViewById(R.id.backArrowImageViewQA);
+        forwardArrowImageViewQA = findViewById(R.id.forwardArrowImageViewQA);
 
         btn_question.setOnClickListener(this);
         tv_nextGrid.setOnClickListener(this);
