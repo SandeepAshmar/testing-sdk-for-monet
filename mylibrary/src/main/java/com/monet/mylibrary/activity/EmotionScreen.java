@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.EmotionImageSliderAdapter;
+import com.monet.mylibrary.adapter.RadioTypeAdapter;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -48,6 +49,7 @@ public class EmotionScreen extends AppCompatActivity {
 
         EmotionImageSliderAdapter emotionImageSliderAdapter = new EmotionImageSliderAdapter(getSupportFragmentManager());
         imageSliderViewPager.setAdapter(emotionImageSliderAdapter);
+        forwardArrowImageView.setVisibility(View.VISIBLE);
 
         CircleIndicator circleIndicator = findViewById(R.id.imageSliderCircleIndicator);
         circleIndicator.setViewPager(imageSliderViewPager);
