@@ -243,8 +243,6 @@
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_back_arrow"/>
 
-
-
         </RelativeLayout>
 
         <!-- rv_question android:visibility="gone" -->
