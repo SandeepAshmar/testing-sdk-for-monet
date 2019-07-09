@@ -34,7 +34,7 @@ public class ReactionScreen extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPagerReaction);
         tv_next = findViewById(R.id.textView8);
         circleIndicator = findViewById(R.id.circleIndicatorReaction);
-        forwardArrowImageViewRS = findViewById(R.id.forwardArrowImageView);
+        forwardArrowImageViewRS = findViewById(R.id.forwardArrowImageViewRS);
         backArrowImageViewRS = findViewById(R.id.backArrowImageViewRS);
         forwardArrowImageViewRS.setVisibility(View.VISIBLE);
         img_toolbarBack = findViewById(R.id.img_toolbarBack);
