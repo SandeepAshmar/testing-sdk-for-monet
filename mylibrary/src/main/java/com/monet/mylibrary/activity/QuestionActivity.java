@@ -517,6 +517,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });
 
+
             } else if (postQuestions.get(questionNo).getQuestionType().equals("image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
