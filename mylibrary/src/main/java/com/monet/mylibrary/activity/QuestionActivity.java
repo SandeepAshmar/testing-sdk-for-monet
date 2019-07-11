@@ -500,6 +500,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void onPageSelected(int position) {
+                         Toast.makeText(QuestionActivity.this, "Page selected " + position, Toast.LENGTH_SHORT).show();
                         if (position == postQuestions.get(questionNo).getOptions().size()) {
                             backArrowImageViewQA.setVisibility(View.VISIBLE);
                             forwardArrowImageViewQA.setVisibility(View.GONE);
