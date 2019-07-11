@@ -18,6 +18,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.monet.mylibrary.R;
 import com.monet.mylibrary.adapter.CheckBoxTypeAdapter;
 import com.monet.mylibrary.adapter.GridSliderAdapter;
@@ -38,20 +45,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.monet.mylibrary.activity.LandingPage.sequenceList;
 import static com.monet.mylibrary.activity.LandingPage.postQuestions;
 import static com.monet.mylibrary.activity.LandingPage.preQuestions;
+import static com.monet.mylibrary.activity.LandingPage.sequenceList;
 import static com.monet.mylibrary.utils.SdkPreferences.getApiToken;
 import static com.monet.mylibrary.utils.SdkPreferences.getCfId;
 import static com.monet.mylibrary.utils.SdkPreferences.getCmpId;
@@ -411,6 +412,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), preQuestions.get(questionNo).getOptions().size(), "pre", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
+                forwardArrowImageViewQA.setVisibility(View.VISIBLE);
+
             } else if (preQuestions.get(questionNo).getQuestionType().equals("image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
@@ -487,6 +490,32 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 gridSliderAdapter = new GridSliderAdapter(getSupportFragmentManager(), postQuestions.get(questionNo).getOptions().size(), "post", questionNo);
                 gridViewPager.setAdapter(gridSliderAdapter);
                 indicatorGrid.setViewPager(gridViewPager);
+                forwardArrowImageViewQA.setVisibility(View.VISIBLE);
+
+                gridViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        if (position == postQuestions.get(questionNo).getOptions().size()) {
+                            backArrowImageViewQA.setVisibility(View.VISIBLE);
+                            forwardArrowImageViewQA.setVisibility(View.GONE);
+                        } else if (position == 0) {
+                            backArrowImageViewQA.setVisibility(View.GONE);
+                            forwardArrowImageViewQA.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+
+
             } else if (postQuestions.get(questionNo).getQuestionType().equals("image")) {
                 rv_question.setVisibility(View.VISIBLE);
                 rate_layout.setVisibility(View.GONE);
@@ -548,7 +577,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (getThumbUrl(QuestionActivity.this).equalsIgnoreCase("Nothing")) {
             img_preComThumb.setBackgroundResource(R.drawable.ic_imagenotavailable);
         } else {
-
             Picasso.with(this).load(getThumbUrl(this)).into(img_preComThumb);
         }
 
