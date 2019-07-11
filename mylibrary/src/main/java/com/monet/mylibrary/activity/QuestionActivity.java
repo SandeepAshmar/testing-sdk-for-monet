@@ -492,6 +492,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 indicatorGrid.setViewPager(gridViewPager);
                 forwardArrowImageViewQA.setVisibility(View.VISIBLE);
 
+
                 gridViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
